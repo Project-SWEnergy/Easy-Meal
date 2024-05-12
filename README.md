@@ -52,7 +52,7 @@ Una volta effettuato l'accesso, è necessario creare le tabelle nel database.
 Dunque bisogna selezionare la voce del menu ``Import``, poi ``Choose Files``. A
 questo punto si apre una finestra di dialogo per selezionare il file da
 importare. Bisogna importare il file 
-(0000_gorgeous_natasha_romanoff.sql)[backend/drizzle/0000_gorgeous_natasha_romanoff.sql]
+[0000_gorgeous_natasha_romanoff.sql](backend/drizzle/0000_gorgeous_natasha_romanoff.sql)
 e si clicca sul bottone ``Execute``, per eseguire i comandi SQL contenuti nel 
 file.  
 
