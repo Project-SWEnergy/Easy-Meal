@@ -1,0 +1,59 @@
+h1 {
+    @apply text-3xl text-gray-800 font-bold text-center py-4;
+}
+
+.container {
+    @apply flex flex-col gap-4 p-4 sm:w-full md:w-3/4 lg:w-1/2 xl:w-1/2 mx-auto;
+}
+
+mat-card {
+    @apply bg-white rounded-lg overflow-hidden shadow-md mb-4 
+    transition duration-300 ease-in-out hover:bg-form;
+  }
+  
+  mat-card-header {
+    @apply p-4;
+  }
+  
+  mat-card-title {
+    @apply text-xl font-semibold p-2;
+  }
+  
+  mat-card-content {
+    @apply text-base text-label p-4;
+  }
+  
+  /* Responsive settings for smaller devices */
+  @screen sm {
+    .notification-container {
+      @apply p-2;
+    }
+  
+    mat-card {
+      @apply text-sm;
+    }
+  }
+
+  .header-container {
+    @apply flex justify-between items-center;
+  }
+
+  mat-card .read-button {
+    display: none;
+  }
+
+  mat-card:hover .read-button {
+    @apply block bg-lt-purple text-white text-sm font-medium px-4 py-2 
+    rounded-md shadow-sm cursor-pointer transition duration-300 
+    ease-in-out;
+  }
+
+  .toggle-group {
+    @apply flex border border-form rounded-lg overflow-hidden shadow-md
+    p-2;
+  }
+  
+  .button-toggle {
+    @apply text-sm font-medium rounded-md
+    hover:bg-gray-200 transition duration-300 ease-in-out mx-2;
+  }

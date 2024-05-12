@@ -1,0 +1,20 @@
+@if(recensioni.length > 0)
+{
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
+    @for(recensione of recensioni; track recensioni)
+    {
+      <div class="recensione-item border border-black rounded-md p-4">
+        <h3 class="text-lg font-semibold mb-2"><span class="font-bold">Cliente: {{ recensione.name_user }}, Voto: {{ recensione.score }}/10 </span></h3>
+        <p class="text-gray-700">Recensione: {{ recensione.description }}</p>
+        <p class="text-gray-500 text-sm">Data: {{ recensione.date }}</p>
+      </div>
+    }
+  </div>
+}
+
+@if(recensioni.length === 0)
+{
+  <div class="no-recensioni mt-6 text-gray-700">
+    <p>Non ci sono recensioni disponibili per questo ristorante.</p>
+  </div>
+}

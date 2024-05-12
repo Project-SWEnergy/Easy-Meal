@@ -1,0 +1,20 @@
+mat-card {
+    @apply bg-white rounded-lg p-4 hover:bg-form mb-4
+    shadow-md transition-all duration-300 ease-in-out;
+}
+
+mat-card-header {
+    @apply border-b border-gray-200 pb-4 mb-4;
+}
+
+mat-card-title {
+    @apply text-lg font-semibold text-gray-800;
+}
+
+mat-card-subtitle {
+    @apply text-sm text-placeholder;
+}
+
+mat-card-content {
+    @apply text-gray-700;
+}

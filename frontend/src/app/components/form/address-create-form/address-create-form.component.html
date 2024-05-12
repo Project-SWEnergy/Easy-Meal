@@ -1,0 +1,65 @@
+<form [formGroup]="form">
+    <!-- City -->
+    <mat-form-field>
+        <mat-label>Città</mat-label>
+        <input matInput 
+            type="text" 
+            formControlName="city">
+        @if(form.get('city')?.hasError('required') && form.get('city')?.touched)
+        {
+            <mat-error> Inserire la città </mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Street -->
+    <mat-form-field>
+        <mat-label>Via</mat-label>
+        <input matInput 
+            type="text" 
+            formControlName="street">
+        @if(form.get('street')?.hasError('required') && form.get('street')?.touched)
+        {
+            <mat-error> Inserire la via </mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Street number -->
+    <mat-form-field>
+        <mat-label>Numero Civico</mat-label>
+        <input matInput 
+            type="text" 
+            formControlName="street_number">
+        @if(form.get('street_number')?.hasError('required') && form.get('street_number')?.touched)
+        {
+            <mat-error> Inserire il numero civico </mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Country -->
+    <mat-form-field>
+        <mat-label>Stato</mat-label>
+        <input matInput 
+            type="text" 
+            formControlName="state">
+        @if(form.get('state')?.hasError('required') && form.get('state')?.touched)
+        {
+            <mat-error> Inserire lo stato </mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Zip code -->
+    <mat-form-field>
+        <mat-label>CAP</mat-label>
+        <input matInput 
+            type="text" 
+            formControlName="zip_code">
+        @if(form.get('zip_code')?.hasError('required') && form.get('zip_code')?.touched)
+        {
+            <mat-error> Inserire il CAP </mat-error>
+        }
+        @if(form.get('zip_code')?.hasError('pattern') && form.get('zip_code')?.touched)
+        {
+            <mat-error> Inserire il CAP (deve essere formato da 5 numeri) </mat-error>
+        }
+    </mat-form-field>
+</form>

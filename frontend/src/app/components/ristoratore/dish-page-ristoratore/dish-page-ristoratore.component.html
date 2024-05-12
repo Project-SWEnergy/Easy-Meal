@@ -1,0 +1,26 @@
+<body>
+  <h1> Piatti </h1>
+  <div class="dishes-container">
+
+    <app-dish-item
+      (click)="onNewDishClicked()"
+      [dish]="{
+        name: 'Inserisci un nuovo piatto',
+        price: 0,
+        description: 'Cliccando su questa carta, è possibile creare un nuovo piatto!',
+        image: '/resources/piatto-vuoto.jpg',
+        id: 0,
+        id_restaurant: 0
+      }"
+      class="dish-item">
+    </app-dish-item>
+
+    @for (dish of dishes; track dish) {
+      <app-dish-item 
+        [dish]="dish"
+        (click)="onCardClicked(dish)"
+        class="dish-item">
+      </app-dish-item>
+    }
+  </div>
+</body>

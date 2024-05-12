@@ -1,0 +1,12 @@
+<!-- Image -->
+<div>
+    <label for="image-input">{{label}}</label>
+    <input 
+        id="image-input"
+        type="file" 
+        accept="image/*"
+        (change)="on_img_uploaded($event)">
+    @if(uploaded_img){
+        <img [src]="uploaded_img" alt="Uploaded Image" class="preview-img">
+    }
+</div>

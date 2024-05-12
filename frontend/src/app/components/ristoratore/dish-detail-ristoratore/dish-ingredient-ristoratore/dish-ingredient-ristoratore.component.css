@@ -1,0 +1,16 @@
+.non-selected {
+    @apply bg-white p-4 shadow-md hover:bg-form transition-all 
+    duration-300 ease-in-out;
+  }
+
+  .add-ingredient-card {
+    @apply bg-form;
+  }
+  
+  mat-card-header {
+    @apply flex justify-between items-center;
+  }
+  
+  mat-card-title-group {
+    @apply flex items-center gap-2 justify-start !important;
+  }

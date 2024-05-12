@@ -1,0 +1,11 @@
+@for(ristorante of ristoranti; track ristoranti)
+{
+  <section class="listing">
+    <img class="listing-photo" [src]="ristorante.banner_image" alt="Exterior photo of {{ ristorante.name }}">
+    <h2 class="listing-heading">{{ ristorante.name }}</h2>
+    <p class="listing-location"><app-indirizzo [ristoranteId]="ristorante.id"></app-indirizzo> </p>
+    <p class="listing-price">Prezzo medio: {{ ristorante.price_tier }}€</p>
+    <p class="listing-price"><app-tag-cucina [ristoranteId]="ristorante.id"></app-tag-cucina></p>
+    <a [routerLink]="['/dettagli', ristorante.id]">Visualizza ristorante</a>
+  </section>
+}

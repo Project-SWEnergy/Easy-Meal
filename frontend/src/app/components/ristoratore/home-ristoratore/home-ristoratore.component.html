@@ -1,0 +1,38 @@
+<h1> Prenotazioni </h1>
+
+<div class="container_of_container">
+    @if(this.reservations_dates){
+        <div class="calendar-container">
+            <app-calendar-ristoratore
+                (dateChange)="onDateChange($event)"
+                [reservations_dates]="reservations_dates"
+            ></app-calendar-ristoratore>
+        </div>
+    }
+
+    <div class="reservation-container">
+        <mat-button-toggle-group 
+            [(ngModel)]="sortType"
+            (change)="onSortChange()"
+            class="button-toggle-group"
+        >
+            <mat-button-toggle class="button-toggle-item" value="time">Orario</mat-button-toggle>
+            <mat-button-toggle class="button-toggle-item" value="status">Stato</mat-button-toggle>
+            <mat-button-toggle class="button-toggle-item" value="reservation-id">Numero Prenotazione</mat-button-toggle>
+        </mat-button-toggle-group>
+
+        @for(res of reservations; track reservations){
+            <app-reservation-item 
+                (click)="goToReservationDetail(res.id)"
+                [reservation]="res">
+            </app-reservation-item>
+        }
+    </div>
+
+    <div class="ingredient-container">
+        <h3> Ingredienti </h3>
+        @for(ing of ingredients; track ing && ingredients){
+            <app-ordered-ingredient-item [ingredient]="ing"></app-ordered-ingredient-item>
+        }
+    </div>
+</div>

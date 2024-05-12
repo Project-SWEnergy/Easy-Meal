@@ -1,0 +1,3 @@
+.main-registrazione {
+    min-height: calc(100vh - 11.5em); /* Altezza minima pari all'altezza della finestra del browser meno l'altezza del footer */
+}

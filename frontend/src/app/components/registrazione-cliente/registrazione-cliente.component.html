@@ -1,0 +1,16 @@
+<main class="main-registrazione">
+  <div class="login-header flex flex-col items-center justify-center h-auto">
+    <!-- Logo e testo di benvenuto -->
+    <div class="logo">
+      <img src="../../../assets/logo_finale.png" alt="Logo" class="w-24 h-24 mb-4">
+    </div>
+    <div class="welcome-text text-center">
+      <h1 class="text-3xl font-bold">Benvenuto in EasyMeal</h1>
+      <p class="text-lg">Effettua la registrazione come cliente!</p>
+    </div>
+  </div>
+
+  <app-registrazione-cliente (onSubmit)="on_submit($event)"></app-registrazione-cliente>
+
+</main>
+<router-outlet></router-outlet>

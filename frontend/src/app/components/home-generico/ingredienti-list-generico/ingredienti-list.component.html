@@ -1,0 +1,21 @@
+
+@if(ingredients.length > 0)
+{
+    <div class="ingredienti-list">
+        
+        @for(ingredient of ingredients; track ingredient)
+        {
+            {{ ingredient.name }}, 
+        } 
+    </div>
+}
+
+@if(ingredients.length === 0)
+{
+    <div class="no-ingredients">
+        <p>Nessun ingrediente disponibile per questo piatto.</p>
+    </div>
+}
+    
+
+  

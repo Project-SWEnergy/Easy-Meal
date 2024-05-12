@@ -1,0 +1,9 @@
+<div class="notification-link-container">
+    <a [routerLink]="notification_link"> Notifiche
+        @if(unread_count > 0) {
+        <div class="notification-badge">
+            <span> {{unread_count}} </span>
+        </div>
+        }
+    </a>
+</div>

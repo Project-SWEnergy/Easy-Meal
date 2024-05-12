@@ -1,0 +1,35 @@
+@if(!is_selected && !ingredient) {
+    <mat-card 
+        (click)="is_selected = true" 
+        class="non-selected add-ingredient-card">
+        <mat-card-header>
+        <mat-card-title-group>
+            <div class="flex items-center gap-2">
+            <mat-card-title> Aggiungi un ingrediente al piatto! </mat-card-title>
+            </div>
+        </mat-card-title-group>
+        </mat-card-header>
+    </mat-card>
+}
+@if(!is_selected && ingredient && ingredient_for_name) {
+    <mat-card (click)="select()" class="non-selected">
+        <mat-card-header>
+        <mat-card-title-group>
+            <div class="flex items-center gap-2">
+            <mat-card-title>{{ ingredient_for_name.name }}</mat-card-title>
+            <mat-card-subtitle>
+                {{ ingredient.quantity }}{{ ingredient_for_name.unit_of_measurement}}
+            </mat-card-subtitle>
+            </div>
+        </mat-card-title-group>
+        </mat-card-header>
+    </mat-card>
+}
+@if(is_selected) {
+    <app-dish-ingredient-form 
+        [dish]="dish" 
+        [ingredient]="ingredient"
+        [ingredient_list_observable]="ingredient_list_observable"
+        (onChanges)="on_changes()">
+    </app-dish-ingredient-form>
+}

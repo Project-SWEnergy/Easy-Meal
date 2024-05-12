@@ -1,0 +1,16 @@
+.messages-container {
+    @apply fixed bottom-4 right-4 max-w-md w-full
+    mb-2 flex flex-col;
+}
+
+.message {
+    @apply p-2 mb-2 shadow-md;
+}
+
+.error {
+    @apply border-2 border-error text-error bg-white rounded-md;
+}
+
+.log {
+    @apply text-black bg-white rounded-md;
+}

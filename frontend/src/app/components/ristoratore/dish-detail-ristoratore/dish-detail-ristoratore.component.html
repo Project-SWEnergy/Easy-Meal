@@ -1,0 +1,28 @@
+<h1> Dettagli del piatto </h1>
+@if(dish) {
+  <div class="dish">
+    <app-dish-update-ristoratore 
+      class = "dish"
+      [dish]="dish" 
+      (onChanges)="load_data(this.dish.id)"
+      (onChanges)="navigate_back()">
+    </app-dish-update-ristoratore>
+  </div>
+
+  <div class="ingredient-container">
+  <app-dish-ingredient-ristoratore 
+    [dish]="dish" 
+    [ingredient_list_observable]="ingredient_list_observable"
+    (onChanges)="load_data(this.dish.id)">
+  </app-dish-ingredient-ristoratore>
+
+    @for(ing of ingredients; track ingredients && ing) {
+    <app-dish-ingredient-ristoratore 
+      [dish]="dish" 
+      [ingredient]="ing" 
+      [ingredient_list_observable]="ingredient_list_observable"
+      (onChanges)="load_data(this.dish.id)">
+    </app-dish-ingredient-ristoratore>
+    }
+  </div>
+}

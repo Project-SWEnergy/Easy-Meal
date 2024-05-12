@@ -1,0 +1,21 @@
+footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.contatti {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-direction: column;
+}
+
+footer .contatti a {
+  color: '#8e1dbe';
+}
+
+footer .contatti a:checked {
+  color: '#711497';
+}

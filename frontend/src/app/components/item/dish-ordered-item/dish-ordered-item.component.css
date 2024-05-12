@@ -1,0 +1,37 @@
+  /* Dish cards styling within the order */
+  .dish-card {
+    @apply shadow mb-8 mx-2;
+    min-height: 0; /* Necessary for flex children in Firefox */
+    flex-grow: 1;
+  }
+  
+  .dish-card-header {
+    @apply py-1 px-3;
+  }
+  
+  .dish-title-group {
+    @apply flex justify-between;
+  }
+  
+  .dish-title {
+    @apply font-semibold text-base;
+  }
+  
+  .dish-subtitle p {
+    @apply text-xs;
+  }
+
+  .card-content {
+    @apply p-4 text-label;
+  }
+
+  .ingredient {
+    @apply italic;
+  }
+
+  /* Responsive considerations */
+  @media (min-width: 768px) {
+    .dish-card {
+      @apply max-w-4xl;
+    }
+  }

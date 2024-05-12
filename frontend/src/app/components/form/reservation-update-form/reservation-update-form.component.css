@@ -1,0 +1,26 @@
+form {
+    @apply bg-form shadow-md rounded-lg overflow-hidden
+    flex flex-col items-center space-x-4 p-4 !important;
+}
+
+mat-form-field {
+    @apply mb-6 w-full;
+}
+
+mat-form-filed input {
+    @apply w-full border rounded-md px-4 py-2;
+}
+
+mat-form-filed mat-error {
+    @apply text-error;
+}
+
+button {
+    @apply bg-lt-purple text-white py-2 px-4 rounded-md 
+    hover:bg-dk-purple disabled:bg-gray-300 
+    disabled:cursor-not-allowed !important;
+}
+
+input {
+    @apply placeholder-placeholder;
+}

@@ -1,0 +1,10 @@
+<div class="messages-container">
+    @for(msg of messages; track messages) {
+        @if (msg.type === 'error') {
+            <div class="message error">{{ msg.message }}</div>
+        } 
+        @if (msg.type === 'log') {
+            <div class="message log">{{ msg.message }}</div>
+        }
+    }
+</div>

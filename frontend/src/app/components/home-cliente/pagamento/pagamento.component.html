@@ -1,0 +1,98 @@
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-center mb-8"><span class="font-bold">Area Pagamento</span></h1>
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-4 text-center">Dettagli dell'ordine</h2>
+        <h3 class="text-lg mb-4 text-center">Il metodo scelto per il pagamento è: {{bill_splitting}}</h3>
+    </div>
+
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-4">Riepilogo del tuo ordine:</h2>
+    </div>
+
+    @if(orderedDishes.length > 0)
+    {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            
+            @for(dish of orderedDishes; track orderedDishes)
+            {
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img [src]="dish.image_dish" alt="{{ dish.name_dish }}" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold mb-2">{{ dish.name_dish }}</h3>
+                        <p class="text-gray-600 mb-2">Prezzo: {{ dish.price_dish }} €</p>
+                        <p class="text-gray-600 mb-4">Ingredienti Rimossi:</p>
+                        <ul class="list-disc ml-4">
+                            @for(ingredient of dish.removed_ingredients; track ingredient)
+                            {
+                                <li>{{ ingredient.name_ingredient }}</li>
+                            }
+                        </ul>
+                        <p class="text-gray-600 mb-2">Stato Pagamento: {{ dish.paid ? 'Pagato' : 'Non Pagato' }}</p>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="container mx-auto px-4 py-8">
+            @if(bill_splitting === 'Individuale' && unpaidDishes.length > 0)
+            {
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold mb-4">Saldo da pagare</h2>
+                    <p class="text-3xl font-semibold">{{ individualUserTotalBill }} €</p>
+                </div>
+            }
+        
+            @if(bill_splitting === 'Equidiviso' && unpaidDishes.length > 0)
+            {
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold mb-4">Saldo totale della prenotazione</h2>
+                    <p class="text-3xl font-semibold">{{ reservationTotalBill }} €</p>
+                    <h2 class="text-2xl font-bold mb-4">Il tuo saldo da pagare</h2>
+                    <p class="text-3xl font-semibold">{{ individualUserTotalBill }} €</p>
+                </div>
+            }
+        </div>
+        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4 block mx-auto"
+            (click)="effettuaPagamento()">
+            Effettua Pagamento
+        </button>
+    }
+    @else
+    {
+        <p class="text-gray-600 text-center">Nessun piatto ordinato per questa prenotazione.</p>
+    }
+</div>
+
+<div class="container mx-auto px-4 py-8">
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-4">Piatti non pagati:</h2>
+    </div>
+    @if(unpaidDishes.length > 0)
+    {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            @for(dish of unpaidDishes; track unpaidDishes)
+            {
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img [src]="dish.image_dish" alt="{{ dish.name_dish }}" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold mb-2">{{ dish.name_dish }}</h3>
+                        <p class="text-gray-600 mb-2">Prezzo: {{ dish.price_dish }} €</p>
+                        <p class="text-gray-600 mb-4">Ingredienti Rimossi:</p>
+                        <ul class="list-disc ml-4">
+                            @for(ingredient of dish.removed_ingredients; track ingredient)
+                            {
+                                <li>{{ ingredient.name_ingredient }}</li>
+                            }
+                        </ul>
+                        <p class="text-gray-600 mb-2">Stato Pagamento: Non Pagato</p>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    @else
+    {
+        <p class="text-gray-600 text-center">Hai pagato tutto.</p>
+    }
+</div>
+
+

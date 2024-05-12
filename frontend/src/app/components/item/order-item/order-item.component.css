@@ -1,0 +1,37 @@
+/* Style for the outermost card */
+.card-container {
+    @apply bg-white shadow-md rounded-lg overflow-hidden;
+  }
+  
+  /* Header and title group styling */
+  .card-header {
+    @apply py-2 px-4;
+  }
+  
+  .card-title-group {
+    @apply flex justify-between;
+  }
+  
+  .card-title {
+    @apply font-bold text-lg;
+  }
+
+/* Ensure all cards have the same height */
+.dish-item {
+    @apply flex flex-col justify-between; /* Stretches items to fill the container */
+}
+  
+  .card-subtitle {
+    @apply text-sm;
+  }
+  
+  .dishes-container {
+    @apply flex flex-wrap flex-grow;
+  }
+  
+  /* Responsive considerations */
+  @media (min-width: 768px) {
+    .card-container, .dish-card {
+      @apply max-w-4xl;
+    }
+  }

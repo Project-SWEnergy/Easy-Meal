@@ -1,0 +1,22 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title> 
+            {{ reservation.id }}
+        </mat-card-title>
+        <mat-card-subtitle> 
+            <p> Orario: {{ display_hh_mm() }} </p>
+            <p> Partecipanti: {{ reservation.partecipants }} </p>
+
+            @if(price !== "0.00") {
+                <p> Totale: {{ price }}€ </p>
+            }
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <p> Stato: {{ reservation.reservation_state}} </p>
+        @if(reservation.bill_splitting_method) {
+            <p> Metodo di divisione del conto: {{ reservation.bill_splitting_method }}</p>
+            <p> Ordini pagati: {{ reservation.paid_orders }} </p>
+        }
+    </mat-card-content>
+</mat-card>

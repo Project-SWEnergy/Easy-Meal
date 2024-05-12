@@ -1,0 +1,17 @@
+header div {
+  @apply flex justify-between items-center py-4 px-6;
+}
+
+.navbar-icon {
+  width: 3em;
+}
+
+.toolbar {
+  @apply flex justify-between items-center;
+}
+
+a,
+span,
+app-notification-link {
+  @apply flex items-center mx-2 px-2 py-1 rounded-lg text-black text-lg font-bold;
+}

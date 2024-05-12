@@ -1,0 +1,23 @@
+mat-card {
+  @apply w-full rounded-lg shadow-md p-4;
+}
+
+mat-calendar {
+  @apply w-full;
+}
+
+:host ::ng-deep .mat-calendar-body-cell.in-attesa::after {
+  @apply bg-red-300 rounded-full text-white;
+}
+
+:host ::ng-deep .mat-calendar-body-cell.waiting::after {
+  @apply bg-yellow-300 rounded-full text-white;
+}
+
+:host ::ng-deep .mat-calendar-body-cell.ended::after {
+  @apply bg-green-300 rounded-full text-white;
+}
+
+:host ::ng-deep .mat-calendar-body-cell-content.mat-calendar-body-selected {
+  @apply bg-lt-purple;
+}

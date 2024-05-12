@@ -1,0 +1,7 @@
+a {
+  color: '#8e1dbe';
+}
+
+a:checked {
+  color: '#711497';
+}

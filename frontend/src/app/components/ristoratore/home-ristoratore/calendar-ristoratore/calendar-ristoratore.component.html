@@ -1,0 +1,11 @@
+<mat-card>
+    @if(reservations_dates !== undefined) {
+    <mat-calendar 
+        [(selected)]="selected" 
+        (selectedChange)="onDateChange()"
+        [dateClass]="dateClass"
+        [dateFilter]="dateFilter"
+        >
+    </mat-calendar>
+    }
+</mat-card>

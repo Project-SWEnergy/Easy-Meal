@@ -1,0 +1,20 @@
+<mat-card class="card-container">
+    <mat-card-header class="card-header">
+        <mat-card-title-group class="card-title-group">
+            <mat-card-title class="card-title">
+                {{order[0].name_user}} {{order[0].surname_user}}
+            </mat-card-title>
+            <mat-card-subtitle class="card-subtitle">
+                Costo: {{ price }}€
+            </mat-card-subtitle>
+        </mat-card-title-group>
+    </mat-card-header>
+
+    <div class="dishes-container">
+        @for(ordered_dish of order; track ordered_dish){
+            <app-dish-ordered-item class="dish-item"
+                [ordered_dish]="ordered_dish">
+            </app-dish-ordered-item>
+        }
+    </div>
+</mat-card>

@@ -1,0 +1,130 @@
+{
+    "users": [
+        {
+            "id": 0,
+            "username": "cliente",
+            "password": "cliente",
+            "type": "client"
+        },
+        {
+            "id": 1,
+            "username": "ristoratore",
+            "password": "ristoratore",
+            "type": "restaurateur"
+        }
+    ],
+    "restaurants": [
+        {
+            "id": 1,
+            "name": "Ristorante 1",
+            "address": "Via Roma 1",
+            "city": "Padova",
+            "photo": "https://t3.ftcdn.net/jpg/05/85/86/44/360_F_585864419_kgIYUcDQ0yiLOCo1aRjeu7kRxndcoitz.jpg",
+            "telephone": 1234567890,
+            "website": "",
+            "cost": 10,
+            "kids": true,
+            "disabled": true,
+            "tags": ["tag1", "tag2"],
+            "description": "Descrizione ristorante 1",
+            "opening_hours": ""
+        },
+        {
+            "id": 2,
+            "name": "Ristorante 2",
+            "address": "Via Roma 2",
+            "city": "Padova",
+            "photo": "https://media-cdn.tripadvisor.com/media/photo-s/0b/a3/3a/07/pizza-falafel-5-senza.jpg",
+            "telephone": 1234567890,
+            "website": "",
+            "cost": 10,
+            "kids": true,
+            "disabled": true,
+            "tags": ["tag1", "tag2"],
+            "description": "Descrizione ristorante 1",
+            "opening_hours": ""
+        }
+    ],
+    "reservations": [
+        {
+            "id": 1,
+            "username": "Nome A",
+            "restaurantId": 1,
+            "restaurantName": "Ristorante A",
+            "date": "Tue Jan 09 2024 13:56:43 GMT+0100 (Ora standard dell’Europa centrale)",
+            "seats": 4,
+            "status": "Da confermare",
+            "kids": 0,
+            "disabled": false
+        },
+        {
+            "id": 2,
+            "username": "Nome B",
+            "restaurantId": 1,
+            "restaurantName": "Ristorante A",
+            "date": "Tue Jan 09 2024 13:00:43 GMT+0100 (Ora standard dell’Europa centrale)",
+            "seats": 4,
+            "status": "Da confermare",
+            "kids": 0,
+            "disabled": false
+        },
+        {
+            "id": 3,
+            "username": "Nome C",
+            "restaurantId": 1,
+            "restaurantName": "Ristorante A",
+            "date": "Tue Jan 09 2024 13:11:43 GMT+0100 (Ora standard dell’Europa centrale)",
+            "seats": 1,
+            "status": "Da confermare",
+            "kids": 0,
+            "disabled": false
+        }
+    ],
+    "dishes": [
+        {
+            "id": 1,
+            "restaurantId": 1,
+            "name": "Pizza",
+            "description": "Pizza with tomato and cheese",
+            "price": 5,
+            "image": "",
+            "ingredients": ["Gluten"]
+        },
+        {
+            "id": 2,
+            "name": "Hamburger",
+            "description": "Hamburger with cheese and bacon",
+            "price": 4,
+            "image": "https://www.my-personaltrainer.it/2020/09/07/hamburger_900x760.jpeg",
+            "allergens": ["Gluten"],
+            "restaurantId": 1
+        },
+        {
+            "id": 3,
+            "name": "Salad",
+            "description": "Salad with tomato and cheese",
+            "price": 3,
+            "image": "https://www.eatingwell.com/thmb/rmLlvSjdnJCCy_7iqqj3x7XS72c=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/chopped-power-salad-with-chicken-0ad93f1931524a679c0f8854d74e6e57.jpg",
+            "allergens": ["Gluten"],
+            "restaurantId": 2
+        },
+        {
+            "id": 4,
+            "name": "Pasta",
+            "description": "Pasta with tomato and cheese",
+            "price": 2,
+            "image": "https://media-assets.lacucinaitaliana.it/photos/6426da66217d19c609f6f4f8/16:9/w_2560%2Cc_limit/GettyImages-522387318.jpg",
+            "allergens": "Gluten",
+            "restaurantId": 2
+        },
+        {
+            "id": 5,
+            "name": "Kebab",
+            "description": "kebab",
+            "price": 6,
+            "image": "https://recipesblob.paneangeli.it/assets/43df75bae33b4c71a9e66072f96b6f0f/1272x764/kebabjpg.jpg",
+            "allergens": ["Gluten"],
+            "restaurantId": 1
+        }
+    ]
+}

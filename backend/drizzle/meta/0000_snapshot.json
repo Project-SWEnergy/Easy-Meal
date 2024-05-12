@@ -1,0 +1,1409 @@
+{
+  "id": "2b31ca2d-e321-4ee6-8dc3-d61efd5688c4",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "5",
+  "dialect": "pg",
+  "tables": {
+    "addresses": {
+      "name": "addresses",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "state": {
+          "name": "state",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "city": {
+          "name": "city",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "street": {
+          "name": "street",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "street_number": {
+          "name": "street_number",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "zip_code": {
+          "name": "zip_code",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "address": {
+          "name": "address",
+          "nullsNotDistinct": false,
+          "columns": [
+            "state",
+            "city",
+            "street",
+            "street_number",
+            "zip_code"
+          ]
+        }
+      }
+    },
+    "allergies": {
+      "name": "allergies",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "icon": {
+          "name": "icon",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "allergies_name_unique": {
+          "name": "allergies_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
+          ]
+        }
+      }
+    },
+    "allergies_ingredients": {
+      "name": "allergies_ingredients",
+      "schema": "",
+      "columns": {
+        "id_allergy": {
+          "name": "id_allergy",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_ingredient": {
+          "name": "id_ingredient",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "allergies_ingredients_id_allergy_allergies_id_fk": {
+          "name": "allergies_ingredients_id_allergy_allergies_id_fk",
+          "tableFrom": "allergies_ingredients",
+          "tableTo": "allergies",
+          "columnsFrom": [
+            "id_allergy"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "allergies_ingredients_id_ingredient_ingredients_id_fk": {
+          "name": "allergies_ingredients_id_ingredient_ingredients_id_fk",
+          "tableFrom": "allergies_ingredients",
+          "tableTo": "ingredients",
+          "columnsFrom": [
+            "id_ingredient"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "allergies_ingredients_id_allergy_id_ingredient_pk": {
+          "name": "allergies_ingredients_id_allergy_id_ingredient_pk",
+          "columns": [
+            "id_allergy",
+            "id_ingredient"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "bills": {
+      "name": "bills",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "id_user": {
+          "name": "id_user",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_reservation": {
+          "name": "id_reservation",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "total_bill": {
+          "name": "total_bill",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bill_state": {
+          "name": "bill_state",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "bills_id_user_users_id_fk": {
+          "name": "bills_id_user_users_id_fk",
+          "tableFrom": "bills",
+          "tableTo": "users",
+          "columnsFrom": [
+            "id_user"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "cascade"
+        },
+        "bills_id_reservation_reservations_id_fk": {
+          "name": "bills_id_reservation_reservations_id_fk",
+          "tableFrom": "bills",
+          "tableTo": "reservations",
+          "columnsFrom": [
+            "id_reservation"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "bills_details": {
+      "name": "bills_details",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "id_ordered_dishes": {
+          "name": "id_ordered_dishes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_bill": {
+          "name": "id_bill",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "bills_details_id_ordered_dishes_ordered_dishes_id_fk": {
+          "name": "bills_details_id_ordered_dishes_ordered_dishes_id_fk",
+          "tableFrom": "bills_details",
+          "tableTo": "ordered_dishes",
+          "columnsFrom": [
+            "id_ordered_dishes"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "cascade"
+        },
+        "bills_details_id_bill_bills_id_fk": {
+          "name": "bills_details_id_bill_bills_id_fk",
+          "tableFrom": "bills_details",
+          "tableTo": "bills",
+          "columnsFrom": [
+            "id_bill"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "days_of_week": {
+      "name": "days_of_week",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "abbreviation": {
+          "name": "abbreviation",
+          "type": "varchar(5)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "days_of_week_name_unique": {
+          "name": "days_of_week_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
+          ]
+        },
+        "days_of_week_abbreviation_unique": {
+          "name": "days_of_week_abbreviation_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "abbreviation"
+          ]
+        }
+      }
+    },
+    "dishes": {
+      "name": "dishes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "id_restaurant": {
+          "name": "id_restaurant",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "price": {
+          "name": "price",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "image": {
+          "name": "image",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "dishes_id_restaurant_restaurants_id_fk": {
+          "name": "dishes_id_restaurant_restaurants_id_fk",
+          "tableFrom": "dishes",
+          "tableTo": "restaurants",
+          "columnsFrom": [
+            "id_restaurant"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "dishes_ingredients": {
+      "name": "dishes_ingredients",
+      "schema": "",
+      "columns": {
+        "id_dish": {
+          "name": "id_dish",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_ingredient": {
+          "name": "id_ingredient",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "quantity": {
+          "name": "quantity",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "dishes_ingredients_id_dish_dishes_id_fk": {
+          "name": "dishes_ingredients_id_dish_dishes_id_fk",
+          "tableFrom": "dishes_ingredients",
+          "tableTo": "dishes",
+          "columnsFrom": [
+            "id_dish"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "dishes_ingredients_id_ingredient_ingredients_id_fk": {
+          "name": "dishes_ingredients_id_ingredient_ingredients_id_fk",
+          "tableFrom": "dishes_ingredients",
+          "tableTo": "ingredients",
+          "columnsFrom": [
+            "id_ingredient"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "dishes_ingredients_id_dish_id_ingredient_pk": {
+          "name": "dishes_ingredients_id_dish_id_ingredient_pk",
+          "columns": [
+            "id_dish",
+            "id_ingredient"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "dishes_tags": {
+      "name": "dishes_tags",
+      "schema": "",
+      "columns": {
+        "id_tag": {
+          "name": "id_tag",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_dish": {
+          "name": "id_dish",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "dishes_tags_id_tag_tags_id_fk": {
+          "name": "dishes_tags_id_tag_tags_id_fk",
+          "tableFrom": "dishes_tags",
+          "tableTo": "tags",
+          "columnsFrom": [
+            "id_tag"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "dishes_tags_id_dish_dishes_id_fk": {
+          "name": "dishes_tags_id_dish_dishes_id_fk",
+          "tableFrom": "dishes_tags",
+          "tableTo": "dishes",
+          "columnsFrom": [
+            "id_dish"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "dishes_tags_id_tag_id_dish_pk": {
+          "name": "dishes_tags_id_tag_id_dish_pk",
+          "columns": [
+            "id_tag",
+            "id_dish"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "ingredients": {
+      "name": "ingredients",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "id_restaurant": {
+          "name": "id_restaurant",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "unit_of_measurement": {
+          "name": "unit_of_measurement",
+          "type": "varchar(5)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "ingredients_id_restaurant_restaurants_id_fk": {
+          "name": "ingredients_id_restaurant_restaurants_id_fk",
+          "tableFrom": "ingredients",
+          "tableTo": "restaurants",
+          "columnsFrom": [
+            "id_restaurant"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "notifications": {
+      "name": "notifications",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "message": {
+          "name": "message",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_receiver": {
+          "name": "id_receiver",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "visualized": {
+          "name": "visualized",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "opening_hours": {
+      "name": "opening_hours",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "id_restaurant": {
+          "name": "id_restaurant",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_day": {
+          "name": "id_day",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "opening_time": {
+          "name": "opening_time",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "closing_time": {
+          "name": "closing_time",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "opening_hours_id_restaurant_restaurants_id_fk": {
+          "name": "opening_hours_id_restaurant_restaurants_id_fk",
+          "tableFrom": "opening_hours",
+          "tableTo": "restaurants",
+          "columnsFrom": [
+            "id_restaurant"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "opening_hours_id_day_days_of_week_id_fk": {
+          "name": "opening_hours_id_day_days_of_week_id_fk",
+          "tableFrom": "opening_hours",
+          "tableTo": "days_of_week",
+          "columnsFrom": [
+            "id_day"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "ordered_dishes": {
+      "name": "ordered_dishes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "id_user": {
+          "name": "id_user",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_reservation": {
+          "name": "id_reservation",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_dish": {
+          "name": "id_dish",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "paid": {
+          "name": "paid",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "ordered_dishes_id_user_users_id_fk": {
+          "name": "ordered_dishes_id_user_users_id_fk",
+          "tableFrom": "ordered_dishes",
+          "tableTo": "users",
+          "columnsFrom": [
+            "id_user"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "cascade"
+        },
+        "ordered_dishes_id_reservation_reservations_id_fk": {
+          "name": "ordered_dishes_id_reservation_reservations_id_fk",
+          "tableFrom": "ordered_dishes",
+          "tableTo": "reservations",
+          "columnsFrom": [
+            "id_reservation"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "ordered_dishes_id_dish_dishes_id_fk": {
+          "name": "ordered_dishes_id_dish_dishes_id_fk",
+          "tableFrom": "ordered_dishes",
+          "tableTo": "dishes",
+          "columnsFrom": [
+            "id_dish"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "removed_ingredients": {
+      "name": "removed_ingredients",
+      "schema": "",
+      "columns": {
+        "id_ordered_dish": {
+          "name": "id_ordered_dish",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_ingredient": {
+          "name": "id_ingredient",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "removed_ingredients_id_ordered_dish_ordered_dishes_id_fk": {
+          "name": "removed_ingredients_id_ordered_dish_ordered_dishes_id_fk",
+          "tableFrom": "removed_ingredients",
+          "tableTo": "ordered_dishes",
+          "columnsFrom": [
+            "id_ordered_dish"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "removed_ingredients_id_ingredient_ingredients_id_fk": {
+          "name": "removed_ingredients_id_ingredient_ingredients_id_fk",
+          "tableFrom": "removed_ingredients",
+          "tableTo": "ingredients",
+          "columnsFrom": [
+            "id_ingredient"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "removed_ingredients_id_ordered_dish_id_ingredient_pk": {
+          "name": "removed_ingredients_id_ordered_dish_id_ingredient_pk",
+          "columns": [
+            "id_ordered_dish",
+            "id_ingredient"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "reservations": {
+      "name": "reservations",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "id_restaurant": {
+          "name": "id_restaurant",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "partecipants": {
+          "name": "partecipants",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reservation_state": {
+          "name": "reservation_state",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bill_splitting_method": {
+          "name": "bill_splitting_method",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "paid_orders": {
+          "name": "paid_orders",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "reservations_id_restaurant_restaurants_id_fk": {
+          "name": "reservations_id_restaurant_restaurants_id_fk",
+          "tableFrom": "reservations",
+          "tableTo": "restaurants",
+          "columnsFrom": [
+            "id_restaurant"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "restaurants": {
+      "name": "restaurants",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "owner_name": {
+          "name": "owner_name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "owner_surname": {
+          "name": "owner_surname",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_address": {
+          "name": "id_address",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "seats": {
+          "name": "seats",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "website": {
+          "name": "website",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "price_tier": {
+          "name": "price_tier",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "phone": {
+          "name": "phone",
+          "type": "varchar(13)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "childrenn_seats": {
+          "name": "childrenn_seats",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "accessibility": {
+          "name": "accessibility",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "logo": {
+          "name": "logo",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "''"
+        },
+        "banner_image": {
+          "name": "banner_image",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "''"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "restaurants_id_address_addresses_id_fk": {
+          "name": "restaurants_id_address_addresses_id_fk",
+          "tableFrom": "restaurants",
+          "tableTo": "addresses",
+          "columnsFrom": [
+            "id_address"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "restaurants_email_unique": {
+          "name": "restaurants_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      }
+    },
+    "restaurants_tags": {
+      "name": "restaurants_tags",
+      "schema": "",
+      "columns": {
+        "id_tag": {
+          "name": "id_tag",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_restaurant": {
+          "name": "id_restaurant",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "restaurants_tags_id_tag_tags_id_fk": {
+          "name": "restaurants_tags_id_tag_tags_id_fk",
+          "tableFrom": "restaurants_tags",
+          "tableTo": "tags",
+          "columnsFrom": [
+            "id_tag"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "restaurants_tags_id_restaurant_restaurants_id_fk": {
+          "name": "restaurants_tags_id_restaurant_restaurants_id_fk",
+          "tableFrom": "restaurants_tags",
+          "tableTo": "restaurants",
+          "columnsFrom": [
+            "id_restaurant"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "restaurants_tags_id_tag_id_restaurant_pk": {
+          "name": "restaurants_tags_id_tag_id_restaurant_pk",
+          "columns": [
+            "id_tag",
+            "id_restaurant"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "reviews": {
+      "name": "reviews",
+      "schema": "",
+      "columns": {
+        "id_restaurant": {
+          "name": "id_restaurant",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_user": {
+          "name": "id_user",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "score": {
+          "name": "score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "reviews_id_restaurant_restaurants_id_fk": {
+          "name": "reviews_id_restaurant_restaurants_id_fk",
+          "tableFrom": "reviews",
+          "tableTo": "restaurants",
+          "columnsFrom": [
+            "id_restaurant"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "reviews_id_user_users_id_fk": {
+          "name": "reviews_id_user_users_id_fk",
+          "tableFrom": "reviews",
+          "tableTo": "users",
+          "columnsFrom": [
+            "id_user"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "reviews_id_restaurant_id_user_pk": {
+          "name": "reviews_id_restaurant_id_user_pk",
+          "columns": [
+            "id_restaurant",
+            "id_user"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "tags": {
+      "name": "tags",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "tags_name_unique": {
+          "name": "tags_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
+          ]
+        }
+      }
+    },
+    "transactions_logs": {
+      "name": "transactions_logs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "id_bill": {
+          "name": "id_bill",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "transaction_state": {
+          "name": "transaction_state",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "message": {
+          "name": "message",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "transactions_logs_id_bill_bills_id_fk": {
+          "name": "transactions_logs_id_bill_bills_id_fk",
+          "tableFrom": "transactions_logs",
+          "tableTo": "bills",
+          "columnsFrom": [
+            "id_bill"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "surname": {
+          "name": "surname",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      }
+    },
+    "users_allergies": {
+      "name": "users_allergies",
+      "schema": "",
+      "columns": {
+        "id_user": {
+          "name": "id_user",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_allergy": {
+          "name": "id_allergy",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "users_allergies_id_user_users_id_fk": {
+          "name": "users_allergies_id_user_users_id_fk",
+          "tableFrom": "users_allergies",
+          "tableTo": "users",
+          "columnsFrom": [
+            "id_user"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "users_allergies_id_allergy_allergies_id_fk": {
+          "name": "users_allergies_id_allergy_allergies_id_fk",
+          "tableFrom": "users_allergies",
+          "tableTo": "allergies",
+          "columnsFrom": [
+            "id_allergy"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "users_allergies_id_user_id_allergy_pk": {
+          "name": "users_allergies_id_user_id_allergy_pk",
+          "columns": [
+            "id_user",
+            "id_allergy"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "users_reservations": {
+      "name": "users_reservations",
+      "schema": "",
+      "columns": {
+        "id_user": {
+          "name": "id_user",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_reservation": {
+          "name": "id_reservation",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "accepted": {
+          "name": "accepted",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "users_reservations_id_user_users_id_fk": {
+          "name": "users_reservations_id_user_users_id_fk",
+          "tableFrom": "users_reservations",
+          "tableTo": "users",
+          "columnsFrom": [
+            "id_user"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "users_reservations_id_reservation_reservations_id_fk": {
+          "name": "users_reservations_id_reservation_reservations_id_fk",
+          "tableFrom": "users_reservations",
+          "tableTo": "reservations",
+          "columnsFrom": [
+            "id_reservation"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "users_reservations_id_user_id_reservation_pk": {
+          "name": "users_reservations_id_user_id_reservation_pk",
+          "columns": [
+            "id_user",
+            "id_reservation"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

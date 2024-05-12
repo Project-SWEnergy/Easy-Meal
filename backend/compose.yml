@@ -1,0 +1,32 @@
+version: '3.9'
+
+networks:
+  easymeal:
+    driver: bridge
+
+services:
+  db:
+    image: postgres:alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=easymeal
+    volumes: 
+      - db:/var/lib/postgresql/data
+    networks:
+      - easymeal
+
+  nest:
+    build: .
+    ports:
+      - 3000:3000
+    networks:
+      - easymeal
+    command: ["npm", "run", "start"]
+    depends_on:
+      - db
+
+volumes:
+  db:
+    driver: local
