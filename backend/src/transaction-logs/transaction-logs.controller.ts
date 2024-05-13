@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/
 import { TransactionLogsService } from './transaction-logs.service';
 import { CreateTransactionLogDto } from './dto/create-transaction-log.dto';
 import { UpdateTransactionLogDto } from './dto/update-transaction-log.dto';
-import { AuthorizationService } from 'src/authorization/authorization.service';
+import { AuthorizationService } from '../authorization/authorization.service';
 import { ResultTransactionLogDto } from './dto/result-transaction-log.dto';
 
 @Controller('transaction-logs')
