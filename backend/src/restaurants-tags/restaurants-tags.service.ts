@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateRestaurantsTagDto } from './dto/create-restaurants-tag.dto';
 import { UpdateRestaurantsTagDto } from './dto/update-restaurants-tag.dto';
-import { DatabaseService } from 'src/database/database.service';
+import { DatabaseService } from '../database/database.service';
 import { restaurants_tags } from '../../db/schema';
 import { eq } from 'drizzle-orm';
 import { ResultRestaurantsTagsDto } from './dto/result-restaurants-tags.dto';
