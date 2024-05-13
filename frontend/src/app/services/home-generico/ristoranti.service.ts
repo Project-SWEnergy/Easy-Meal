@@ -17,7 +17,6 @@ export class RistorantiService {
           'restaurants/find-all',
         );
       const result = response.data;
-      console.log('Response from API:', result); // Aggiunto per debug
       if (result.result && result.data) {
         this.restaurantList = result.data;
         return result.data;

@@ -26,7 +26,6 @@ export class OrariComponent implements OnInit {
     try {
       const orari: any[] =
         await this.orarioService.getOrariByRestaurantId(restaurantId);
-      console.log(orari);
       this.orari = orari;
     } catch (error) {
       console.error('Errore durante il recupero degli orari:', error);

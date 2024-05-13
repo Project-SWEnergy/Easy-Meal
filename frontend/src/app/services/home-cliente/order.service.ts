@@ -13,7 +13,6 @@ export class OrderService {
 
   constructor() {
     this.user_id = this.auth.get()!.id;
-    console.log("l'id è: " + this.user_id);
   }
 
   getOrderedDishesByReservation(reservationId: number): Promise<OrderedDish[]> {
@@ -27,7 +26,6 @@ export class OrderService {
   }
 
   async didUserPaid(idRestaurant: number): Promise<boolean> {
-    console.log("l'id è: " + this.user_id, idRestaurant);
     const url = `bills/did-user-paid-once/${this.user_id}/${idRestaurant}`;
     try {
       const response = await axios.get(url);

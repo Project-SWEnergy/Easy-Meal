@@ -45,7 +45,6 @@ export class ReservationUpdateFormComponent {
   reservation_service = inject(ReservationRistoratoreService);
 
   ngOnInit(): void {
-    console.log(this.reservation);
     this.form = new FormGroup({
       partecipants: new FormControl(
         { value: this.reservation.partecipants, disabled: true },
