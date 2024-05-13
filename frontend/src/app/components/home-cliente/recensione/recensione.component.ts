@@ -43,7 +43,6 @@ export class RecensioneComponent implements OnInit {
 
   ngOnInit(): void {
     this.idRestaurant = Number(this.route.snapshot.params['id']);
-    console.log('ID del ristorante:', this.idRestaurant);
     this.createForm();
   }
 

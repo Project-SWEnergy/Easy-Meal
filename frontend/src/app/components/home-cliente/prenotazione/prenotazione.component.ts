@@ -93,7 +93,6 @@ export class PrenotazioneComponent implements OnInit {
         reservation_state: 'In attesa',
         bill_splitting_method: metodoPagamento,
       };
-      console.log('Dati della prenotazione:', prenotazioneData);
 
       this.prenotazioneService
         .creaPrenotazione(prenotazioneData)
@@ -120,7 +119,6 @@ export class PrenotazioneComponent implements OnInit {
 
   invitaAllaPrenotazione(): void {
     const emails = this.invitoForm.value.partecipanti;
-    console.log('Emails degli invitati:', emails);
     this.prenotazioneService
       .invitaPrenotazione(emails)
       .then(() => {
@@ -137,7 +135,7 @@ export class PrenotazioneComponent implements OnInit {
 
   private formatDate(date: string, time: string): string {
     const [hours, minutes] = time.split(':');
-    const hoursUpdated = Number(hours) + 2;
+    const hoursUpdated = Number(hours);
     const formattedDate = new Date(date);
     formattedDate.setHours(Number(hoursUpdated), Number(minutes), 0, 0);
     return formattedDate.toISOString();
@@ -164,10 +162,8 @@ export class PrenotazioneComponent implements OnInit {
     if (selectedDay === 0) {
       selectedDay = 7;
     }
-    console.log('Giorno selezionato:', selectedDay);
     this.selectedDayInfo = this.orariApertura.find(
       (orario) => orario.id_day === selectedDay,
     );
-    console.log('Informazioni sul giorno selezionato:', this.selectedDayInfo);
   }
 }
