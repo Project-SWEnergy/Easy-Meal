@@ -62,14 +62,18 @@ export class RestaurantRistoratoreService {
     new_restaurant: RestaurantCreate,
     new_hours: OpeningHoursCreate[],
   ): Promise<boolean> {
-    // 1. crea ristorante (con indirizzo)
-    await this.create_restaurant(new_restaurant);
+    try {
+      // 1. crea ristorante (con indirizzo)
+      await this.create_restaurant(new_restaurant);
 
-    // 2. salva le credenziali di login
-    await this.auth.auth();
+      // 2. salva le credenziali di login
+      await this.auth.auth();
 
-    // 3. crea gli orari di apertura
-    await this.opening_hours_create(new_hours);
+      // 3. crea gli orari di apertura
+      await this.opening_hours_create(new_hours);
+    } catch (e) {
+      this.ms.error('Something went wrong in the creation of the restaurant');
+    }
     return true;
   }
 
