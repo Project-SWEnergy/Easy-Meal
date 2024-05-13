@@ -11,7 +11,6 @@ jest.mock('../database/database.service');
 describe('TransactionLogsController', () => {
   let controller: TransactionLogsController;
   let transactionLogsService: TransactionLogsService;
-  let authorizationService: AuthorizationService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -21,7 +20,6 @@ describe('TransactionLogsController', () => {
 
     controller = module.get<TransactionLogsController>(TransactionLogsController);
     transactionLogsService = module.get<TransactionLogsService>(TransactionLogsService);
-    authorizationService = module.get<AuthorizationService>(AuthorizationService);
   });
 
   it('should be defined', () => {
