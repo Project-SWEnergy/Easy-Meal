@@ -2,9 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Req, BadRequestExcep
 import { RestaurantsTagsService } from './restaurants-tags.service';
 import { CreateRestaurantsTagDto } from './dto/create-restaurants-tag.dto';
 import { UpdateRestaurantsTagDto } from './dto/update-restaurants-tag.dto';
-import { AuthorizationService } from 'src/authorization/authorization.service';
+import { AuthorizationService } from '../authorization/authorization.service';
 import { ResultRestaurantsTagsDto } from './dto/result-restaurants-tags.dto';
-import { UserType } from 'src/authentication/dto/user-data.dto';
+import { UserType } from '../authentication/dto/user-data.dto';
 import { Request } from 'express';
 
 @Controller('restaurants-tags')
