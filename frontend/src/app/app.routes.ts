@@ -5,7 +5,6 @@ import { RegistrazioneClienteComponent } from './components/registrazione-client
 import { RegistrazioneRistoratoreComponent } from './components/registrazione-ristoratore/registrazione-ristoratore.component';
 import { HomeClienteComponent } from './components/home-cliente/client-home/home-cliente.component';
 import { HomeRistoratoreComponent } from './components/ristoratore/home-ristoratore/home-ristoratore.component';
-import { IndexComponent } from './components/index/index.component';
 import { GenericHomeComponent } from './components/home-generico/generic-home/generic-home.component';
 import { DettagliRistorantiComponent } from './components/home-generico/dettagli-ristoranti/dettagli-ristoranti.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -23,12 +22,19 @@ import { PagamentoComponent } from './components/home-cliente/pagamento/pagament
 import { RecensioneComponent } from './components/home-cliente/recensione/recensione.component';
 import { PrenotazioneComponent } from './components/home-cliente/prenotazione/prenotazione.component';
 import { PrenotazioniListComponent } from './components/home-cliente/prenotazioni-list/prenotazioni-list.component';
+import { AboutUsComponent } from './components/about-us/about-us.component';
+import { AutenticazioneComponent } from './components/autenticazione/autenticazione.component';
 
 export const routes: Routes = [
   {
-    path: '',
-    component: IndexComponent,
-    title: 'Home Page - Easy Meal',
+    path: 'about-us',
+    component: AboutUsComponent,
+    title: 'About Us - Easy Meal',
+  },
+  {
+    path: 'autenticazione',
+    component: AutenticazioneComponent,
+    title: 'Autenticazione - Easy Meal',
   },
   {
     path: 'logout',
@@ -36,9 +42,9 @@ export const routes: Routes = [
     title: 'Logout - Easy Meal',
   },
   {
-    path: 'esplora',
+    path: '',
     component: GenericHomeComponent,
-    title: 'Esplora - Easy Meal',
+    title: 'Home Page - Easy Meal',
   },
   {
     path: 'dettagli/:id',

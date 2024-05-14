@@ -1,21 +1,23 @@
-footer {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-.contatti {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-direction: column;
+.footer-text {
+  @apply text-gray-700;
 }
 
-footer .contatti a {
-  color: '#8e1dbe';
+.container {
+  @apply mx-auto px-4 flex justify-between items-stretch;
 }
 
-footer .contatti a:checked {
-  color: '#711497';
+.links-container {
+  @apply flex flex-col;
+}
+
+.footer-link {
+  @apply text-lt-purple hover:text-dk-purple;
+}
+
+.footer-heading {
+  @apply text-lg font-semibold;
+}
+
+.footer-contact {
+  @apply text-sm;
 }
