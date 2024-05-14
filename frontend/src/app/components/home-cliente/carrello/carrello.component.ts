@@ -20,6 +20,7 @@ export class CarrelloComponent implements OnInit {
   constructor(private carrelloService: CarrelloService) { }
 
   ngOnInit(): void {
+    this.carrelloService.clearCarrello();
     this.carrello = this.carrelloService.getCarrello();
   }
 

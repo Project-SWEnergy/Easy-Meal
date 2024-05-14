@@ -58,9 +58,7 @@ export class CarrelloService {
         removedIngredientNames = [];
       }
       removedIngredients.push(ingredientId);
-      console.log("e l'ingrediente rimosso è: " + ingredientName);
       removedIngredientNames.push(ingredientName);
-      console.log("e l'ingrediente rimosso è: " + removedIngredientNames);
       this.saveToLocalStorage();
     }
   }
@@ -78,5 +76,10 @@ export class CarrelloService {
 
   getCarrello(): any[] {
     return this.carrello;
+  }
+
+  clearCarrello(): any {
+    this.carrello = [];
+    this.saveToLocalStorage();
   }
 }

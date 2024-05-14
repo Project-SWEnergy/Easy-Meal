@@ -19,9 +19,6 @@ export class TagCucinaService {
   protected tag: Tag[];
 
   getTagsByRestaurantId(restaurantId: number): Observable<Tag[]> {
-    console.log(
-      `Chiamata API per ottenere i tag del ristorante con ID: ${restaurantId}`,
-    );
     return from(
       axios.get<ResultFindTagByRestaurantId<FindTagByRestaurantId[]>>(
         `restaurants-tags/find-all-by-restaurant/${restaurantId}`,
@@ -33,12 +30,12 @@ export class TagCucinaService {
         for (const tag of tags) {
           observables.push(
             from(axios.get<ResultTag<Tag>>(`tags/find-one/${tag.id_tag}`)).pipe(
-              map((response: any) => response.data.data as Tag), // Explicitly type the response object
+              map((response: any) => response.data.data as Tag), 
             ),
           );
         }
         return forkJoin(observables).pipe(
-          map((tags: any) => tags.flat()), // Explicitly type the 'tags' parameter and use flat() to flatten the array of arrays of tags
+          map((tags: any) => tags.flat()), 
         );
       }),
       catchError((error) => {

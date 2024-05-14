@@ -4,7 +4,6 @@ import { inject } from '@angular/core';
 
 export const isClientGuard: CanActivateFn = (_route, _state) => {
   const auth = inject(AuthService);
-  console.log(auth.get());
   if (auth.isUser()) {
     return true;
   }

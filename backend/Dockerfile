@@ -18,5 +18,8 @@ COPY . .
 # Expose the port your app runs on (ensure it matches the port in your Nest.js app)
 EXPOSE 3000
 
+# Build your app
+RUN npm run build
+
 # Define the command to start your Nest.js app
 CMD ["npm", "run", "start"]

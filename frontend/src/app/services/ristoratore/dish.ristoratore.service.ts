@@ -40,7 +40,6 @@ export class DishRistoratoreService {
     return axios
       .get('dishes/find-one/' + dish_id)
       .then((response) => {
-        console.log(response.data);
         if (response.data && response.data.result) {
           return response.data.data.map((elm: DishBackend) => toDish(elm))[0];
         } else {
