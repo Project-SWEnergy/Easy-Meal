@@ -1,35 +1,34 @@
 .login-container .submit-button {
-    @apply bg-lt-purple text-white px-4 py-2 rounded-md shadow-md 
-    hover:bg-dk-purple transition-colors duration-300 block mx-auto
-    disabled:bg-light-color;
-  }
-  
-  mat-form-field {
-    @apply mb-6 w-full;
-  }
-  
-  mat-form-filed input {
-    @apply w-full border rounded-md px-4 py-2;
-  }
-  
-  mat-form-filed mat-error {
-    @apply text-error;
-  }
-  
-  .toggle-visibility {
-    @apply relative top-2 right-2;
-  }
-  
-  .login-container {
-    @apply bg-gray-100 py-10 px-6 rounded-lg shadow-md max-w-md mx-auto;
-  }
+  @apply bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color;
+}
 
-  .image-form {
-    @apply flex flex-col items-center gap-2 my-4;
+mat-form-field {
+  @apply mb-6 w-full;
+}
+
+mat-form-filed input {
+  @apply w-full border rounded-md px-4 py-2;
+}
+
+mat-form-filed mat-error,
+.error {
+  @apply text-error;
+}
+
+.toggle-visibility {
+  @apply relative top-2 right-2;
+}
+
+.login-container {
+  @apply bg-gray-100 py-10 px-6 rounded-lg shadow-md max-w-md mx-auto;
+}
+
+.image-form {
+  @apply flex flex-col items-center gap-2 my-4;
 }
 
 .image-form label {
-    @apply text-label font-semibold;
+  @apply text-label font-semibold;
 }
 
 #file-input {
@@ -45,5 +44,5 @@
 }
 
 h1 {
-    @apply text-3xl font-bold text-center;
+  @apply text-3xl font-bold text-center;
 }
