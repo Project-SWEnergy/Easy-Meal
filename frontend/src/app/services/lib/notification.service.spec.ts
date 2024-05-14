@@ -14,7 +14,7 @@ describe('NotificationService', () => {
 
   beforeEach(() => {
     mockAxios = new MockAdapter(axios);
-    mockAuthService = jasmine.createSpyObj('AuthService', ['isAuth']);
+    mockAuthService = jasmine.createSpyObj('AuthService', ['isAuth', 'logout']);
     mockMessageService = jasmine.createSpyObj('MessageService', ['log', 'error']);
 
     TestBed.configureTestingModule({
@@ -56,6 +56,17 @@ describe('NotificationService', () => {
     await new Promise(resolve => setTimeout(resolve, 100)); // wait for promises to resolve
 
     expect(mockMessageService.error).toHaveBeenCalledWith('Error fetching notifications');
+  });
+
+  it('should handle error on notifications fetch', async () => {
+    mockAxios.onGet('notifications').reply(401, {
+      message: 'Unauthorized',
+    });
+
+    service['updateMessages']()  // Manually trigger to avoid waiting for interval
+    await new Promise(resolve => setTimeout(resolve, 100)); // wait for promises to resolve
+
+    expect(mockAuthService.logout).toHaveBeenCalled();
   });
 
   it('should handle reading a notification correctly', async () => {

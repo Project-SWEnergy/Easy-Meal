@@ -39,8 +39,12 @@ export class NotificationService {
           throw new Error();
         }
       })
-      .catch((_) => {
-        this.ms.error('Error fetching notifications');
+      .catch((err) => {
+        if (err.response && err.response.status === 401) {
+          this.auth.logout();
+        } else {
+          this.ms.error('Error fetching notifications');
+        }
       });
   }
 
