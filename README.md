@@ -52,7 +52,7 @@ Una volta effettuato l'accesso, è necessario creare le tabelle nel database.
 Dunque bisogna selezionare la voce del menu ``Import``, poi ``Choose Files``. A
 questo punto si apre una finestra di dialogo per selezionare il file da
 importare. Bisogna importare il file 
-(0000_gorgeous_natasha_romanoff.sql)[backend/drizzle/0000_gorgeous_natasha_romanoff.sql] (`backend/drizzle/0000_gorgeous_natasha_romanoff.sql`).
+[0000_gorgeous_natasha_romanoff.sql](backend/drizzle/0000_gorgeous_natasha_romanoff.sql) (`backend/drizzle/0000_gorgeous_natasha_romanoff.sql`).
 e si clicca sul bottone ``Execute``, per eseguire i comandi SQL contenuti nel 
 file.  
 
@@ -60,7 +60,7 @@ A prova di esempio è fornito un dump, ovvero un database popolato con dei dati
 fasulli, che può essere importato per avere un'idea di come funziona 
 l'applicazione. Proprio come prima, si seleziona la voce del menu ``Import``,
 poi ``Choose Files`` e si seleziona il file
-(populate.sql)[backend/dump/populate.sql] (`backend/dump/populate.sql`).
+[populate.sql](backend/dump/populate.sql) (`backend/dump/populate.sql`).
 
 A questo punto è possibile accedere all'applicazione tramite browser al link:
 
