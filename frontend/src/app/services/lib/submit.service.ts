@@ -1,6 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import axios from '../../../../axios-config';
-import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +7,6 @@ import { MessageService } from './message.service';
 export class SubmitService<T, E> {
   private api_url: string;
   private field_to_access: string;
-  ms = inject(MessageService);
 
   /**
    * setta l'url dell'api presso cui eseguire la post request
@@ -46,7 +44,7 @@ export class SubmitService<T, E> {
         }
       })
       .catch((err) => {
-        this.ms.error(err.message);
+        throw err;
       });
   }
 }

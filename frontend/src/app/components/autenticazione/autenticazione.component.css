@@ -1,0 +1,36 @@
+div dl dt {
+    @apply font-bold mt-4;
+}
+
+.card-container {
+    @apply flex flex-row justify-center space-x-6 py-10;
+}
+
+.card {
+    @apply bg-form p-6 rounded-lg shadow-md text-center w-1/2;
+}
+
+.card h3 {
+    @apply text-center text-xl font-bold;
+}
+
+.card a {
+    @apply block my-4 text-lt-purple;
+}
+
+.card a:hover {
+    @apply text-dk-purple;
+}
+
+.card a:visited {
+    @apply text-dk-purple;
+}
+
+.paragraph {
+    @apply max-w-4xl mx-auto text-lg mt-10;
+}
+
+.card button,
+.esplora a {
+    @apply bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto;
+}

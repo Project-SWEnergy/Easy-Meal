@@ -22,12 +22,9 @@
 
     <app-opening-hours-form-ristoratore (onChange)="openings_on_change($event)"></app-opening-hours-form-ristoratore>
 
-    <button 
-        type="button" 
-        class="submit-button"
-        (click)="on_submit()"
-        > Registra ristorante </button>
-    
+    <button type="button" class="submit-button" (click)="on_submit()" [disabled]="!is_valid()"> Registra ristorante
+    </button>
+
   </div>
 </main>
 <router-outlet></router-outlet>

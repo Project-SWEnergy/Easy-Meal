@@ -4,55 +4,48 @@
         <!-- Nome -->
         <mat-form-field>
             <mat-label>Nome</mat-label>
-            <input matInput 
-                type="text" 
-                formControlName="name">
+            <input matInput type="text" formControlName="name">
             @if(form.get('name')?.hasError('required') && form.get('name')?.touched)
             {
-                <mat-error> Inserisci un nome </mat-error>
+            <mat-error> Inserisci un nome </mat-error>
             }
         </mat-form-field>
-    
+
         <!-- Descrizione del ristorante -->
         <mat-form-field>
             <mat-label>Descrizione del ristorante</mat-label>
-            <textarea 
-                matInput 
-                formControlName="description"
-                #descriptionTextArea
-                rows="10">
+            <textarea matInput formControlName="description" #descriptionTextArea rows="10">
             </textarea>
             @if(form.get('description')?.hasError('maxlength'))
             {
-                <mat-error> Il testo è troppo lungo </mat-error>
+            <mat-error> Il testo è troppo lungo </mat-error>
             }
-          </mat-form-field>
-    
+        </mat-form-field>
+
         <!-- Price -->
         <mat-form-field>
             <mat-label>Costo</mat-label>
-            <input matInput 
-                type="number" 
-                formControlName="price">
+            <input matInput type="number" formControlName="price">
             @if(form.get('price')?.hasError('min'))
             {
-                <mat-error> Inserisci un prezzo maggiore di 0 euro. </mat-error>
+            <mat-error> Inserisci un prezzo maggiore di 0 euro. </mat-error>
             }
         </mat-form-field>
 
         <!-- Image -->
         <div class="image-form">
             <label for="file-input">Foto</label>
-            <input 
-                id="file-input"
-                type="file" 
-                accept="image/*"
-                (change)="on_file_selected($event)">
+            <input id="file-input" type="file" accept="image/*" (change)="on_file_selected($event)">
             @if(uploaded_pic){
-                <img [src]="uploaded_pic" alt="Uploaded Image" class="preview-img">
+            <img [src]="uploaded_pic" alt="Uploaded Image" class="preview-img">
+            }
+            @if(!uploaded_pic){
+            <div class="error">
+                <p>Caricare un'immagine</p>
+            </div>
             }
         </div>
-    
+
         <button mat-button type="submit" class="submit-button" [disabled]="!form.valid"> Crea piatto </button>
     </form>
 </div>

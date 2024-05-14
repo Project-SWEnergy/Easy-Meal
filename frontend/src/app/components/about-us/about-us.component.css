@@ -1,0 +1,16 @@
+div dl dt {
+    @apply font-bold mt-4;
+}
+
+.paragraph {
+    @apply max-w-4xl mx-auto text-lg mt-10;
+}
+
+.paragraph h2 {
+    @apply text-center text-2xl font-bold mt-8 py-10;
+}
+
+.card button,
+.esplora a {
+    @apply bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto;
+}
