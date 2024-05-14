@@ -27,13 +27,6 @@ export class RecensioneService {
       score: punteggio,
       description: descrizione,
     };
-    console.log(
-      'I DATI SONO:' + idRestaurant,
-      this.user_id,
-      new Date().toISOString(),
-      punteggio,
-      descrizione,
-    );
     try {
       const response = await axios.post<ResultRecensione<any>>(
         this.apiUrl,

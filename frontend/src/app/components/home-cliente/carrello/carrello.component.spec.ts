@@ -19,6 +19,7 @@ describe('CarrelloComponent', () => {
       'getCarrello',
       'inviaOrdine',
       'cancellaOrdine',
+      'clearCarrello'
     ]);
 
     await TestBed.configureTestingModule({

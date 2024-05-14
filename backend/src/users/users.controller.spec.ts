@@ -9,7 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { ResultAuthenticationDto } from 'src/authentication/dto/result-authentication-user.dto';
+import { ResultAuthenticationDto } from '../authentication/dto/result-authentication-user.dto';
 import { Response } from 'express';
 import { InternalServerErrorException } from '@nestjs/common';
 

@@ -66,7 +66,6 @@ export class PagamentoComponent {
       .then((data: ResultPrenotazioneBill<UserBill[]>) => {
         if (data.result && data.data.length > 0) {
           this.individualUserTotalBill = parseFloat(data.data[0].total_bill);
-          console.log('SGANCIAAAAAAAAA:', this.individualUserTotalBill);
         }
       })
       .catch((error) => {
@@ -82,7 +81,6 @@ export class PagamentoComponent {
           this.reservationTotalBill = parseFloat(data.data[0].total_bill);
           this.individualUserTotalBill =
             this.reservationTotalBill / this.partecipants;
-          console.log('SGANCIAAAAAAAAA:', this.individualUserTotalBill);
         }
       })
       .catch((error) => {
@@ -113,7 +111,6 @@ export class PagamentoComponent {
       this.createEqualBill();
     }
     this.unpaidDishes = [];
-    console.log('lunghezzaaa ' + this.unpaidDishes.length);
   }
 
   createIndividualBill(): void {
@@ -160,7 +157,6 @@ export class PagamentoComponent {
     for (const dish of this.orderedDishes) {
       dishIds.push(dish.id);
     }
-    console.log('ID PIATTI ORDINATI:', dishIds);
     return dishIds;
   }
 }

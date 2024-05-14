@@ -29,7 +29,6 @@ export class IndirizzoComponent implements OnInit {
       if (indirizzo) {
         this.indirizzo = indirizzo;
       } else {
-        console.log('Indirizzo non trovato per il ristorante con ID:', id);
       }
     } catch (error) {
       console.error("Errore durante il recupero dell'indirizzo:", error);

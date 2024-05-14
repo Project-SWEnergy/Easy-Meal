@@ -32,7 +32,6 @@ export class IngredientiListComponent {
         await this.ingredientiService.getIngredientsByDishId(dishId);
       const ingredients: Ingredient[] =
         await this.ingredientiService.getIngredientsById(ingredientIds);
-      console.log(ingredients);
       this.ingredients = ingredients;
     } catch (error) {
       console.error('Errore durante il caricamento degli ingredienti:', error);

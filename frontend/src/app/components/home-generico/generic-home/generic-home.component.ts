@@ -24,7 +24,6 @@ export class GenericHomeComponent {
       const result = await this.ristorantiService.getAllRestaurants();
       if (result) {
         this.ristorantiList = result;
-        console.log('OLEEE SONO I RISTORANTI: ' + this.ristorantiList);
         this.filteredRistorantiList = result;
       } else {
         console.error('Errore: dati dei ristoranti non disponibili');
