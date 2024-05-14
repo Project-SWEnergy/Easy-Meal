@@ -206,7 +206,7 @@ export class ReservationsService {
       }
       let userNotification: CreateNotificationDto;
       const temp = await this.usersReservationsService.findAllByReservationId(reservationId);
-      const usersList = temp[0].data;
+      const usersList = temp.data;
       for (let index = 0; index < usersList.length; index++) {
         if (usersList[index].id_user !== undefined) {
           userNotification = {
