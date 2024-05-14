@@ -4,25 +4,25 @@
         <div class="mb-6">
             <label class="block text-gray-700 text-sm font-bold mb-2">Data della prenotazione</label>
             <mat-form-field>
-                <input matInput [matDatepicker]="picker" placeholder="Seleziona una data" formControlName="dataPrenotazione"
-                    class="w-full" (dateChange)="onDateChange($event)">
+                <input matInput [matDatepicker]="picker" placeholder="Seleziona una data"
+                    formControlName="dataPrenotazione" class="w-full" (dateChange)="onDateChange($event)">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             @if(prenotazioneForm.get('dataPrenotazione')?.errors?.['required'])
             {
-                <mat-error>
-                    <div class="text-red-600 text-sm mt-1">Seleziona una data </div>
-                </mat-error>
+            <mat-error>
+                <div class="text-red-600 text-sm mt-1">Seleziona una data </div>
+            </mat-error>
             }
             @if(selectedDayInfo === undefined)
             {
-                <mat-error>
-                    <div class="text-red-600 text-sm mt-1"> Il giorno selezionato non è disponibile </div>
-                </mat-error>
+            <mat-error>
+                <div class="text-red-600 text-sm mt-1"> Il giorno selezionato non è disponibile </div>
+            </mat-error>
             }
         </div>
-    
+
         <div class="mb-6">
             <label class="block text-gray-700 text-sm font-bold mb-2">Ora della prenotazione</label>
             <mat-form-field>
@@ -31,37 +31,38 @@
             </mat-form-field>
             @if(prenotazioneForm.get('oraPrenotazione')?.errors?.['required'])
             {
-                <mat-error>
-                    <div class="text-red-600 text-sm mt-1">Seleziona un'ora. </div>
-                </mat-error>
+            <mat-error>
+                <div class="text-red-600 text-sm mt-1">Seleziona un'ora. </div>
+            </mat-error>
             }
             @if(selectedDayInfo && !controllaOrarioApertura())
             {
-                <mat-error>
-                    <div class="text-red-600 text-sm mt-1"> L'orario selezionato non è disponibile per la prenotazione. </div>
-                </mat-error>
+            <mat-error>
+                <div class="text-red-600 text-sm mt-1"> L'orario selezionato non è disponibile per la prenotazione.
+                </div>
+            </mat-error>
             }
         </div>
-    
+
         <div class="mb-6">
             <label class="block text-gray-700 text-sm font-bold mb-2">Numero partecipanti</label>
             <mat-form-field>
                 <input matInput type="number" placeholder="Inserisci il numero di partecipanti"
                     formControlName="numeroPartecipanti" class="w-full">
-                    @if(prenotazioneForm.get('numeroPartecipanti')?.errors?.['required'])
-                    {
-                        <mat-error>
-                            <div class="text-red-600 text-sm mt-1">Inserisci il numero di partecipanti. </div>
-                        </mat-error>
-                    }
-                    @if(prenotazioneForm.get('numeroPartecipanti')?.errors?.['min'])
-                    {   <mat-error>
-                            <div class="text-red-600 text-sm mt-1">Il numero di partecipanti deve essere almeno 1. </div>
-                        </mat-error>
-                    }
+                @if(prenotazioneForm.get('numeroPartecipanti')?.errors?.['required'])
+                {
+                <mat-error>
+                    <div class="text-red-600 text-sm mt-1">Inserisci il numero di partecipanti. </div>
+                </mat-error>
+                }
+                @if(prenotazioneForm.get('numeroPartecipanti')?.errors?.['min'])
+                { <mat-error>
+                    <div class="text-red-600 text-sm mt-1">Il numero di partecipanti deve essere almeno 1. </div>
+                </mat-error>
+                }
             </mat-form-field>
         </div>
-    
+
         <div class="mb-6">
             <label class="block text-gray-700 text-sm font-bold mb-2">Metodo di pagamento</label>
             <mat-form-field>
@@ -71,35 +72,36 @@
                     <mat-option value="Individuale">Individuale</mat-option>
                 </mat-select>
                 @if(prenotazioneForm.get('metodoPagamento')?.errors?.['required'])
-                {   <mat-error>
-                        <div class="text-red-600 text-sm mt-1">Seleziona un metodo di pagamento. </div>
-                    </mat-error>
+                { <mat-error>
+                    <div class="text-red-600 text-sm mt-1">Seleziona un metodo di pagamento. </div>
+                </mat-error>
                 }
-    
-                
+
+
             </mat-form-field>
         </div>
 
-        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white font-semibold py-2 px-4 rounded-md mt-4"
-            [disabled]="!prenotazioneForm.valid || !selectedDayInfo || !controllaOrarioApertura()">Invia prenotazione</button>
+        <button type="submit"
+            class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color"
+            [disabled]="!prenotazioneForm.valid || !selectedDayInfo || !controllaOrarioApertura()">Invia
+            prenotazione</button>
     </form>
 
     @if(prenotazioneInviata && partecipanti.length > 0)
     {
-        <form [formGroup]="invitoForm" (ngSubmit)="invitaAllaPrenotazione()" class="w-full sm:max-w-md mx-auto bg-white shadow-md rounded px-4 pt-6 pb-8 mt-4">
-            <div formArrayName="partecipanti">
-                <div *ngFor="let emailControl of partecipanti.controls; let i = index" class="mb-4">
-                    <input type="email" class="form-input px-4 py-2 rounded-md w-full border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" [formControlName]="i" placeholder="Inserisci l'email del partecipante">
-                </div>
+    <form [formGroup]="invitoForm" (ngSubmit)="invitaAllaPrenotazione()"
+        class="w-full sm:max-w-md mx-auto bg-white shadow-md rounded px-4 pt-6 pb-8 mt-4">
+        <div formArrayName="partecipanti">
+            <div *ngFor="let emailControl of partecipanti.controls; let i = index" class="mb-4">
+                <input type="email"
+                    class="form-input px-4 py-2 rounded-md w-full border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    [formControlName]="i" placeholder="Inserisci l'email del partecipante">
             </div>
-            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white font-semibold py-2 px-4 rounded-md">Invita alla prenotazione</button>
-        </form>
+        </div>
+        <button type="submit"
+            class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color">
+            Invita alla prenotazione
+        </button>
+    </form>
     }
 </div>
-
-  
-
-
-
-
-

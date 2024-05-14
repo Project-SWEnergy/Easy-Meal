@@ -32,9 +32,9 @@ export class LoginClienteComponent {
       .api('/authentication/signin-user')
       .field('user')
       .post({ email, password })
-      .then((_) => {
+      .then(async (_) => {
+        await this.auth.auth();
         this.ms.log('Utente autenticato');
-        this.auth.auth();
         this.router.navigate(['cliente/home']);
       })
       .catch((_) => {

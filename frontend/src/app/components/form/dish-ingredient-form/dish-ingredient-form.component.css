@@ -17,7 +17,5 @@ mat-error {
 }
 
 .submit-button {
-    @apply bg-lt-purple font-semibold text-white px-4 
-    py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors 
-    duration-300 block mx-auto disabled:bg-light-color;
+    @apply bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color;
 }

@@ -1,37 +1,36 @@
 <div class="recensione-container bg-gray-100 py-10 px-6 rounded-lg shadow-md max-w-md mx-auto">
-    <h1 class="text-3xl font-bold text-center mb-8"><span class="font-bold">Scrivi la tua recensione</span></h1>
-    <form [formGroup]="form" (ngSubmit)="inviaRecensione()" class="recensione-form">
-  
-      <!-- Punteggio -->
-      <div class="mb-4">
-        <label for="punteggio" class="block text-sm font-medium text-gray-700">Punteggio (da 1 a 10)</label>
-        <input id="punteggio" name="punteggio" type="number" formControlName="punteggio" min="1" max="10"
-          class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-          @if(form.get('punteggio')?.hasError('required') && form.get('punteggio')?.touched)
-          {
-            <div class="text-red-600 text-sm mt-1">Inserisci un punteggio </div>
-          }
-          @if(form.get('punteggio')?.hasError('min') || form.get('punteggio')?.hasError('max'))
-          {
-            <div class="text-red-600 text-sm mt-1">Il punteggio deve essere compreso tra 1 e 10 </div>
-          }
-      </div>
-      <!-- Descrizione -->
-      <div class="mb-4">
-        <label for="descrizione" class="block text-sm font-medium text-gray-700">Descrizione</label>
-        <textarea id="descrizione" name="descrizione" rows="4" cols="50" formControlName="descrizione"
-          class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></textarea>
-        @if(form.get('descrizione')?.hasError('required') && form.get('descrizione')?.touched)
-        {
-          <div class="text-red-600 text-sm mt-1">Inserisci una descrizione </div>
-        }
-      </div>
-  
-      <!-- Submit Button -->
-      <button type="submit"
-        class="bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white font-semibold py-2 px-4 rounded-md">
-        Invia Recensione
-      </button>
-    </form>
-  </div>
-  
+  <h1 class="text-3xl font-bold text-center mb-8"><span class="font-bold">Scrivi la tua recensione</span></h1>
+  <form [formGroup]="form" (ngSubmit)="inviaRecensione()" class="recensione-form">
+
+    <!-- Punteggio -->
+    <div class="mb-4">
+      <label for="punteggio" class="block text-sm font-medium text-gray-700">Punteggio (da 1 a 10)</label>
+      <input id="punteggio" name="punteggio" type="number" formControlName="punteggio" min="1" max="10"
+        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+      @if(form.get('punteggio')?.hasError('required') && form.get('punteggio')?.touched)
+      {
+      <div class="text-red-600 text-sm mt-1">Inserisci un punteggio </div>
+      }
+      @if(form.get('punteggio')?.hasError('min') || form.get('punteggio')?.hasError('max'))
+      {
+      <div class="text-red-600 text-sm mt-1">Il punteggio deve essere compreso tra 1 e 10 </div>
+      }
+    </div>
+    <!-- Descrizione -->
+    <div class="mb-4">
+      <label for="descrizione" class="block text-sm font-medium text-gray-700">Descrizione</label>
+      <textarea id="descrizione" name="descrizione" rows="4" cols="50" formControlName="descrizione"
+        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></textarea>
+      @if(form.get('descrizione')?.hasError('required') && form.get('descrizione')?.touched)
+      {
+      <div class="text-red-600 text-sm mt-1">Inserisci una descrizione </div>
+      }
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit"
+      class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color">
+      Invia Recensione
+    </button>
+  </form>
+</div>
