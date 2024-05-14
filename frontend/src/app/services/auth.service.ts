@@ -107,7 +107,7 @@ export class AuthService {
         }
       })
       .catch((_) => {
-        this.ms.error('Error during logout');
+        return
       });
     localStorage.removeItem('token');
   }
