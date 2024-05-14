@@ -1,28 +1,31 @@
-.login-form{
+.login-form {
     display: flex;
     flex-direction: column;
     align-items: stretch;
     width: 30em;
 }
+
 .login-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 30em; /* Imposta l'altezza del contenitore a 100% della viewport height */
+    height: 30em;
+    /* Imposta l'altezza del contenitore a 100% della viewport height */
 }
 
 .button-google {
     margin-bottom: 3em;
 }
 
-.link-registrazione{
+.link-registrazione {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
     text-align: center;
 }
 
 .main-login {
-    min-height: calc(100vh - 11.5em); /* Altezza minima pari all'altezza della finestra del browser meno l'altezza del footer */
+    min-height: calc(100vh - 11.5em);
+    /* Altezza minima pari all'altezza della finestra del browser meno l'altezza del footer */
 }
 
 .link-login {

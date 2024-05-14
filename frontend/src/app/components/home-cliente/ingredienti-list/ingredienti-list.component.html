@@ -1,20 +1,22 @@
 @if(ingredients.length > 0)
 {
-    <div class="ingredienti-list mt-4">
-        <h2 class="text-xl font-semibold mb-2">Ingredienti:</h2>
-        @for(ingredient of ingredients; track ingredients)
-        {
-            <div class="grid grid-cols-1 sm:grid-cols-2 items-center border-b border-gray-300">
-                <div class="mb-2 sm:mb-0">{{ ingredient.name }}</div>
-                <button (click)="removeIngredientFromCart(ingredient.id, ingredient.name)" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 mt-2 sm:mt-0 sm:col-start-2">Rimuovi</button>
-            </div>
-        }
+<div class="ingredienti-list mt-4">
+    <h2 class="text-xl font-semibold mb-2">Ingredienti:</h2>
+    @for(ingredient of ingredients; track ingredients)
+    {
+    <div class="grid grid-cols-1 sm:grid-cols-2 items-center border-b border-gray-300">
+        <div class="mb-2 sm:mb-0">{{ ingredient.name }}</div>
+        <button (click)="removeIngredientFromCart(ingredient.id, ingredient.name)"
+            class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color">
+            Rimuovi</button>
     </div>
+    }
+</div>
 }
 
 @if(ingredients.length === 0)
 {
-    <div class="no-ingredients mt-4">
-        <p class="text-gray-600">Nessun ingrediente disponibile per questo piatto.</p>
-    </div>
+<div class="no-ingredients mt-4">
+    <p class="text-gray-600">Nessun ingrediente disponibile per questo piatto.</p>
+</div>
 }

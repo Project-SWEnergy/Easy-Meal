@@ -1,36 +1,37 @@
-
-  @if(orderedDishes.length > 0)
+@if(orderedDishes.length > 0)
+{
+<div>
+  <h2 class="text-3xl font-bold text-center mb-8"><span class="font-bold">Riassunto dell'ordinazione
+      collaborativa:</span></h2>
+  @for(user of getUserList(); track user)
   {
-    <div>
-      <h2 class="text-3xl font-bold text-center mb-8"><span class="font-bold">Riassunto dell'ordinazione collaborativa:</span></h2>
-        @for(user of getUserList(); track user)
-        {    
-          <div class="mb-8">
-            <h2 class="text-lg font-semibold mb-4">{{ user.name_user }} {{ user.surname_user }}</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              <div *ngFor="let dish of getOrderedDishesByUser(user.id_user)" class="bg-white overflow-hidden shadow rounded-lg">
-                <img [src]="dish.image_dish" alt="{{ dish.name_dish }}" class="w-full h-48 object-cover">
-                <div class="px-4 py-2">
-                  <h3 class="text-lg font-semibold"> <span class="font-bold">{{ dish.name_dish }} </span></h3>
-                  <p class="text-gray-700">Prezzo: {{ dish.price_dish }}</p>
-                  <p *ngIf="dish.removed_ingredients.length > 0" class="text-gray-700">Ingredienti rimossi:
-                    <span *ngFor="let ingredient of dish.removed_ingredients">{{ ingredient.name_ingredient }}, </span>
-                  </p>
-                  <p *ngIf="dish.removed_ingredients.length === 0" class="text-gray-700">Nessun ingrediente rimosso</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        }
-      
-      
+  <div class="mb-8">
+    <h2 class="text-lg font-semibold mb-4">{{ user.name_user }} {{ user.surname_user }}</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div *ngFor="let dish of getOrderedDishesByUser(user.id_user)" class="bg-white overflow-hidden shadow rounded-lg">
+        <img [src]="dish.image_dish" alt="{{ dish.name_dish }}" class="w-full h-48 object-cover">
+        <div class="px-4 py-2">
+          <h3 class="text-lg font-semibold"> <span class="font-bold">{{ dish.name_dish }} </span></h3>
+          <p class="text-gray-700">Prezzo: {{ dish.price_dish }}</p>
+          <p *ngIf="dish.removed_ingredients.length > 0" class="text-gray-700">Ingredienti rimossi:
+            <span *ngFor="let ingredient of dish.removed_ingredients">{{ ingredient.name_ingredient }}, </span>
+          </p>
+          <p *ngIf="dish.removed_ingredients.length === 0" class="text-gray-700">Nessun ingrediente rimosso</p>
+        </div>
+      </div>
+    </div>
   </div>
   }
-  <button (click)="refreshOrderedDishes()" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Ricarica</button>
 
-  @if(orderedDishes.length === 0)
-  {
-    <div class="text-center text-gray-700">Nessun ordine trovato.</div>
-  }
 
-  
+</div>
+}
+<button (click)="refreshOrderedDishes()"
+  class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color">
+  Ricarica
+</button>
+
+@if(orderedDishes.length === 0)
+{
+<div class="text-center text-gray-700">Nessun ordine trovato.</div>
+}
