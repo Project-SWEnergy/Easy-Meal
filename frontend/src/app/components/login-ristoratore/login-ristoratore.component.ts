@@ -4,6 +4,7 @@ import { Router, RouterOutlet, RouterLink } from '@angular/router';
 import { LoginComponent } from '../form/login/login.component';
 import { SubmitService } from '../../services/lib/submit.service';
 import { AuthService } from '../../services/auth.service';
+import { MessageService } from '../../services/lib/message.service';
 
 @Component({
   selector: 'app-loginRistoratore',
@@ -16,6 +17,7 @@ export class LoginRistoratoreComponent {
   submit = inject(SubmitService);
   router = inject(Router);
   auth = inject(AuthService);
+  ms = inject(MessageService);
 
   public hidePassword: boolean = true;
 
@@ -24,6 +26,10 @@ export class LoginRistoratoreComponent {
    * @param FormGroup - Il form con i campi email e password validati
    */
   on_submit(form: FormGroup) {
+    if (form.invalid) {
+      return;
+    }
+
     const email: string = form.value.email ?? '';
     const password: string = form.value.password ?? '';
 
@@ -34,6 +40,9 @@ export class LoginRistoratoreComponent {
       .then(async (_) => {
         await this.auth.auth();
         this.router.navigate(['ristoratore/home']);
+      })
+      .catch((_) => {
+        this.ms.error('Errore durante l\'autenticazione');
       });
   }
 }
