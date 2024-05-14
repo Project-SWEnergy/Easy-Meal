@@ -1,6 +1,6 @@
 <header>
   <div>
-    <a routerLink="">
+    <a routerLink="index">
       <img src="../../../assets/logo_finale.png" alt="Logo" class="navbar-icon">
       <span class="">Easy Meal</span>
     </a>
@@ -19,7 +19,7 @@
       }
       @else if(!auth.isUser())
       {
-      <a routerLink="esplora"> Esplora </a>
+      <a routerLink=""> Esplora </a>
       }
 
       @if(auth.isRestaurant()) {

@@ -51,6 +51,7 @@ export class PrenotazioneComponent implements OnInit {
     private orarioService: OrarioService,
     private prenotazioneService: PrenotazioneService,
     private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -110,9 +111,8 @@ export class PrenotazioneComponent implements OnInit {
   }
 
   aggiungiPartecipantiInFormInvito(): void {
-    const numeroPartecipanti =
-      this.prenotazioneForm.get('numeroPartecipanti')?.value;
-    for (let i = 1; i < numeroPartecipanti; i++) {
+    const numeroPartecipanti = this.prenotazioneForm.get('numeroPartecipanti')?.value;
+    for (let i = 1; i < numeroPartecipanti -1; i++) {
       this.partecipanti.push(this.fb.control('', Validators.email));
     }
   }
@@ -123,6 +123,7 @@ export class PrenotazioneComponent implements OnInit {
       .invitaPrenotazione(emails)
       .then(() => {
         this.ms.log('Inviti alla prenotazione inviati con successo');
+        this.router.navigate(['/prenotazioni']);
       })
       .catch((error) => {
         this.ms.error('Errore durante l\'invio degli inviti alla prenotazione');

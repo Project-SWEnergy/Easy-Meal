@@ -84,7 +84,7 @@
             [disabled]="!prenotazioneForm.valid || !selectedDayInfo || !controllaOrarioApertura()">Invia prenotazione</button>
     </form>
 
-    @if(prenotazioneInviata && partecipanti.length > 1)
+    @if(prenotazioneInviata && partecipanti.length > 0)
     {
         <form [formGroup]="invitoForm" (ngSubmit)="invitaAllaPrenotazione()" class="w-full sm:max-w-md mx-auto bg-white shadow-md rounded px-4 pt-6 pb-8 mt-4">
             <div formArrayName="partecipanti">
