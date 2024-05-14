@@ -40,7 +40,7 @@ export class DishNewRistoratoreComponent {
   file: File;
   uploaded_pic: string;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   @Output() onSubmit = new EventEmitter<FormGroup>();
 

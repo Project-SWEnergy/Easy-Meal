@@ -39,6 +39,7 @@ export class LoginRistoratoreComponent {
       .post({ email: email, password: password })
       .then(async (_) => {
         await this.auth.auth();
+        this.ms.log('Ristoratore autenticato');
         this.router.navigate(['ristoratore/home']);
       })
       .catch((_) => {

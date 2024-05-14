@@ -46,6 +46,7 @@
             }
         </div>
 
-        <button mat-button type="submit" class="submit-button" [disabled]="!form.valid"> Crea piatto </button>
+        <button mat-button type="submit" class="submit-button" [disabled]="form.invalid || this.file === undefined">
+            Crea piatto </button>
     </form>
 </div>
