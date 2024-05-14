@@ -1,9 +1,9 @@
 div {
-    @apply flex flex-col items-center gap-2 my-4;
+  @apply flex flex-col items-center gap-2 my-4;
 }
 
 div label {
-    @apply text-label font-semibold;
+  @apply text-label font-semibold;
 }
 
 #image-input {
@@ -16,4 +16,8 @@ div label {
 
 .preview-img {
   @apply w-full h-auto max-h-64 rounded-lg mt-4 shadow-md;
+}
+
+.error {
+  @apply text-error;
 }
