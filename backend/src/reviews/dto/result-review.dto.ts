@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { Review } from "../entities/review.entity";
 
 /**
@@ -6,7 +7,10 @@ import { Review } from "../entities/review.entity";
  * @param data Review[ ]: oggetti coinvolti nell'operazione.
  */
 export class ResultReviewsDto {
+    @ApiProperty()
     result: boolean;
+    @ApiProperty()
     message: string;
+    @ApiProperty()
     data: Review[];
 }

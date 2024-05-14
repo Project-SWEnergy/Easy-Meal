@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateRestaurantDto } from './dto/create-restaurant.dto';
 import { UpdateRestaurantDto } from './dto/update-restaurant.dto';
-import { DatabaseService } from 'src/database/database.service';
+import { DatabaseService } from '../database/database.service';
 import { ResultRestaurantDto } from './dto/result-restaurant.dto';
 import * as argon from 'argon2';
 import { addresses, restaurants } from '../../db/schema';
@@ -16,12 +16,12 @@ export class RestaurantsService {
   ) { }
 
   async create(createRestaurantDto: CreateRestaurantDto): Promise<ResultRestaurantDto> {
-    const database = this.databaseService.getDatabase();
     const password = createRestaurantDto.password;
     const passwordHash = await argon.hash(createRestaurantDto.password);
     createRestaurantDto.password = passwordHash;
     let createdRestaurant: any; 
     try {
+      const database = this.databaseService.getDatabase();
       createdRestaurant = await database
         .insert(restaurants)
         .values(createRestaurantDto)
@@ -40,9 +40,9 @@ export class RestaurantsService {
   }
 
   async findAll() : Promise<ResultRestaurantDto> {
-    const database = this.databaseService.getDatabase();
     let restaurantsData: any;
     try {
+      const database = this.databaseService.getDatabase();
       restaurantsData = await database
         .select({
           id: restaurants.id,
@@ -81,9 +81,9 @@ export class RestaurantsService {
   }
 
   async findAllByCity(cityName: string) : Promise<ResultRestaurantDto> {
-    const database = this.databaseService.getDatabase();
     let restaurantsData: any;
     try {
+      const database = this.databaseService.getDatabase();
       restaurantsData = await database
         .select({
           id: restaurants.id,
@@ -125,9 +125,9 @@ export class RestaurantsService {
   async findOne(id: number): Promise<ResultRestaurantDto> {
     if (!Number.isInteger(id))
       throw new BadRequestException("Invalid restaurant ID");
-    const database = this.databaseService.getDatabase();
     let restaurantsData: any;
     try {
+      const database = this.databaseService.getDatabase();
       restaurantsData = await database
         .select({
           id: restaurants.id,
@@ -169,9 +169,9 @@ export class RestaurantsService {
   async update(id: number, updateRestaurantDto: UpdateRestaurantDto) {
     if (!Number.isInteger(id))
       throw new BadRequestException("Invalid restaurant ID");
-    const database = this.databaseService.getDatabase();
     let data: any;
     try {
+      const database = this.databaseService.getDatabase();
       data = await database
         .update(restaurants)
         .set(updateRestaurantDto)
@@ -192,9 +192,9 @@ export class RestaurantsService {
   async remove(id: number) {
     if (!Number.isInteger(id))
       throw new BadRequestException("Invalid restaurant ID");
-    const database = this.databaseService.getDatabase();
     let data: any;
     try {
+      const database = this.databaseService.getDatabase();
       data = await database
         .delete(restaurants)
         .where(eq(restaurants.id, id))

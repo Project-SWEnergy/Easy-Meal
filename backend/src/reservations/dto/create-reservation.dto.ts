@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { IsInt, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 /**
@@ -10,24 +11,30 @@ import { IsInt, IsNotEmpty, IsOptional, IsString } from "class-validator";
 export class CreateReservationDto {
     @IsInt()
     @IsNotEmpty()
+    @ApiProperty()
     restaurantId: number;
 
     @IsNotEmpty()
+    @ApiProperty()
     date: Date;
 
     @IsInt()
     @IsNotEmpty()
+    @ApiProperty()
     partecipants: number;
 
     @IsNotEmpty()
     @IsString()
+    @ApiProperty()
     reservation_state: string;
 
     @IsNotEmpty()
     @IsString()
+    @ApiProperty()
     bill_splitting_method: string;
 
     @IsInt()
     @IsOptional()
+    @ApiProperty()
     paid_orders: number;
 }
