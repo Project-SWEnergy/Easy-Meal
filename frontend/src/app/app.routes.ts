@@ -27,6 +27,11 @@ import { PrenotazioniListComponent } from './components/home-cliente/prenotazion
 export const routes: Routes = [
   {
     path: '',
+    component: GenericHomeComponent,
+    title: 'Esplora - Easy Meal',
+  },
+  {
+    path: 'index',
     component: IndexComponent,
     title: 'Home Page - Easy Meal',
   },
@@ -34,11 +39,6 @@ export const routes: Routes = [
     path: 'logout',
     component: LogoutComponent,
     title: 'Logout - Easy Meal',
-  },
-  {
-    path: 'esplora',
-    component: GenericHomeComponent,
-    title: 'Esplora - Easy Meal',
   },
   {
     path: 'dettagli/:id',
