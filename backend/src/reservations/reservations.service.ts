@@ -42,9 +42,9 @@ export class ReservationsService {
     catch {
       throw new BadRequestException("Invalid date format");
     }
-    const database = this.databaseService.getDatabase();
     let createdReservation: any;
     try {
+      const database = this.databaseService.getDatabase();
       createdReservation = await database
         .insert(reservations)
         .values({
@@ -71,9 +71,9 @@ export class ReservationsService {
   async findAllByRestaurantId(restaurantId: number): Promise<ResultReservationsDto> {
     if (!Number.isInteger(restaurantId))
       throw new BadRequestException("Invalid restaurant ID");
-    const database = this.databaseService.getDatabase();
     let foundReservations: any;
     try {
+      const database = this.databaseService.getDatabase();
       foundReservations = await database
         .select()
         .from(reservations)
@@ -93,9 +93,10 @@ export class ReservationsService {
   async findOne(reservationId: number): Promise<ResultReservationsDto> {
     if (!Number.isInteger(reservationId))
       throw new BadRequestException("Invalid reservation ID");
-    const database = this.databaseService.getDatabase();
     let foundReservations: any;
     try {
+      const database = this.databaseService.getDatabase();
+
       foundReservations = await database
         .select()
         .from(reservations)
@@ -121,7 +122,6 @@ export class ReservationsService {
     if (updateReservationDto.reservation_state != undefined
       && !this.isValidReservationState(updateReservationDto.reservation_state))
       throw new BadRequestException("Invalid reservation state");
-    const database = this.databaseService.getDatabase();
     try {
       if (updateReservationDto.date !== undefined)
         updateReservationDto.date = new Date(updateReservationDto.date)
@@ -131,6 +131,7 @@ export class ReservationsService {
     }
     let modifiedReservation: any;
     try {
+      const database = this.databaseService.getDatabase();
       modifiedReservation = await database
         .update(reservations)
         .set(updateReservationDto)
@@ -152,9 +153,9 @@ export class ReservationsService {
   async remove(reservationId: number): Promise<ResultReservationsDto> {
     if (!Number.isInteger(reservationId))
       throw new BadRequestException("Invalid reservation ID");
-    const database = this.databaseService.getDatabase();
     let deletedReservation: any;
     try {
+      const database = this.databaseService.getDatabase();
       deletedReservation = await database
         .delete(reservations)
         .where(eq(reservations.id, reservationId))
@@ -204,7 +205,8 @@ export class ReservationsService {
         this.notificationService.create(restaurantNotificationDto);
       }
       let userNotification: CreateNotificationDto;
-      const usersList = (await this.usersReservationsService.findAllByReservationId(reservationId)).data;
+      const temp = await this.usersReservationsService.findAllByReservationId(reservationId);
+      const usersList = temp[0].data;
       for (let index = 0; index < usersList.length; index++) {
         if (usersList[index].id_user !== undefined) {
           userNotification = {

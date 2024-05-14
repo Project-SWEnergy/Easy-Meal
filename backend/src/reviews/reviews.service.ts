@@ -23,9 +23,9 @@ export class ReviewsService {
       throw new BadRequestException("Invalid user ID");
     createReviewDto.id_user = idUser;
     createReviewDto.date = new Date(createReviewDto.date);
-    const database = this.databaseService.getDatabase();
     let data: any;
     try {
+      const database = this.databaseService.getDatabase();
       data = await database
         .insert(reviews)
         .values(createReviewDto)
@@ -45,9 +45,9 @@ export class ReviewsService {
   async findAllByRestaurantId(idRestaurant: number) {
     if (!Number.isInteger(idRestaurant))
       throw new BadRequestException("Invalid restaurant ID");
-    const database = this.databaseService.getDatabase();
     let data: any;
     try {
+      const database = this.databaseService.getDatabase();
       data = await database
         .select({
           id_restaurant: reviews.id_restaurant,
@@ -69,7 +69,7 @@ export class ReviewsService {
     }
     return {
       result: true,
-      message: "Research successfull",
+      message: "Research successful",
       data: data
     };
   }
@@ -77,9 +77,9 @@ export class ReviewsService {
   async findAllByUserId(idUser: number) {
     if (!Number.isInteger(idUser))
       throw new BadRequestException("Invalid user ID");
-    const database = this.databaseService.getDatabase();
     let data: any;
     try {
+      const database = this.databaseService.getDatabase();
       data = await database
         .select({
           id_restaurant: reviews.id_restaurant,
@@ -101,7 +101,7 @@ export class ReviewsService {
     }
     return {
       result: true,
-      message: "Research successfull",
+      message: "Research successful",
       data: data
     };
   }
@@ -113,9 +113,9 @@ export class ReviewsService {
       throw new BadRequestException("Invalid restaurant ID");
     if (updateReviewDto.date !== undefined)
       updateReviewDto.date = new Date(updateReviewDto.date)
-    const database = this.databaseService.getDatabase();
     let data: any;
     try {
+      const database = this.databaseService.getDatabase();
       data = await database
         .update(reviews)
         .set({
@@ -147,9 +147,9 @@ export class ReviewsService {
       throw new BadRequestException("Invalid user ID");
     if (!Number.isInteger(idRestaurant))
       throw new BadRequestException("Invalid restaurant ID");
-    const database = this.databaseService.getDatabase();
     let data: any;
     try {
+      const database = this.databaseService.getDatabase();
       data = await database
         .delete(reviews)
         .where(

@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { Reservation } from "../entities/reservation.entity";
 
 /**
@@ -6,7 +7,10 @@ import { Reservation } from "../entities/reservation.entity";
  * @param {Reservation} data Reservation[ ]: oggetto coinvolto nell'operazione.
  */
 export class ResultReservationsDto {
+    @ApiProperty()
     result: boolean;
+    @ApiProperty()
     message: string;
+    @ApiProperty()
     data: any;
 }

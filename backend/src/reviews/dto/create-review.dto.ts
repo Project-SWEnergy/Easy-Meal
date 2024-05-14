@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 /**
@@ -11,20 +12,25 @@ export class CreateReviewDto {
 
     @IsNumber()
     @IsNotEmpty()
+    @ApiProperty()
     id_restaurant: number;
 
     @IsNumber()
     @IsOptional()
+    @ApiProperty()
     id_user: number;
 
     @IsNotEmpty()
+    @ApiProperty()
     date: Date;
 
     @IsNumber()
     @IsNotEmpty()
+    @ApiProperty()
     score: number;
 
     @IsString()
     @IsNotEmpty()
+    @ApiProperty()
     description: string;
 }

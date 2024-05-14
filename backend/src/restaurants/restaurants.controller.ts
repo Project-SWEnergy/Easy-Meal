@@ -1,27 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, InternalServerErrorException, UseInterceptors, UploadedFile, UploadedFiles, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, InternalServerErrorException, UseInterceptors, UploadedFiles, Req } from '@nestjs/common';
 import { RestaurantsService } from './restaurants.service';
-import { AuthorizationService } from 'src/authorization/authorization.service';
-import { UserType } from 'src/authentication/dto/user-data.dto';
-import { AuthenticationService } from 'src/authentication/authentication.service';
+import { AuthorizationService } from '../authorization/authorization.service';
+import { UserType } from '../authentication/dto/user-data.dto';
+import { AuthenticationService } from '../authentication/authentication.service';
 import { Response } from 'express'; // Import for req and res types
 import { CreateRestaurantAddressDto } from './dto/create-restaurant-address.dto';
-import { AddressesService } from 'src/addresses/addresses.service';
+import { AddressesService } from '../addresses/addresses.service';
 import { UpdateRestaurantAddressDto } from './dto/update-restaurant-address.dto';
-import { FileInterceptor, FileFieldsInterceptor } from '@nestjs/platform-express';
-import { UploadFileService } from 'src/upload-file/upload-file.service';
-import { CreateRestaurantDto } from './dto/create-restaurant.dto';
-import { UpdateRestaurantDto } from './dto/update-restaurant.dto';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { UploadFileService } from '../upload-file/upload-file.service';
+
 
 
 @Controller('restaurants')
 export class RestaurantsController {
 
   constructor(
-    private readonly restaurantsService: RestaurantsService,
-    private readonly addressesService: AddressesService,
-    private readonly authorizationService: AuthorizationService,
-    private readonly authenticationService: AuthenticationService,
-    private readonly uploadFileService: UploadFileService
+    private restaurantsService: RestaurantsService,
+    private addressesService: AddressesService,
+    private authorizationService: AuthorizationService,
+    private authenticationService: AuthenticationService,
+    private uploadFileService: UploadFileService
   ) { }
 
   @Post('create')

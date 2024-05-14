@@ -20,7 +20,7 @@ export class OrderedDishesService {
     private notificationsService: NotificationsService
   ) { }
 
-  async create(createOrderedDishDto: CreateOrderedDishDto[]): Promise<ResultOrderedDishDto> {
+  async create(createOrderedDishDto: CreateOrderedDishDto[]) {
     let dataList: any[] = [];
     try {
       const database = this.databaseService.getDatabase();

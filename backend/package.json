@@ -28,7 +28,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "test:single-one": "jest ordered-dishes.controller.spec.ts"
+    "test:single-one": "jest restaurants.controller.spec.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -101,7 +101,10 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "**/*.(t|j)s",
+      "!**/*.dto.(t|j)s",
+      "!**/*.entity.(t|j)s",
+      "!**/*.module.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"

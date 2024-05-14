@@ -1,145 +1,193 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ReviewsController } from './reviews.controller';
 import { ReviewsService } from './reviews.service';
-import { AuthorizationService } from '../authorization/authorization.service';
 import { CreateReviewDto } from './dto/create-review.dto';
-import { UpdateReviewDto } from './dto/update-review.dto';
+import { AuthorizationModule } from '../authorization/authorization.module';
+import { DatabaseModule } from '../database/database.module';
+import { NotificationsService } from '../notifications/notifications.service';
+import { ResultReviewsDto } from './dto/result-review.dto';
 import { UserType } from '../authentication/dto/user-data.dto';
-import { DatabaseService } from '../database/database.service';
-import { JwtModule, JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
+import { AuthorizationService } from '../authorization/authorization.service';
 
+jest.mock('../database/database.service');
+jest.mock('./reviews.service');
+jest.mock('../authentication/authentication.service');
+jest.mock('../authorization/authorization.service');
+jest.mock('../notifications/notifications.service');
 
 describe('ReviewsController', () => {
   let controller: ReviewsController;
-  let module: TestingModule;
-  let reviewsService: ReviewsService;
+  let service: ReviewsService;
   let authorizationService: AuthorizationService;
-  let databaseService: DatabaseService;
-  let configService: ConfigService;
 
-  beforeAll(async () => {
-    module = await Test.createTestingModule({
-      controllers: [ReviewsController],
-      providers: [
-        ReviewsService,
-        AuthorizationService,
-        DatabaseService,
-        JwtService,
-        ConfigService
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [
+        AuthorizationModule
       ],
+      controllers: [ReviewsController],
+      providers: [ReviewsService, NotificationsService],
     }).compile();
-
     controller = module.get<ReviewsController>(ReviewsController);
-    reviewsService = module.get<ReviewsService>(ReviewsService);
+    service = module.get<ReviewsService>(ReviewsService);
     authorizationService = module.get<AuthorizationService>(AuthorizationService);
-    configService = module.get<ConfigService>(ConfigService);
-    databaseService = module.get<DatabaseService>(DatabaseService);
   });
-
-
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
 
+
+
+
   describe('create', () => {
-    it('should create a review', async () => {
-      const createReviewDto: CreateReviewDto = {
+
+    it('should create a new review and return a response with status 200', async () => {
+      const createDto: CreateReviewDto = {
         id_restaurant: 1,
         id_user: 1,
-        date: new Date('2024-04-17T14:30:00.000Z'),
-        score: 3,
-        description: 'Descrizione'
+        date: new Date("2024-04-05T08:30:00.000Z"),
+        score: 1,
+        description: "string"
       };
-      const req = { cookies: { accessToken: 'mockAccessToken' } };
-
-      jest.spyOn(authorizationService, 'isAuthorized').mockReturnValue({ token: { id: 1 } });
-      jest.spyOn(reviewsService, 'create').mockResolvedValueOnce(
-        {
-          result: true,
-          message: "Successfully created",
-          data: [
-            {
-              id_restaurant: 1,
-              id_user: 1,
-              date: new Date('2024-04-17T14:30:00.000Z'),
-              score: 3,
-              description: "Descrizione"
-            }
-          ]
-        }
-      );
-
-      expect(await controller.create(createReviewDto, req)).toEqual({
+      const expectedResult: ResultReviewsDto = {
         result: true,
-        message: "Successfully created",
+        message: 'Successfully created',
         data: [
           {
             id_restaurant: 1,
             id_user: 1,
-            date: new Date('2024-04-17T14:30:00.000Z'),
-            score: 3,
-            description: "Descrizione"
+            date: new Date("2024-04-05T08:30:00.000Z"),
+            score: 1,
+            description: "string"
           }
         ]
-      });
+      };
+      const mockIdUser = 1
+      const mockRequest = { cookies: { accessToken: 'mockAccessToken' } };
+      jest.spyOn(service, 'create').mockResolvedValue(expectedResult);
+      jest.spyOn(authorizationService, 'isAuthorized').mockReturnValue({ token: { id: 1, role: UserType.user } });
+      const result = await controller.create(createDto, mockRequest);
+      expect(result).toEqual(expectedResult);
+      expect(service.create).toHaveBeenCalledWith(mockIdUser, createDto);
     });
   });
 
 
+  describe('findAllByRestaurantId', () => {
+    const mockId = "1";
+    const expectedResult = {
+      result: true,
+      message: "Successfully created",
+      data: {
+        id_restaurant: 1,
+        id_user: 1,
+        date: new Date("2024-04-05T08:30:00.000Z"),
+        score: 1,
+        description: "string"
+      }
+    }
 
-  /*
-    describe('findAllByRestaurantId', () => {
-      it('should find all reviews by restaurant id', async () => {
-        const restaurantId = 'mockId';
-  
-        jest.spyOn(reviewsService, 'findAllByRestaurantId').mockResolvedValueOnce( );
-  
-        expect(await controller.findAllByRestaurantId(restaurantId)).toEqual( );
-      });
+    it('should find all notifications by user', async () => {
+      jest.spyOn(service, 'findAllByRestaurantId').mockResolvedValue(expectedResult);
+      jest.spyOn(authorizationService, 'isAuthorized').mockReturnValue({ token: { id: 1, role: UserType.user } });
+      const result = await controller.findAllByRestaurantId(mockId);
+      expect(result).toEqual(expectedResult);
+      expect(service.findAllByRestaurantId).toHaveBeenCalledWith(parseInt(mockId));
     });
-  
-    describe('findAllByUserId', () => {
-      it('should find all reviews by user id', async () => {
-        const req = { cookies: { accessToken: 'mockAccessToken' } };
-  
-        jest.spyOn(authorizationService, 'isAuthorized').mockReturnValue({ token: { id: 'mockUserId' } });
-        jest.spyOn(reviewsService, 'findAllByUserId').mockResolvedValueOnce( );
-  
-        expect(await controller.findAllByUserId(req)).toEqual( );
-      });
-    });
-  
-    describe('update', () => {
-      it('should update a review', async () => {
-        const reviewId = 'mockId';
-        const updateReviewDto: UpdateReviewDto = {  };
-        const req = { cookies: { accessToken: 'mockAccessToken' } };
-  
-        jest.spyOn(authorizationService, 'isAuthorized').mockReturnValue({ token: { id: 'mockUserId' } });
-        jest.spyOn(reviewsService, 'update').mockResolvedValueOnce( );
-  
-        expect(await controller.update(reviewId, updateReviewDto, req)).toEqual( );
-      });
-    });
-  
-    describe('remove', () => {
-      it('should remove a review', async () => {
-        const reviewId = 'mockId';
-        const req = { cookies: { accessToken: 'mockAccessToken' } };
-  
-        jest.spyOn(authorizationService, 'isAuthorized').mockReturnValue({ token: { id: 'mockUserId' } });
-        jest.spyOn(reviewsService, 'remove').mockResolvedValueOnce( );
-  
-        expect(await controller.remove(reviewId, req)).toEqual( );
-      });
-    });
-    */
+
+  });
 
 
-  afterAll(async () => {
-    await databaseService.closeConnection();
-    await module.close();
+
+
+  describe('findAllByUserId', () => {
+    const mockId = "1";
+    const expectedResult = {
+      result: true,
+      message: "Successfully created",
+      data: {
+        id_restaurant: 1,
+        id_user: 1,
+        date: new Date("2024-04-05T08:30:00.000Z"),
+        score: 1,
+        description: "string"
+      }
+    }
+    const mockRequest = { cookies: { accessToken: 'mockAccessToken' } };
+
+    it('should find all notifications by user', async () => {
+      jest.spyOn(service, 'findAllByUserId').mockResolvedValue(expectedResult);
+      jest.spyOn(authorizationService, 'isAuthorized').mockReturnValue({ token: { id: 1, role: UserType.user } });
+      const result = await controller.findAllByUserId(mockRequest);
+      expect(result).toEqual(expectedResult);
+      expect(service.findAllByUserId).toHaveBeenCalledWith(parseInt(mockId));
+    });
+
+  });
+
+
+
+
+
+  describe('update', () => {
+    const mockRequest = { cookies: { accessToken: 'mockAccessToken' } };
+    const updateDto = {
+      id_restaurant: 1,
+      date: new Date("2024-04-17T14:30:00.000Z"),
+      score: 3,
+      description: "Descrizione"
+    }
+    const expectedResult = {
+      result: true,
+      message: "Successfully updated",
+      data: {
+        id_restaurant: 1,
+        id_user: 1,
+        date: new Date("2024-04-05T08:30:00.000Z"),
+        score: 1,
+        description: "string"
+      }
+    }
+    const mockId = "1";
+
+    it('should update the notification', async () => {
+      jest.spyOn(service, 'update').mockResolvedValue(expectedResult);
+      jest.spyOn(authorizationService, 'isAuthorized').mockReturnValue({ token: { id: 1 } });
+      const result = await controller.update(updateDto, mockRequest);
+      expect(result).toEqual(expectedResult);
+      expect(service.update).toHaveBeenCalledWith(parseInt(mockId), parseInt(mockId), updateDto);
+    });
+
+  });
+
+
+
+
+
+
+  describe('remove', () => {
+    const mockRequest = { cookies: { accessToken: 'mockAccessToken' } };
+    const expectedResult = {
+      result: true,
+      message: "Successfully updated",
+      data: {
+        id_restaurant: 1,
+        id_user: 1,
+        date: new Date("2024-04-05T08:30:00.000Z"),
+        score: 1,
+        description: "string"
+      }
+    }
+    const mockId = "1";
+
+    it('should remove the notification', async () => {
+      jest.spyOn(service, 'remove').mockResolvedValue(expectedResult);
+      jest.spyOn(authorizationService, 'isAuthorized').mockReturnValue({ token: { id: 1 } });
+      const result = await controller.remove(mockId, mockRequest);
+      expect(result).toEqual(expectedResult);
+      expect(service.remove).toHaveBeenCalledWith(parseInt(mockId), parseInt(mockId));
+    });
+
   });
 });
