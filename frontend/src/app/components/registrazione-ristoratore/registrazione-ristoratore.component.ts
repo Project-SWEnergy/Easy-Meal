@@ -23,7 +23,7 @@ import { OpeningHoursFormRistoratoreComponent } from '../form/opening-hours-form
   styleUrl: './registrazione-ristoratore.component.css',
 })
 export class RegistrazioneRistoratoreComponent {
-  constructor() {}
+  constructor() { }
 
   router = inject(Router);
   restaurant_service = inject(RestaurantRistoratoreService);
@@ -45,7 +45,7 @@ export class RegistrazioneRistoratoreComponent {
     ]),
     description: new FormControl('', Validators.maxLength(512)),
     phone: new FormControl('', [
-      Validators.minLength(11),
+      Validators.minLength(9),
       Validators.maxLength(13),
       Validators.required,
     ]),

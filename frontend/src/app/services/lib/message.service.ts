@@ -36,6 +36,11 @@ export class MessageService {
   }
 
   private updateMessages(): void {
+    const now = new Date();
+    MessageService.messages = MessageService.messages.filter(
+      (m) => m.timeout > now,
+    );
+
     this.messagesSubject.next(
       MessageService.messages.map((m) => ({
         message: m.message,
