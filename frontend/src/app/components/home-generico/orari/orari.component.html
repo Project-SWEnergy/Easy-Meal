@@ -8,11 +8,11 @@
         <div class="flex flex-wrap">
           <div class="w-full sm:w-1/2">
             <p class="text-gray-600 mb-1">Orario di apertura:</p>
-            <p>{{ orario.opening_time }}</p>
+            <p>{{ formatTime(orario.opening_time) }}</p>
           </div>
           <div class="w-full sm:w-1/2">
             <p class="text-gray-600 mb-1">Orario di chiusura:</p>
-            <p>{{ orario.closing_time }}</p>
+            <p>{{ formatTime(orario.closing_time) }}</p>
           </div>
         </div>
       </div>

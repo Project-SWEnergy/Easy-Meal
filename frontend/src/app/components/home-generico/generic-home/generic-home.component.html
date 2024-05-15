@@ -1,5 +1,5 @@
 <section>
-    <form>
+    <form (submit)="onSubmit($event)">
       <input type="text" placeholder="Filtra per nome del ristorante" #filter>
       <button class="primary" type="button" (click)="filterResultsByName(filter.value)">Cerca</button>
     </form>
