@@ -80,7 +80,9 @@ export class UsersReservationsService {
             throw new InternalServerErrorException(error.message)
           }
           data.push(invitedUser);
-          await this.sendNotificationUpdate(inviteUsersDto.id_reservation, foundUser[0].id_user);
+          const title = "Nuovo invito";
+          const message = "Ha ricevuto un invito alla prenotazione: " + inviteUsersDto.id_reservation.toString();
+          await this.sendNotification(foundUser[0].id_user, title, message, UserType.user);
         }
       }
     }
@@ -275,13 +277,13 @@ export class UsersReservationsService {
   }
 
 
-  async sendNotificationUpdate(reservationId: number, userId: number): Promise<void> {
+  async sendNotification(userId: number, titleValue: string, messageValue: string, roleValue: string): Promise<void> {
     try {
       const restaurantNotificationDto: CreateNotificationDto = {
-        title: "Invito ricevuto",
-        message: "Sei stato invitato alla prenotazione: " + reservationId.toString(),
+        title: titleValue,
+        message: messageValue,
         id_receiver: userId,
-        role: UserType.user
+        role: roleValue
       }
       this.notificationService.create(restaurantNotificationDto);
     }

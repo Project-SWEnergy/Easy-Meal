@@ -6,12 +6,16 @@ import { ResultUsersReservationDto } from './dto/result-users-reservation.dto';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { UserType } from '../authentication/dto/user-data.dto';
 import { InviteUsersReservationDto } from './dto/invite-users-reservation.dto';
+import { ReservationsService } from '../reservations/reservations.service';
+import { UpdateReservationDto } from '../reservations/dto/update-reservation.dto';
+import { ReservationState } from '../reservations/entities/reservation.entity';
 
 @Controller('users-reservations')
 export class UsersReservationsController {
   constructor(
     private readonly usersReservationsService: UsersReservationsService,
-    private readonly authorizationService: AuthorizationService
+    private readonly authorizationService: AuthorizationService,
+    private reservationsService: ReservationsService
   ) { }
 
   @Post('create')
@@ -22,12 +26,11 @@ export class UsersReservationsController {
     createUsersReservationDto.accepted = true;
     return await this.usersReservationsService.create(createUsersReservationDto);
   }
-  
+
   @Post('invite')
   async invite(@Body() inviteUsersDto: InviteUsersReservationDto, @Req() req): Promise<ResultUsersReservationDto> {
     let invite: any;
     try {
-      console.log(inviteUsersDto)
       const accessToken = req.cookies.accessToken;
       const auth = this.authorizationService.isAuthorized(accessToken, UserType.user);
       invite = await this.usersReservationsService.invite(inviteUsersDto);
@@ -79,6 +82,25 @@ export class UsersReservationsController {
     const auth = this.authorizationService.isAuthorized(accessToken, UserType.user);
     const idRes = parseInt(idReservation);
     const idUse = parseInt(auth.token.id);
-    return await this.usersReservationsService.remove(idUse, idRes);
+    const reservation = await this.usersReservationsService.findOne(auth.token.id, idRes)
+    const removed = await this.usersReservationsService.remove(idUse, idRes);
+    let reservationDto: UpdateReservationDto;
+    if (reservation.result && reservation.data[0].partecipants > 1) {
+      reservationDto = {
+        partecipants: reservation.data[0].partecipants - 1,
+      }
+    }
+    else if (reservation.result) {
+      reservationDto = {
+        reservation_state: ReservationState.Annullata
+      }
+    }
+    this.reservationsService.update(idRes, reservationDto)
+    const title = "Prenotazione aggiornata";
+    const message = "La tua prenotazione numero " + idReservation + " è stata aggiornata."
+    this.usersReservationsService.sendNotification(idUse, title, message, UserType.restaurant)
+    return removed;
   }
 }
+
+
