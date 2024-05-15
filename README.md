@@ -1,41 +1,33 @@
-# Easy-Meal
 
-Easy-Meal è una web app per seplificare l'interazione tra utenti e ristoranti. 
-Infatti Easy-Meal offre due interfacce: una lato cliente e una ristoratore. Il
-cliente ha modo di ricercare dei ristoranti e di effettuare delle prenotazioni
-presso un ristorante specificando la data e l'ora, il numero di persone ed
-eventualmente anche i piatti che desidera ordinare. Non solo, attraverso il sito
-web è possibile condividere un'ordinazione con altri utenti, in modo tale da
-permettere ad utenti diversi di aggiungere le proprie ordinazioni ad una
-medesima prenotazione.  
-Il ristoratore ha modo di visualizzare le prenotazioni effettuate dai clienti e
-di confermarle o meno. Inoltre, il ristoratore può visualizzare le ordinazioni
-e gli ingredienti necessari per preparare i piatti ordinati, in questo modo
-viene dato modo ai ristoratori di organizzarsi per tempo per la preparazione
-dei piatti e per l'acquisto degli ingredienti.
+# 🍽️ Easy-Meal
 
-## Installazione
+Easy-Meal è una web app progettata per semplificare l'interazione tra utenti e ristoranti. Easy-Meal offre due interfacce: una per i clienti e una per i ristoratori.
 
-Per installare Easy-Meal è necessario clonare la repository, infine è necessario
-avere installato Docker e Docker Compose.
-Avendo il daemon di Docker in esecuzione, di seguito sono riportati i comandi
-per avviare il servizio la prima volta:
+### 🌟 Funzionalità Cliente
+- 🔍 Ricerca ristoranti
+- 📅 Effettuazione di prenotazioni specificando data, ora, numero di persone e piatti desiderati
+- 👥 Condivisione dell'ordinazione con altri utenti per permettere ad ognuno di aggiungere le proprie ordinazioni a una prenotazione comune
+
+### 🛠️ Funzionalità Ristoratore
+- 📋 Visualizzazione e conferma delle prenotazioni effettuate dai clienti
+- 🍲 Visualizzazione delle ordinazioni e degli ingredienti necessari per preparare i piatti, permettendo una migliore organizzazione
+
+## 🛠️ Installazione
+
+Per installare Easy-Meal, è necessario clonare la repository. Inoltre, assicurati di avere Docker e Docker Compose installati.
+
+Con il daemon di Docker in esecuzione, esegui i seguenti comandi per avviare il servizio per la prima volta:
 
 ```bash
 docker-compose up -d
 ```
 
-In questo modo verrano create le 4 immagini Docker necessarie per il 
-funzionamento dell'applicazione e verranno avviati i container. Dopo che le
-immagini sono state create e i container avviati, è necessario creare le tabelle
-nel database. Questo viene fatto accedendo tramite browser al link:
+Questo comando creerà le 4 immagini Docker necessarie per il funzionamento dell'applicazione e avvierà i container. Dopo la creazione delle immagini e l'avvio dei container, sarà necessario creare le tabelle nel database accedendo tramite browser al seguente link: 
 
-```
-http://localhost:8000
-```
+[Adminer](http://localhost:8000) o inserendo nella barra di ricerca l' indirizzo `http://localhost:8000` 
 
-In questo modo si accede alla pagina di amministrazione di Adminer, un tool per
-la gestione di database. Le credenziali di accesso sono le seguenti:
+
+Accederai alla pagina di amministrazione di Adminer, un tool per la gestione dei database. Utilizza le seguenti credenziali di accesso:
 
 - **System**: PostgreSQL
 - **Server**: db
@@ -43,41 +35,42 @@ la gestione di database. Le credenziali di accesso sono le seguenti:
 - **Password**: postgres
 - **Database**: easymeal
 
-Per cambiare le credenziali di accesso al database è sufficiente modificare il
-file `docker-compose.yml`. Prestare attenzione perché è necessario modificare le
-variabili d'ambiente sia del servizio `db` che del servizio `nest`, che si
-connette al database.
+### 🔐 Modifica delle Credenziali
 
-Una volta effettuato l'accesso, è necessario creare le tabelle nel database.
-Dunque bisogna selezionare la voce del menu ``Import``, poi ``Choose Files``. A
-questo punto si apre una finestra di dialogo per selezionare il file da
-importare. Bisogna importare il file 
-[0000_gorgeous_natasha_romanoff.sql](backend/drizzle/0000_gorgeous_natasha_romanoff.sql) (`backend/drizzle/0000_gorgeous_natasha_romanoff.sql`).
-e si clicca sul bottone ``Execute``, per eseguire i comandi SQL contenuti nel 
-file.  
+Per cambiare le credenziali di accesso al database, modifica il file `docker-compose.yml`. Assicurati di aggiornare le variabili d'ambiente sia del servizio `db` che del servizio `nest`, che si connette al database.
 
-A prova di esempio è fornito un dump, ovvero un database popolato con dei dati
-fasulli, che può essere importato per avere un'idea di come funziona 
-l'applicazione. Proprio come prima, si seleziona la voce del menu ``Import``,
-poi ``Choose Files`` e si seleziona il file
-[populate.sql](backend/dump/populate.sql) (`backend/dump/populate.sql`).
+### 🗂️ Creazione delle Tabelle
 
-A questo punto è possibile accedere all'applicazione tramite browser al link:
+Dopo aver effettuato l'accesso, crea le tabelle nel database:
+1. Seleziona la voce di menu `Import`
+2. Clicca su `Choose Files`
+3. Seleziona il file [0000_gorgeous_natasha_romanoff.sql](backend/drizzle/0000_gorgeous_natasha_romanoff.sql)
+4. Clicca su `Execute` per eseguire i comandi SQL contenuti nel file
 
-```
-http://localhost:4200
-```
+### 📦 Popolazione del Database
 
-## Utilizzo
+È fornito un dump con dati fasulli per esempio. Per importarlo:
+1. Seleziona la voce di menu `Import`
+2. Clicca su `Choose Files`
+3. Seleziona il file [populate.sql](backend/dump/populate.sql)
+4. Clicca su `Execute`
 
-Per gestire il software sono riportati alcuni comandi utili:
+Ora puoi accedere all'applicazione tramite browser al link:
 
-- **Avviare i container**: `docker-compose up -d`
-- **Bloccare i container**: `docker-compose stop`
-- **Riavviare i container**: `docker-compose restart`
-- **Rimuovere i container**: `docker-compose down`
-- **Visualizzare i log**: `docker-compose logs -f`
-- **Ribuildare le immagini**: `docker-compose up -d --build`
-- **Accedere al database**: `http://localhost:8000`
-- **Rimouvere le immagini**: `docker compose down --rmi all`
-- **Eseguire dei comandi nel container**: `docker-compose exec <service> <command>`
+
+[Web App](http://localhost:4200) o inserendo nella barra degli indirizzi l'indirizzo `http://localhost:4200`
+
+
+## 🧰 Utilizzo
+
+Ecco alcuni comandi utili per gestire il software:
+
+- **🚀 Avviare i container**: `docker-compose up -d`
+- **🛑 Bloccare i container**: `docker-compose stop`
+- **🔄 Riavviare i container**: `docker-compose restart`
+- **🗑️ Rimuovere i container**: `docker-compose down`
+- **📜 Visualizzare i log**: `docker-compose logs -f`
+- **🔧 Ribuildare le immagini**: `docker-compose up -d --build`
+- **🔑 Accedere al database**: `http://localhost:8000`
+- **🧹 Rimuovere le immagini**: `docker-compose down --rmi all`
+- **🖥️ Eseguire comandi nei container**: `docker-compose exec <service> <command>`
