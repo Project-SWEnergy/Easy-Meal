@@ -78,7 +78,7 @@ describe('IngredientItemComponent', () => {
       name: 'Updated Tomato',
       unit_of_measurement: UnitOfMeasurement.ml,
     });
-    component.update();
+    component.send_form();
 
     await fixture.whenStable();
     expect(mockIngredientService.update).toHaveBeenCalled();
@@ -101,7 +101,7 @@ describe('IngredientItemComponent', () => {
     expect(mockOneSelectionService.select).toHaveBeenCalledWith(1);
 
     mockOneSelectionService.selected.and.returnValue(1);
-    component.notify();
+    component.update();
     expect(component.is_selected).toBeTrue();
   });
 });
