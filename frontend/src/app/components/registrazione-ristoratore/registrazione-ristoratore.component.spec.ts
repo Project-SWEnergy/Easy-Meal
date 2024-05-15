@@ -6,22 +6,23 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
-import { Router, provideRouter } from '@angular/router';
 import { RegistrazioneRistoratoreComponent } from './registrazione-ristoratore.component';
 import { RestaurantRistoratoreService } from '../../services/ristoratore/restaurant.ristoratore.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideRouter } from '@angular/router';
+import { Router } from '@angular/router';
+import { of, throwError } from 'rxjs';
 
 describe('RegistrazioneRistoratoreComponent', () => {
   let component: RegistrazioneRistoratoreComponent;
   let fixture: ComponentFixture<RegistrazioneRistoratoreComponent>;
-  let router: jasmine.SpyObj<Router>;
   let restaurantService: jasmine.SpyObj<RestaurantRistoratoreService>;
+  let router: Router;
 
   beforeEach(async () => {
-    const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     const restaurantServiceSpy = jasmine.createSpyObj(
       'RestaurantRistoratoreService',
-      ['create'],
+      ['create']
     );
 
     await TestBed.configureTestingModule({
@@ -31,7 +32,6 @@ describe('RegistrazioneRistoratoreComponent', () => {
         BrowserAnimationsModule,
       ],
       providers: [
-        { provide: Router, useValue: routerSpy },
         {
           provide: RestaurantRistoratoreService,
           useValue: restaurantServiceSpy,
@@ -44,10 +44,10 @@ describe('RegistrazioneRistoratoreComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
     restaurantService = TestBed.inject(
-      RestaurantRistoratoreService,
+      RestaurantRistoratoreService
     ) as jasmine.SpyObj<RestaurantRistoratoreService>;
+    router = TestBed.inject(Router);
   });
 
   it('should create', () => {
@@ -122,10 +122,85 @@ describe('RegistrazioneRistoratoreComponent', () => {
     );
 
     restaurantService.create.and.resolveTo(true);
+    spyOn(router, 'navigate');
 
     await component.on_submit();
     expect(restaurantService.create).toHaveBeenCalled();
     expect(router.navigate).toHaveBeenCalledWith(['ristoratore/home']);
+  });
+
+  it('should handle create service returning false', async () => {
+    component.restaurant_form.setValue({
+      email: 'test@example.com',
+      password: '123456',
+      name: 'My Restaurant',
+      owner_name: 'John',
+      owner_surname: 'Doe',
+      seats: 10,
+      website: 'http://www.example.com',
+      price_tier: 2,
+      description: 'A nice place to eat.',
+      phone: '12345678901',
+    });
+    component.address_form.setValue({
+      city: 'Anytown',
+      street: 'Main St',
+      street_number: '123',
+      state: 'Anystate',
+      zip_code: '12345',
+    });
+    component.logo = new File([], 'logo.png');
+    component.banner_image = new File([], 'banner.png');
+    component.openings_form.push(
+      new FormGroup({
+        id_day: new FormControl(1),
+        opening_time: new FormControl('08:00'),
+        closing_time: new FormControl('20:00'),
+      }),
+    );
+
+    restaurantService.create.and.resolveTo(false);
+
+    await component.on_submit();
+    expect(restaurantService.create).toHaveBeenCalled();
+  });
+
+  it('should handle create service throwing an error', async () => {
+    component.restaurant_form.setValue({
+      email: 'test@example.com',
+      password: '123456',
+      name: 'My Restaurant',
+      owner_name: 'John',
+      owner_surname: 'Doe',
+      seats: 10,
+      website: 'http://www.example.com',
+      price_tier: 2,
+      description: 'A nice place to eat.',
+      phone: '12345678901',
+    });
+    component.address_form.setValue({
+      city: 'Anytown',
+      street: 'Main St',
+      street_number: '123',
+      state: 'Anystate',
+      zip_code: '12345',
+    });
+    component.logo = new File([], 'logo.png');
+    component.banner_image = new File([], 'banner.png');
+    component.openings_form.push(
+      new FormGroup({
+        id_day: new FormControl(1),
+        opening_time: new FormControl('08:00'),
+        closing_time: new FormControl('20:00'),
+      }),
+    );
+
+    restaurantService.create.and.returnValue(
+      Promise.reject(new Error('Something went wrong'))
+    );
+
+    await component.on_submit();
+    expect(restaurantService.create).toHaveBeenCalled();
   });
 
   it('should update restaurant_form when restaurant_on_change is called', () => {
@@ -228,5 +303,76 @@ describe('RegistrazioneRistoratoreComponent', () => {
     ]);
     component.openings_on_change(newFormArray);
     expect(component.openings_form).toEqual(newFormArray);
+  });
+
+  it('should not submit if any form is invalid', async () => {
+    // Set only restaurant_form as valid
+    component.restaurant_form.setValue({
+      email: 'test@example.com',
+      password: '123456',
+      name: 'My Restaurant',
+      owner_name: 'John',
+      owner_surname: 'Doe',
+      seats: 10,
+      website: 'http://www.example.com',
+      price_tier: 2,
+      description: 'A nice place to eat.',
+      phone: '12345678901',
+    });
+    // Set address_form as invalid
+    component.address_form.setValue({
+      city: '',
+      street: '',
+      street_number: '',
+      state: '',
+      zip_code: '',
+    });
+
+    await component.on_submit();
+    expect(restaurantService.create).not.toHaveBeenCalled();
+
+    // Set address_form as valid
+    component.address_form.setValue({
+      city: 'Anytown',
+      street: 'Main St',
+      street_number: '123',
+      state: 'Anystate',
+      zip_code: '12345',
+    });
+
+    // Set openings_form as invalid
+    component.openings_form.push(
+      new FormGroup({
+        id_day: new FormControl(1),
+        opening_time: new FormControl('', Validators.required),
+        closing_time: new FormControl('20:00', Validators.required),
+      })
+    );
+
+    await component.on_submit();
+    expect(restaurantService.create).not.toHaveBeenCalled();
+
+    // Set openings_form as valid
+    component.openings_form.clear();
+    component.openings_form.push(
+      new FormGroup({
+        id_day: new FormControl(1),
+        opening_time: new FormControl('08:00', Validators.required),
+        closing_time: new FormControl('20:00', Validators.required),
+      })
+    );
+
+    // Set logo as null
+    component.logo = null;
+    await component.on_submit();
+    expect(restaurantService.create).not.toHaveBeenCalled();
+
+    // Set logo as valid
+    component.logo = new File([], 'logo.png');
+
+    // Set banner_image as null
+    component.banner_image = null;
+    await component.on_submit();
+    expect(restaurantService.create).not.toHaveBeenCalled();
   });
 });

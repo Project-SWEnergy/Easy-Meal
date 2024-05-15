@@ -48,7 +48,12 @@ describe('SubmitService', () => {
     mockAxios.onPost(apiUrl).networkError();
 
     service.api(apiUrl);
-    await service.post({});
-    expect(messageService.error).toHaveBeenCalledWith(errorMessage.message);
+
+    try {
+      await service.post({});
+      expect(true).toBe(false);
+    } catch (err) {
+      expect(err).toEqual(new Error());
+    }
   });
 });

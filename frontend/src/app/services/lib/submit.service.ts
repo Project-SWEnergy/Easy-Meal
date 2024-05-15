@@ -40,11 +40,11 @@ export class SubmitService<T, E> {
         if (response.data && response.data.result) {
           return response.data[this.field_to_access];
         } else {
-          throw response.data.message ?? 'No message from the backend';
+          throw new Error()
         }
       })
-      .catch((err) => {
-        throw err;
+      .catch((_) => {
+        throw new Error()
       });
   }
 }

@@ -72,7 +72,7 @@ describe('RestaurantRistoratoreService', () => {
     expect(mockMessageService.error).toHaveBeenCalled();
   });
 
-  it('should create a restaurant and handle opening hours', async () => {
+  it('should create a restaurant and handle opening hours\' failure', async () => {
     const restaurantData = { id: 1, name: 'Test Restaurant' };
     const hoursData = [
       { opening_time: '08:00', closing_time: '23:00' },
@@ -96,7 +96,7 @@ describe('RestaurantRistoratoreService', () => {
     expect(mockMessageService.log.calls.count()).toEqual(1);
     expect(mockAuthService.auth).toHaveBeenCalled();
     expect(mockMessageService.error).toHaveBeenCalledWith(
-      'Something went wrong in the creation of the opening hours, no message provided by the backend',
+      'Something went wrong in the creation of the opening hours',
     );
   });
 });

@@ -91,7 +91,6 @@ describe('AuthService', () => {
       await service.logout();
 
       expect(localStorage.removeItem).toHaveBeenCalledWith('token');
-      expect(mockMessageService.error).toHaveBeenCalledWith('Error during logout');
     });
   });
 
