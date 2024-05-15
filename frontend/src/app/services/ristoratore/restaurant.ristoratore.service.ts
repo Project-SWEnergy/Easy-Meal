@@ -31,7 +31,7 @@ export class RestaurantRistoratoreService {
       })
       .catch((err) => {
         this.ms.error(
-          'Something went wrong in the creation of the restaurant, no message provided by the backend',
+          'Something went wrong in the creation of the restaurant',
         );
       });
   }
@@ -53,7 +53,7 @@ export class RestaurantRistoratoreService {
       })
       .catch((err) => {
         this.ms.error(
-          'Something went wrong in the creation of the opening hours, no message provided by the backend',
+          'Something went wrong in the creation of the opening hours',
         );
       });
   }
