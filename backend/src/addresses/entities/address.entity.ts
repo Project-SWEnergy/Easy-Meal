@@ -1,3 +1,5 @@
+import { ApiProperty } from "@nestjs/swagger";
+
 /**
  * @param id number: identificativo della riga.
  * @param city string : nome della città.
@@ -7,10 +9,16 @@
  * @param zip_code string:  codice postale.
  */
 export class Address {
+    @ApiProperty()
     id: number;
+    @ApiProperty()
     city: string;
+    @ApiProperty()
     street: string;
+    @ApiProperty()
     street_number: string;
+    @ApiProperty()
     state: string;
+    @ApiProperty()
     zip_code: string;
 }
