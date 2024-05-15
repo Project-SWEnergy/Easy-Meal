@@ -4,6 +4,11 @@ import { DatabaseService } from '../database/database.service';
 import { BadRequestException } from '@nestjs/common';
 import { ResultUsersReservationDto } from './dto/result-users-reservation.dto';
 import { InviteUsersReservationDto } from './dto/invite-users-reservation.dto';
+import { NotificationsService } from '../notifications/notifications.service';
+import { AuthorizationModule } from '../authorization/authorization.module';
+import { DatabaseModule } from '../database/database.module';
+import { UsersReservationsController } from './users-reservations.controller';
+import { NotificationsModule } from '../notifications/notifications.module';
 
 jest.mock('../database/database.service');
 
@@ -14,9 +19,13 @@ describe('UsersReservationsService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersReservationsService,
-        { provide: DatabaseService, useValue: databaseServiceMock }
+      imports: [
+        AuthorizationModule,
+        DatabaseModule,
+        NotificationsModule
       ],
+      controllers: [UsersReservationsController],
+      providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }],
     }).compile();
 
     service = module.get<UsersReservationsService>(UsersReservationsService);
@@ -43,11 +52,15 @@ describe('UsersReservationsService', () => {
         })) as () => any
       };
       const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          UsersReservationsService,
-          { provide: DatabaseService, useValue: databaseServiceMock }
+        imports: [
+          AuthorizationModule,
+          DatabaseModule,
+          NotificationsModule
         ],
+        controllers: [UsersReservationsController],
+        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }],
       }).compile();
+  
       service = module.get<UsersReservationsService>(UsersReservationsService);
     });
 
@@ -126,11 +139,15 @@ describe('UsersReservationsService', () => {
         })) as () => any
       };
       const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          UsersReservationsService,
-          { provide: DatabaseService, useValue: databaseServiceMock }
+        imports: [
+          AuthorizationModule,
+          DatabaseModule,
+          NotificationsModule
         ],
+        controllers: [UsersReservationsController],
+        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }],
       }).compile();
+  
       service = module.get<UsersReservationsService>(UsersReservationsService);
     });
 
@@ -200,11 +217,15 @@ describe('UsersReservationsService', () => {
       };
 
       const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          UsersReservationsService,
-          { provide: DatabaseService, useValue: databaseServiceMock }
+        imports: [
+          AuthorizationModule,
+          DatabaseModule,
+          NotificationsModule
         ],
+        controllers: [UsersReservationsController],
+        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }],
       }).compile();
+  
       service = module.get<UsersReservationsService>(UsersReservationsService);
     });
 
@@ -262,11 +283,15 @@ describe('UsersReservationsService', () => {
       };
 
       const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          UsersReservationsService,
-          { provide: DatabaseService, useValue: databaseServiceMock }
+        imports: [
+          AuthorizationModule,
+          DatabaseModule,
+          NotificationsModule
         ],
+        controllers: [UsersReservationsController],
+        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }],
       }).compile();
+  
       service = module.get<UsersReservationsService>(UsersReservationsService);
     });
 
@@ -323,11 +348,15 @@ describe('UsersReservationsService', () => {
       };
 
       const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          UsersReservationsService,
-          { provide: DatabaseService, useValue: databaseServiceMock }
+        imports: [
+          AuthorizationModule,
+          DatabaseModule,
+          NotificationsModule
         ],
+        controllers: [UsersReservationsController],
+        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }],
       }).compile();
+  
       service = module.get<UsersReservationsService>(UsersReservationsService);
     });
 
@@ -390,11 +419,15 @@ describe('UsersReservationsService', () => {
         })) as () => any
       };
       const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          UsersReservationsService,
-          { provide: DatabaseService, useValue: databaseServiceMock }
+        imports: [
+          AuthorizationModule,
+          DatabaseModule,
+          NotificationsModule
         ],
+        controllers: [UsersReservationsController],
+        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }],
       }).compile();
+  
       service = module.get<UsersReservationsService>(UsersReservationsService);
     });
 
@@ -468,11 +501,15 @@ describe('UsersReservationsService', () => {
         })) as () => any
       };
       const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          UsersReservationsService,
-          { provide: DatabaseService, useValue: databaseServiceMock }
+        imports: [
+          AuthorizationModule,
+          DatabaseModule,
+          NotificationsModule
         ],
+        controllers: [UsersReservationsController],
+        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }],
       }).compile();
+  
       service = module.get<UsersReservationsService>(UsersReservationsService);
     });
 

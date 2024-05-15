@@ -5,6 +5,7 @@ import { DatabaseService } from '../database/database.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { ResultUsersReservationDto } from './dto/result-users-reservation.dto';
+import { NotificationsService } from '../notifications/notifications.service';
 
 jest.mock('../database/database.service');
 jest.mock('../authorization/authorization.service');
@@ -17,7 +18,7 @@ describe('UsersReservationsController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersReservationsController],
-      providers: [UsersReservationsService, DatabaseService, AuthorizationService, JwtService],
+      providers: [UsersReservationsService, DatabaseService, AuthorizationService, JwtService, NotificationsService],
     }).compile();
 
     controller = module.get<UsersReservationsController>(UsersReservationsController);

@@ -27,6 +27,7 @@ export class UsersReservationsController {
   async invite(@Body() inviteUsersDto: InviteUsersReservationDto, @Req() req): Promise<ResultUsersReservationDto> {
     let invite: any;
     try {
+      console.log(inviteUsersDto)
       const accessToken = req.cookies.accessToken;
       const auth = this.authorizationService.isAuthorized(accessToken, UserType.user);
       invite = await this.usersReservationsService.invite(inviteUsersDto);

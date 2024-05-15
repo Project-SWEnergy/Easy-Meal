@@ -31,4 +31,8 @@ export class OrariComponent implements OnInit {
       console.error('Errore durante il recupero degli orari:', error);
     }
   }
+
+  formatTime(time: string): string {
+    return time.slice(0, 5);
+  }
 }
