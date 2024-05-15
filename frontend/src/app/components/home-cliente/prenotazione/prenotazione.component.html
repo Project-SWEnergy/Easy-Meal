@@ -76,32 +76,22 @@
                     <div class="text-red-600 text-sm mt-1">Seleziona un metodo di pagamento. </div>
                 </mat-error>
                 }
-
-
             </mat-form-field>
         </div>
+
+        <div *ngFor="let index of getPartecipantiArray().slice(0, getPartecipantiArray().length - 1)" class="mb-6">
+            <div [formGroupName]="'partecipanti'">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Email partecipante {{ index }}</label>
+                <mat-form-field>
+                    <input matInput type="email" placeholder="Inserisci l'email del partecipante" formControlName="{{ 'partecipante' + index }}">
+                </mat-form-field>
+            </div>
+        </div>
+        
 
         <button type="submit"
             class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color"
             [disabled]="!prenotazioneForm.valid || !selectedDayInfo || !controllaOrarioApertura()">Invia
             prenotazione</button>
     </form>
-
-    @if(prenotazioneInviata && partecipanti.length > 0)
-    {
-    <form [formGroup]="invitoForm" (ngSubmit)="invitaAllaPrenotazione()"
-        class="w-full sm:max-w-md mx-auto bg-white shadow-md rounded px-4 pt-6 pb-8 mt-4">
-        <div formArrayName="partecipanti">
-            <div *ngFor="let emailControl of partecipanti.controls; let i = index" class="mb-4">
-                <input type="email"
-                    class="form-input px-4 py-2 rounded-md w-full border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    [formControlName]="i" placeholder="Inserisci l'email del partecipante">
-            </div>
-        </div>
-        <button type="submit"
-            class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color">
-            Invita alla prenotazione
-        </button>
-    </form>
-    }
 </div>

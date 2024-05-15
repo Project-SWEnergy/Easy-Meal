@@ -3,6 +3,7 @@ import { CarrelloService } from '../../../services/home-cliente/carrello.service
 import { CommonModule } from '@angular/common';
 import { Input } from '@angular/core';
 import { MessageService } from '../../../services/lib/message.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-carrello',
@@ -17,7 +18,7 @@ export class CarrelloComponent implements OnInit {
 
   ms = inject(MessageService)
 
-  constructor(private carrelloService: CarrelloService) { }
+  constructor(private carrelloService: CarrelloService, private router: Router,) { }
 
   ngOnInit(): void {
     this.carrelloService.clearCarrello();
@@ -35,6 +36,9 @@ export class CarrelloComponent implements OnInit {
       .inviaOrdine(carrelloDaInviare)
       .then((response) => {
         this.ms.log('Ordine inviato con successo');
+        this.router.navigate(['/ordinazione-collaborativa']).then(() => {
+          location.reload();
+        });
       })
       .catch((error) => {
         this.ms.error('Errore durante l\'invio dell\'ordine');
@@ -46,6 +50,9 @@ export class CarrelloComponent implements OnInit {
       .cancellaOrdine(this.id_reservation)
       .then((response) => {
         this.ms.log('Ordine cancellato con successo');
+        this.router.navigate(['/ordinazione-collaborativa']).then(() => {
+          location.reload();
+        });
       })
       .catch((error) => {
         this.ms.error('Errore durante la cancellazione dell\'ordine');
