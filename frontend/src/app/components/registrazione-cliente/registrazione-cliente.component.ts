@@ -32,8 +32,8 @@ export class RegistrazioneClienteComponent {
       .api('users/create')
       .field('user')
       .post(form.value)
-      .then((_) => {
-        this.auth.auth();
+      .then(async (_) => {
+        await this.auth.auth();
         this.router.navigate(['cliente/home']);
         this.ms.log('Account creato con successo');
       })
