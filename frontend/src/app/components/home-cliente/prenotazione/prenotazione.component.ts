@@ -81,7 +81,7 @@ export class PrenotazioneComponent implements OnInit {
     }
 }
 
-private updatePartecipantiControls(count: number): void {
+ updatePartecipantiControls(count: number): void {
     const partecipantiForm = this.prenotazioneForm.get('partecipanti') as FormGroup;
 
     // Rimuovi tutti i controlli esistenti prima di aggiungerne di nuovi
@@ -135,14 +135,12 @@ async inviaPrenotazione(): Promise<void> {
   }
 }
 
-
-
   getPartecipantiArray(): number[] {
     const numeroPartecipanti = this.prenotazioneForm.get('numeroPartecipanti')?.value;
     return Array.from({ length: numeroPartecipanti }, (_, index) => index);
   }
 
-  private formatDate(date: string, time: string): string {
+   formatDate(date: string, time: string): string {
     const [hours, minutes] = time.split(':');
     const hoursUpdated = Number(hours);
     const formattedDate = new Date(date);

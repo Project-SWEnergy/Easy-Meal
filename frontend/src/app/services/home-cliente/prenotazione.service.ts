@@ -73,7 +73,7 @@ export class PrenotazioneService {
     }
   }
 
-  private async associaPrenotazione(idPrenotazione: number): Promise<void> {
+  async associaPrenotazione(idPrenotazione: number): Promise<void> {
     try {
       await axios.post(this.userReservationUrl, {
         id_reservation: idPrenotazione,

@@ -47,7 +47,6 @@ export class PagamentoComponent {
 
     this.reservationId = this.prenotazioneDataService.getIdReservation();
     this.bill_splitting = this.prenotazioneDataService.getBillSplittingMethod();
-    //this.partecipants = this.prenotazioneDataService.getParticipants();
   }
 
   ngOnInit(): void {

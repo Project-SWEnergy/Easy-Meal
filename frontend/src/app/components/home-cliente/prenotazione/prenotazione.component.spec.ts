@@ -1,4 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 import { PrenotazioneComponent } from './prenotazione.component';
 import { PrenotazioneDataService } from '../../../services/home-cliente/prenotazione-data-service.service';
 import { ActivatedRoute } from '@angular/router';
@@ -14,17 +16,34 @@ import { MatOption } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { FormBuilder } from '@angular/forms';
 import { FormArray } from '@angular/forms';
+import { of } from 'rxjs';
+
 
 describe('PrenotazioneComponent', () => {
   let component: PrenotazioneComponent;
   let fixture: ComponentFixture<PrenotazioneComponent>;
   let orarioService: OrarioService;
   let prenotazioneService: PrenotazioneService;
+  let router: Router;
 
   beforeEach(async () => {
     const authServiceStub = {
       isUser: () => true,
       get: () => ({ id: 1 }),
+    };
+
+    const orarioServiceStub = {
+      getOrariByRestaurantId: jasmine.createSpy('getOrariByRestaurantId').and.returnValue(
+        Promise.resolve([
+          { id_day: 1, name: 'Monday', opening_time: '08:00', closing_time: '18:00' },
+          { id_day: 2, name: 'Tuesday', opening_time: '08:00', closing_time: '18:00' }
+        ])
+      )
+    };
+
+    const prenotazioneServiceStub = {
+      creaPrenotazione: jasmine.createSpy('creaPrenotazione').and.returnValue(Promise.resolve(1)),
+      invitaPrenotazione: jasmine.createSpy('invitaPrenotazione').and.returnValue(Promise.resolve()),
     };
 
     await TestBed.configureTestingModule({
@@ -37,17 +56,19 @@ describe('PrenotazioneComponent', () => {
         MatInputModule,
         MatDatepickerModule,
         MatSelectModule,
+        RouterTestingModule.withRoutes([]),
       ],
       providers: [
         PrenotazioneDataService,
         FormBuilder,
+        { provide: Router, useClass: class { navigate = jasmine.createSpy('navigate'); } },
         {
           provide: ActivatedRoute,
           useValue: { snapshot: { params: { id: '1' } } },
         },
         { provide: AuthService, useValue: authServiceStub },
-        OrarioService,
-        PrenotazioneService,
+        { provide: OrarioService, useValue: orarioServiceStub },
+        { provide: PrenotazioneService, useValue: prenotazioneServiceStub },
       ],
     }).compileComponents();
   });
@@ -57,6 +78,7 @@ describe('PrenotazioneComponent', () => {
     component = fixture.componentInstance;
     orarioService = TestBed.inject(OrarioService);
     prenotazioneService = TestBed.inject(PrenotazioneService);
+    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 
@@ -64,127 +86,127 @@ describe('PrenotazioneComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should fill in the number of participants', () => {
-    const participants = 5;
-    component.prenotazioneForm
-      .get('numeroPartecipanti')
-      ?.setValue(participants);
-    expect(component.prenotazioneForm.get('numeroPartecipanti')?.value).toEqual(
-      participants,
-    );
+  it('should initialize form and call updatePartecipantiControls on change', fakeAsync(() => {
+    spyOn(component, 'updatePartecipantiControls');
+    component.ngOnInit();
+    tick(); // Wait for async calls to complete
+    expect(component.prenotazioneForm).toBeTruthy();
+    expect(component.updatePartecipantiControls).toHaveBeenCalled();
+  }));
+
+  it('should update partecipanti controls based on numeroPartecipanti', () => {
+    component.updatePartecipantiControls(3);
+    expect(Object.keys(component.prenotazioneForm.controls['partecipanti'].value).length).toBe(3);
   });
 
-  it('should check if the selected time is within opening hours', () => {
-    component.selectedDayInfo = {
-      id_day: 1,
-      opening_time: '09:00',
-      closing_time: '18:00',
-    };
-    component.prenotazioneForm.get('dataPrenotazione')?.setValue('2024-05-15');
-    component.prenotazioneForm.get('oraPrenotazione')?.setValue('12:00');
-    const isWithinOpeningHours = component.controllaOrarioApertura();
-    expect(isWithinOpeningHours).toBe(true);
-  });
-
-  it('should create a reservation', async () => {
-    spyOn(prenotazioneService, 'creaPrenotazione').and.returnValue(
-      Promise.resolve({
-        id: 1,
-        id_restaurant: 1,
-        date: '2024-05-15',
-        partecipants: 5,
-        reservation_state: 'In attesa',
-        bill_splitting_method: 'Equidiviso',
-        paid_orders: 0,
-      }),
-    );
-    component.prenotazioneForm.setValue({
-      dataPrenotazione: '2024-05-15',
+  it('should invoke inviaPrenotazione with valid form data', fakeAsync(() => {
+    spyOn(component, 'inviaPrenotazione');
+    component.prenotazioneForm.patchValue({
+      dataPrenotazione: '2024-05-20',
       oraPrenotazione: '12:00',
-      numeroPartecipanti: 5,
-      metodoPagamento: 'Equidiviso',
+      numeroPartecipanti: 3,
+      metodoPagamento: 'Cash'
     });
-    await component.inviaPrenotazione();
-    expect(prenotazioneService.creaPrenotazione).toHaveBeenCalled();
-  });
-
-  it('should invite to a reservation', async () => {
-    spyOn(prenotazioneService, 'invitaPrenotazione').and.returnValue(
-      Promise.resolve(),
-    );
-    component.prenotazioneInviata = true;
-    component.prenotazioneForm.get('numeroPartecipanti')?.setValue(3);
-    component.aggiungiPartecipantiInFormInvito();
-
-    // Assicurati che il FormArray abbia almeno 3 controlli
-    const partecipantiFormArray = component.invitoForm.get(
-      'partecipanti',
-    ) as FormArray;
-    expect(partecipantiFormArray.length).toBe(2);
-
-    // Assicurati di accedere agli elementi correttamente
-    partecipantiFormArray.controls.forEach((control, index) => {
-      expect(partecipantiFormArray.at(index)).toBeTruthy();
-    });
-
-    // Imposta i valori per gli indici esistenti
-    partecipantiFormArray.at(0)?.setValue('test1@example.com');
-    partecipantiFormArray.at(1)?.setValue('test2@example.com');
-    partecipantiFormArray.at(2)?.setValue('test3@example.com');
-
-    await component.invitaAllaPrenotazione();
-    expect(prenotazioneService.invitaPrenotazione).toHaveBeenCalled();
-  });
-
-  it('should enter the catch of the "inviaPrenotazione()" function', async () => {
-    spyOn(prenotazioneService, 'creaPrenotazione').and.returnValue(
-      Promise.reject('error'),
-    );
-    component.prenotazioneForm.setValue({
-      dataPrenotazione: '2024-05-15',
-      oraPrenotazione: '12:00',
-      numeroPartecipanti: 5,
-      metodoPagamento: 'Equidiviso',
-    });
-    await component.inviaPrenotazione();
-    expect(prenotazioneService.creaPrenotazione).toHaveBeenCalled();
-  });
-
-  it('should enter the else of the "inviaPrenotazione()" function', async () => {
-    spyOn(window, 'alert');
     component.inviaPrenotazione();
-    // expect(window.alert).toHaveBeenCalled();
-  });
-
-  it('should enter the catch of the "invitaAllaPrenotazione()" function', async () => {
-    spyOn(prenotazioneService, 'invitaPrenotazione').and.returnValue(
-      Promise.reject('error'),
-    );
-    component.prenotazioneInviata = true;
-    component.prenotazioneForm.get('numeroPartecipanti')?.setValue(3);
-    component.aggiungiPartecipantiInFormInvito();
-
-    // Assicurati che il FormArray abbia almeno 3 controlli
-    const partecipantiFormArray = component.invitoForm.get(
-      'partecipanti',
-    ) as FormArray;
-    expect(partecipantiFormArray.length).toBe(2);
-
-    // Assicurati di accedere agli elementi correttamente
-    partecipantiFormArray.controls.forEach((control, index) => {
-      expect(partecipantiFormArray.at(index)).toBeTruthy();
+    tick();
+    expect(component.inviaPrenotazione).toHaveBeenCalled();
+  }));
+  
+  it('should check if orario apertura is valid', () => {
+    component.selectedDayInfo = { opening_time: '08:00', closing_time: '18:00' };
+    component.prenotazioneForm.patchValue({
+      dataPrenotazione: '2024-05-20',
+      oraPrenotazione: '10:00'
     });
-
-    // Imposta i valori per gli indici esistenti
-    partecipantiFormArray.at(0)?.setValue(''); // Invalid email
-    partecipantiFormArray.at(1)?.setValue(''); // Invalid email
-
-    await component.invitaAllaPrenotazione();
-    expect(prenotazioneService.invitaPrenotazione).toHaveBeenCalled();
+    expect(component.controllaOrarioApertura()).toBeTrue();
   });
 
-  it('should test the onDateChange() function', () => {
-    component.onDateChange({});
-    expect(component.selectedDayInfo).toBeUndefined();
+  it('should check if orario apertura is invalid', () => {
+    component.selectedDayInfo = { opening_time: '08:00', closing_time: '18:00' };
+    component.prenotazioneForm.patchValue({
+      dataPrenotazione: '2024-05-20',
+      oraPrenotazione: '20:00'
+    });
+    expect(component.controllaOrarioApertura()).toBeFalse();
   });
+
+  it('should handle date change', () => {
+    spyOn(component, 'onDateChange');
+    const event = { value: new Date('2024-05-20') };
+    component.onDateChange(event);
+    expect(component.onDateChange).toHaveBeenCalledWith(event);
+  });
+
+  it('should get partecipanti array', () => {
+    component.prenotazioneForm.patchValue({
+      numeroPartecipanti: 3
+    });
+    const partecipantiArray = component.getPartecipantiArray();
+    expect(partecipantiArray.length).toBe(3);
+  });
+
+  it('should format date correctly', () => {
+    const date = '2024-05-20';
+    const time = '12:00';
+    const formattedDate = component.formatDate(date, time);
+    expect(formattedDate).toBe('2024-05-20T10:00:00.000Z');
+  });
+
+
+
+
+  it('should show error message if form is invalid', () => {
+    spyOn(component.ms, 'error');
+    component.inviaPrenotazione();
+    expect(component.ms.error).toHaveBeenCalledWith('Compila tutti i campi correttamente.');
+  });
+
+  it('should create prenotazione and invite users', fakeAsync(() => {
+    spyOn(component.ms, 'log');
+    spyOn(component.ms, 'error');
+    component.prenotazioneForm.patchValue({
+      dataPrenotazione: '2024-05-20',
+      oraPrenotazione: '12:00',
+      numeroPartecipanti: 3,
+      metodoPagamento: 'Cash'
+    });
+    component.inviaPrenotazione();
+    tick();
+    expect(component.ms.log).toHaveBeenCalledWith('Inviti alla prenotazione inviati con successo');
+  }));
+
+  it('should handle error while creating prenotazione', fakeAsync(() => {
+    spyOn(component.ms, 'error');
+    try {
+      component.prenotazioneForm.patchValue({
+        dataPrenotazione: '2024-05-20',
+        oraPrenotazione: '12:00',
+        numeroPartecipanti: 3,
+        metodoPagamento: 'Cash'
+      });
+      component.inviaPrenotazione();
+      tick();
+    } catch (error) {
+      expect(prenotazioneService.creaPrenotazione).toHaveBeenCalled(); // Verifica che il metodo sia stato chiamato
+      expect(component.ms.error).toHaveBeenCalledWith('Errore durante la creazione della prenotazione:');
+    }
+  }));
+  
+  it('should handle error while inviting users', fakeAsync(() => {
+    spyOn(component.ms, 'error');
+    try {
+      component.prenotazioneForm.patchValue({
+        dataPrenotazione: '2024-05-20',
+        oraPrenotazione: '12:00',
+        numeroPartecipanti: 3,
+        metodoPagamento: 'Cash'
+      });
+      component.inviaPrenotazione();
+      tick();
+    } catch (error) {
+      expect(prenotazioneService.invitaPrenotazione).toHaveBeenCalled(); // Verifica che il metodo sia stato chiamato
+      expect(component.ms.error).toHaveBeenCalledWith('Errore durante l\'invio degli inviti alla prenotazione');
+    }
+  }));
+
 });

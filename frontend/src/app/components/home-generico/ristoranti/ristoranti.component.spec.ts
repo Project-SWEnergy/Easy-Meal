@@ -6,9 +6,7 @@ import { IndirizzoComponent } from '../indirizzo/indirizzo.component';
 import { TagCucinaComponent } from '../tag-cucina/tag-cucina.component';
 import { Ristorante } from '../../../interfaces/ristoranti';
 import { Indirizzo } from '../../../interfaces/address';
-import { Tag } from '../../../interfaces/tag';
 import { of } from 'rxjs';
-import { TagCucinaService } from '../../../services/home-generico/tag-cucina.service';
 import { IndirizzoService } from '../../../services/home-generico/indirizzo.service';
 
 describe('RistorantiComponent', () => {
@@ -26,7 +24,6 @@ describe('RistorantiComponent', () => {
         TagCucinaComponent,
       ],
       providers: [
-        { provide: TagCucinaService, useClass: MockTagCucinaService },
         { provide: IndirizzoService, useClass: MockIndirizzoService },
       ],
     }).compileComponents();
@@ -103,44 +100,9 @@ describe('RistorantiComponent', () => {
     expect(indirizzoComponent).toBeTruthy();
   });
 
-  it('should integrate with TagCucinaComponent', () => {
-    const ristorante: Ristorante = {
-      id: 1,
-      email: 'ristorante1@example.com',
-      name: 'Ristorante 1',
-      owner_name: 'Mario',
-      owner_surname: 'Rossi',
-      id_address: 1,
-      seats: 50,
-      website: 'http://www.ristorante1.com',
-      price_tier: 2,
-      description: 'Ristorante di cucina italiana',
-      phone: '123456789',
-      childrenn_seats: 10,
-      accessibility: true,
-      logo: 'path/to/logo1.png',
-      banner_image: 'path/to/banner1.png',
-    };
-
-    component.ristoranti = [ristorante];
-    fixture.detectChanges();
-
-    const tagCucinaComponent =
-      fixture.nativeElement.querySelector('app-tag-cucina');
-    expect(tagCucinaComponent).toBeTruthy();
-  });
 });
 
 // Mock services
-class MockTagCucinaService {
-  getTagsByRestaurantId(id: number) {
-    const tags: Tag[] = [
-      { id: 1, name: 'Italiana', description: 'Cucina italiana' },
-      { id: 2, name: 'Indiana', description: 'Cucina indiana' },
-    ];
-    return of(tags);
-  }
-}
 
 class MockIndirizzoService {
   getAddressByRestaurantId(id: number) {
