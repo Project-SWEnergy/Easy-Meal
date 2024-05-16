@@ -33,10 +33,13 @@ describe('ReservationsService', () => {
         ReservationsService,
         NotificationsService,
         UsersReservationsService,
-        { provide: DatabaseService, useValue: databaseServiceMock }
       ],
     }).compile();
     service = module.get<ReservationsService>(ReservationsService);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks(); // Ripristina lo stato di tutti i mock dopo ogni test
   });
 
   it('should be defined', () => {
@@ -69,13 +72,6 @@ describe('ReservationsService', () => {
         })) as () => any
       };
       const module: TestingModule = await Test.createTestingModule({
-        imports: [
-          AuthorizationModule,
-          DatabaseModule,
-          NotificationsModule,
-          UsersReservationsModule,
-        ],
-        controllers: [ReservationsController],
         providers: [
           ReservationsService,
           NotificationsService,
@@ -153,6 +149,8 @@ describe('ReservationsService', () => {
 
 
 
+
+
   describe('findAllByRestaurantId', () => {
 
     beforeEach(async () => {
@@ -177,13 +175,6 @@ describe('ReservationsService', () => {
         ) as () => any
       };
       const module: TestingModule = await Test.createTestingModule({
-        imports: [
-          AuthorizationModule,
-          DatabaseModule,
-          NotificationsModule,
-          UsersReservationsModule,
-        ],
-        controllers: [ReservationsController],
         providers: [
           ReservationsService,
           NotificationsService,
@@ -256,13 +247,6 @@ describe('ReservationsService', () => {
         ) as () => any
       };
       const module: TestingModule = await Test.createTestingModule({
-        imports: [
-          AuthorizationModule,
-          DatabaseModule,
-          NotificationsModule,
-          UsersReservationsModule,
-        ],
-        controllers: [ReservationsController],
         providers: [
           ReservationsService,
           NotificationsService,
@@ -335,13 +319,6 @@ describe('ReservationsService', () => {
         ) as () => any
       };
       const module: TestingModule = await Test.createTestingModule({
-        imports: [
-          AuthorizationModule,
-          DatabaseModule,
-          NotificationsModule,
-          UsersReservationsModule,
-        ],
-        controllers: [ReservationsController],
         providers: [
           ReservationsService,
           NotificationsService,
@@ -434,13 +411,6 @@ describe('ReservationsService', () => {
         })) as () => any
       };
       const module: TestingModule = await Test.createTestingModule({
-        imports: [
-          AuthorizationModule,
-          DatabaseModule,
-          NotificationsModule,
-          UsersReservationsModule,
-        ],
-        controllers: [ReservationsController],
         providers: [
           ReservationsService,
           NotificationsService,
