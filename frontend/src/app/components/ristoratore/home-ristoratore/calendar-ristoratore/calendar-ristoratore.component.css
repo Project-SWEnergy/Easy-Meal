@@ -21,3 +21,23 @@ mat-calendar {
 :host ::ng-deep .mat-calendar-body-cell-content.mat-calendar-body-selected {
   @apply bg-lt-purple;
 }
+
+.desc {
+  @apply mt-4 p-4;
+}
+
+.desc li {
+  @apply mb-4 last:mb-0 text-black text-xs before:inline-block before:w-4 before:h-4 before:rounded-full before:mr-2 before:content-[''];
+}
+
+.in-attesa-desc {
+  @apply before:bg-red-500;
+}
+
+.waiting-desc {
+  @apply before:bg-yellow-500;
+}
+
+.ended-desc {
+  @apply before:bg-green-500;
+}
