@@ -9,6 +9,7 @@ import { AuthorizationModule } from '../authorization/authorization.module';
 import { DatabaseModule } from '../database/database.module';
 import { UsersReservationsController } from './users-reservations.controller';
 import { NotificationsModule } from '../notifications/notifications.module';
+import { ReservationsService } from '../reservations/reservations.service';
 
 jest.mock('../database/database.service');
 
@@ -25,7 +26,7 @@ describe('UsersReservationsService', () => {
         NotificationsModule
       ],
       controllers: [UsersReservationsController],
-      providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }],
+      providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }, ReservationsService],
     }).compile();
 
     service = module.get<UsersReservationsService>(UsersReservationsService);
@@ -58,7 +59,7 @@ describe('UsersReservationsService', () => {
           NotificationsModule
         ],
         controllers: [UsersReservationsController],
-        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }],
+        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }, ReservationsService],
       }).compile();
   
       service = module.get<UsersReservationsService>(UsersReservationsService);
@@ -145,7 +146,7 @@ describe('UsersReservationsService', () => {
           NotificationsModule
         ],
         controllers: [UsersReservationsController],
-        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }],
+        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }, ReservationsService],
       }).compile();
   
       service = module.get<UsersReservationsService>(UsersReservationsService);
@@ -223,7 +224,7 @@ describe('UsersReservationsService', () => {
           NotificationsModule
         ],
         controllers: [UsersReservationsController],
-        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }],
+        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }, ReservationsService],
       }).compile();
   
       service = module.get<UsersReservationsService>(UsersReservationsService);
@@ -289,7 +290,7 @@ describe('UsersReservationsService', () => {
           NotificationsModule
         ],
         controllers: [UsersReservationsController],
-        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }],
+        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }, ReservationsService],
       }).compile();
   
       service = module.get<UsersReservationsService>(UsersReservationsService);
@@ -354,7 +355,7 @@ describe('UsersReservationsService', () => {
           NotificationsModule
         ],
         controllers: [UsersReservationsController],
-        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }],
+        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }, ReservationsService],
       }).compile();
   
       service = module.get<UsersReservationsService>(UsersReservationsService);
@@ -425,7 +426,7 @@ describe('UsersReservationsService', () => {
           NotificationsModule
         ],
         controllers: [UsersReservationsController],
-        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }],
+        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }, ReservationsService],
       }).compile();
   
       service = module.get<UsersReservationsService>(UsersReservationsService);
@@ -507,7 +508,7 @@ describe('UsersReservationsService', () => {
           NotificationsModule
         ],
         controllers: [UsersReservationsController],
-        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }],
+        providers: [UsersReservationsService, NotificationsService, { provide: DatabaseService, useValue: databaseServiceMock }, ReservationsService],
       }).compile();
   
       service = module.get<UsersReservationsService>(UsersReservationsService);

@@ -5,6 +5,7 @@ import { DatabaseModule } from '../database/database.module';
 import { AuthorizationModule } from '../authorization/authorization.module';
 import { NotificationsService } from '../notifications/notifications.service';
 import { ReservationsService } from '../reservations/reservations.service';
+import { ReservationsModule } from '../reservations/reservations.module';
 
 @Module({
   imports: [

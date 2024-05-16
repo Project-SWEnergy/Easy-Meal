@@ -6,19 +6,21 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { ResultUsersReservationDto } from './dto/result-users-reservation.dto';
 import { NotificationsService } from '../notifications/notifications.service';
+import { ReservationsService } from '../reservations/reservations.service';
 
 jest.mock('../database/database.service');
 jest.mock('../authorization/authorization.service');
+jest.mock('../reservations/reservations.service');
 
 describe('UsersReservationsController', () => {
   let controller: UsersReservationsController;
-  let service: UsersReservationsService;
+  let service: Partial<UsersReservationsService>;
   let authorizationService: AuthorizationService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersReservationsController],
-      providers: [UsersReservationsService, DatabaseService, AuthorizationService, JwtService, NotificationsService],
+      providers: [UsersReservationsService, DatabaseService, AuthorizationService, JwtService, NotificationsService, ReservationsService],
     }).compile();
 
     controller = module.get<UsersReservationsController>(UsersReservationsController);
@@ -182,11 +184,69 @@ describe('UsersReservationsController', () => {
       jest.spyOn(authorizationService, 'isAuthorized').mockReturnValue({ token: { id: 1 } });
       const result = await controller.update(updateUsersReservationDto, '1', req);
       expect(result).toEqual(expectedResult);
-      
+
     });
   });
 
   describe('remove', () => {
+
+    beforeEach(async () => {
+      service = {
+        findOne: jest.fn(() => ({
+          result: true,
+          message: "",
+          data: [
+            {
+              id_user: 1,
+              name_user: "string",
+              surname_user: "string",
+              id_reservation: 1,
+              id_restaurant: 1,
+              name_restaurant: "string",
+              partecipants: 1,
+              state: "string",
+              bill_splitting_method: "string",
+              accepted: true
+            }
+          ]
+        })) as () => any,
+        remove: jest.fn(() => ({
+          result: true,
+          message: "",
+          data: [
+            {
+              id_user: 1,
+              name_user: "string",
+              surname_user: "string",
+              id_reservation: 1,
+              id_restaurant: 1,
+              name_restaurant: "string",
+              partecipants: 1,
+              state: "string",
+              bill_splitting_method: "string",
+              accepted: true
+            }
+          ]
+        })) as () => any,
+        sendNotification: jest.fn(() => (true)) as () => any,
+      };
+      const module: TestingModule = await Test.createTestingModule({
+        controllers: [UsersReservationsController],
+        providers: [
+          { provide: UsersReservationsService, useValue: service },
+          DatabaseService,
+          AuthorizationService,
+          JwtService,
+          NotificationsService,
+          ReservationsService
+        ],
+      }).compile();
+
+      controller = module.get<UsersReservationsController>(UsersReservationsController);
+      service = module.get<UsersReservationsService>(UsersReservationsService);
+      authorizationService = module.get<AuthorizationService>(AuthorizationService);
+    });
+
     it('should remove and return a response with status 200', async () => {
       const expectedResult = {
         result: true,

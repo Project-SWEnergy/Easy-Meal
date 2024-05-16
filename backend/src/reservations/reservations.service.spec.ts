@@ -10,8 +10,6 @@ import { UsersReservationsService } from '../users-reservations/users-reservatio
 import { ReservationsController } from './reservations.controller';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { BadRequestException, InternalServerErrorException } from '@nestjs/common';
-import { UserType } from '../authentication/dto/user-data.dto';
-import { ResultUsersReservationDto } from 'src/users-reservations/dto/result-users-reservation.dto';
 
 
 jest.mock('../database/database.service');

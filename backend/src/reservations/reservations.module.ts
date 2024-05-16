@@ -16,6 +16,10 @@ import { UsersReservationsService } from '../users-reservations/users-reservatio
     UsersReservationsModule,
   ],
   controllers: [ReservationsController],
-  providers: [ReservationsService, NotificationsService, UsersReservationsService],
+  providers: [
+    ReservationsService,
+    NotificationsService,
+    UsersReservationsService
+  ],
 })
 export class ReservationsModule {}
