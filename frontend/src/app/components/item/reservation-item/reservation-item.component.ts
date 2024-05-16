@@ -2,11 +2,12 @@ import { Component, Input, SimpleChanges, inject } from '@angular/core';
 import { Reservation } from '../../../interfaces/reservation';
 import { MatCardModule } from '@angular/material/card';
 import { OrderedDishesRistoratoreService } from '../../../services/ristoratore/ordered-dishes.ristoratore.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-reservation-item',
   standalone: true,
-  imports: [MatCardModule],
+  imports: [MatCardModule, CommonModule],
   templateUrl: './reservation-item.component.html',
   styleUrl: './reservation-item.component.css',
 })

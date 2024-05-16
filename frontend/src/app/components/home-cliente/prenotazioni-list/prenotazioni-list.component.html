@@ -51,9 +51,9 @@
     <div class="flex justify-between mt-4">
       @if(prenotazione.state !== "Pagamento" && prenotazione.state !== "In corso")
       {
-        <button
-          class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color"
-          (click)="cancellaPrenotazione(prenotazione.id_reservation)">Cancella</button>
+      <button
+        class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color"
+        (click)="cancellaPrenotazione(prenotazione.id_reservation)">Cancella</button>
       }
       @if(!prenotazione.accepted)
       {
@@ -61,7 +61,8 @@
         class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color"
         (click)="confermaPrenotazione(prenotazione.id_reservation)">Conferma</button>
       }
-      @if( (prenotazione.state === "In attesa" || prenotazione.state === "Approvata" || prenotazione.state === "In attesa") && prenotazione.accepted)
+      @if( (prenotazione.state === "In attesa" || prenotazione.state === "Approvata" || prenotazione.state === "In
+      attesa") && prenotazione.accepted)
       {
       <button
         class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color"
