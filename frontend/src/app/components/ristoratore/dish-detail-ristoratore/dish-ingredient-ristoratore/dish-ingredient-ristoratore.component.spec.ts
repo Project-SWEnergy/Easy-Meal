@@ -78,7 +78,7 @@ describe('DishIngredientRistoratoreComponent', () => {
     component.ingredient = dishIngredient;
     mockOneSelectionService.selected.and.returnValue(1);
 
-    component.notify();
+    component.update();
 
     expect(component.is_selected).toBeTrue();
   });

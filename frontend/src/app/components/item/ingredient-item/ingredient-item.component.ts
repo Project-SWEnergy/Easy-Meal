@@ -56,7 +56,7 @@ export class IngredientItemComponent {
     this.one_select_service.unsubscribe(this);
   }
 
-  update() {
+  send_form() {
     if (!this.form.valid) {
       return;
     }
@@ -80,7 +80,7 @@ export class IngredientItemComponent {
     this.one_select_service.select(this.ingredient.id);
   }
 
-  notify() {
+  update() {
     this.is_selected =
       this.ingredient.id === this.one_select_service.selected();
   }

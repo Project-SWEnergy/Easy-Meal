@@ -45,7 +45,7 @@ export class RestaurantCreateFormComponent {
     ]),
     description: new FormControl('', Validators.maxLength(255)),
     phone: new FormControl('', [
-      Validators.minLength(11),
+      Validators.minLength(9),
       Validators.maxLength(13),
       Validators.required,
     ]),

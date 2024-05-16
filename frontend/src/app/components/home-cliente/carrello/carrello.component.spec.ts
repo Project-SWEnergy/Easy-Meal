@@ -7,12 +7,14 @@ import {
 import { CarrelloComponent } from './carrello.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CarrelloService } from '../../../services/home-cliente/carrello.service';
+import { Router } from '@angular/router';
 import { of } from 'rxjs';
 
 describe('CarrelloComponent', () => {
   let component: CarrelloComponent;
   let fixture: ComponentFixture<CarrelloComponent>;
   let carrelloService: jasmine.SpyObj<CarrelloService>;
+  let router: Router;
 
   beforeEach(async () => {
     const spy = jasmine.createSpyObj('CarrelloService', [
@@ -24,8 +26,8 @@ describe('CarrelloComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [],
-      imports: [RouterTestingModule],
-      providers: [{ provide: CarrelloService, useValue: spy }],
+      imports: [RouterTestingModule.withRoutes([]),],
+      providers: [{ provide: CarrelloService, useValue: spy },{ provide: Router, useClass: class { navigate = jasmine.createSpy('navigate'); } },],
     }).compileComponents();
 
     carrelloService = TestBed.inject(
@@ -34,6 +36,7 @@ describe('CarrelloComponent', () => {
   });
 
   beforeEach(() => {
+    router = TestBed.inject(Router);
     fixture = TestBed.createComponent(CarrelloComponent);
     component = fixture.componentInstance;
   });

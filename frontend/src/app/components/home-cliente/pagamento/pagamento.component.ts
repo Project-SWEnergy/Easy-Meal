@@ -12,6 +12,7 @@ import { AuthService } from '../../../services/auth.service';
 import { PrenotazioneDataService } from '../../../services/home-cliente/prenotazione-data-service.service';
 import { Router } from '@angular/router';
 import { MessageService } from '../../../services/lib/message.service';
+import {PrenotazioneService} from '../../../services/home-cliente/prenotazione.service';
 
 @Component({
   selector: 'app-pagamento',
@@ -40,12 +41,12 @@ export class PagamentoComponent {
     private pagamentoService: PagamentoService,
     private auth: AuthService,
     private prenotazioneDataService: PrenotazioneDataService,
+    private prenotazioneService: PrenotazioneService,
   ) {
     this.user_id = this.auth.get()!.id;
 
     this.reservationId = this.prenotazioneDataService.getIdReservation();
     this.bill_splitting = this.prenotazioneDataService.getBillSplittingMethod();
-    this.partecipants = this.prenotazioneDataService.getParticipants();
   }
 
   ngOnInit(): void {
@@ -56,7 +57,18 @@ export class PagamentoComponent {
     if (this.bill_splitting === 'Individuale') {
       this.pagamentoIndividuale();
     } else if (this.bill_splitting === 'Equidiviso') {
+      this.loadPartecipants();
       this.pagamentoEquidiviso();
+    }
+  }
+
+  async loadPartecipants(): Promise<void> {
+    try {
+      const prenotazioni = await this.prenotazioneService.findPrenotazioniByReservation(this.reservationId);
+      this.partecipants = prenotazioni.length;
+      console.log('Partecipanti:', this.partecipants);
+    } catch (error) {
+      console.error('Errore durante il recupero dei partecipanti:', error);
     }
   }
 
@@ -79,8 +91,7 @@ export class PagamentoComponent {
       .then((data: ResultPrenotazioni<PrenotazioneBill[]>) => {
         if (data.result && data.data.length > 0) {
           this.reservationTotalBill = parseFloat(data.data[0].total_bill);
-          this.individualUserTotalBill =
-            this.reservationTotalBill / this.partecipants;
+          this.individualUserTotalBill = parseFloat((this.reservationTotalBill / this.partecipants).toFixed(2));
         }
       })
       .catch((error) => {

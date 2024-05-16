@@ -42,5 +42,13 @@ export class GenericHomeComponent {
     this.filteredRistorantiList = this.ristorantiList.filter((ristorante) =>
       ristorante?.name.toLowerCase().includes(text.toLowerCase()),
     );
+    console.log("la lista filtrata è: "+ this.filteredRistorantiList);
+  }
+
+  onSubmit(event: Event) {
+    event.preventDefault();
+    const inputElement = event.target as HTMLFormElement;
+    const filterInput = inputElement.querySelector('input[type="text"]') as HTMLInputElement;
+    this.filterResultsByName(filterInput.value);
   }
 }

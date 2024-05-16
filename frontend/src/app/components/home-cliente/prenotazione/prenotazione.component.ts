@@ -39,10 +39,10 @@ import { MessageService } from '../../../services/lib/message.service';
 export class PrenotazioneComponent implements OnInit {
   idRestaurant: number;
   prenotazioneForm: FormGroup;
-  invitoForm: FormGroup;
   orariApertura: any[] = [];
   selectedDayInfo: any;
   prenotazioneInviata: boolean = false;
+
 
   ms = inject(MessageService);
 
@@ -67,60 +67,61 @@ export class PrenotazioneComponent implements OnInit {
       oraPrenotazione: ['', Validators.required],
       numeroPartecipanti: ['', [Validators.required, Validators.min(1)]],
       metodoPagamento: ['', Validators.required],
+      partecipanti: this.fb.group({}) // Inizializza il form group per i partecipanti
     });
 
-    this.invitoForm = this.fb.group({
-      partecipanti: this.fb.array([]),
+    this.prenotazioneForm.get('numeroPartecipanti')?.valueChanges.subscribe(value => {
+      this.updatePartecipantiControls(value);
     });
 
-    // Inizializzazione form invito con un campo email per ciascun partecipante
-  }
-
-  inviaPrenotazione(): void {
-    if (this.prenotazioneForm.valid) {
-      const dataPrenotazione =
-        this.prenotazioneForm.get('dataPrenotazione')?.value;
-      const oraPrenotazione =
-        this.prenotazioneForm.get('oraPrenotazione')?.value;
-      const numeroPartecipanti =
-        this.prenotazioneForm.get('numeroPartecipanti')?.value;
-      const metodoPagamento =
-        this.prenotazioneForm.get('metodoPagamento')?.value;
-
-      const prenotazioneData = {
-        restaurantId: this.idRestaurant,
-        date: this.formatDate(dataPrenotazione, oraPrenotazione),
-        partecipants: numeroPartecipanti,
-        reservation_state: 'In attesa',
-        bill_splitting_method: metodoPagamento,
-      };
-
-      this.prenotazioneService
-        .creaPrenotazione(prenotazioneData)
-        .then((response) => {
-          this.ms.log('Prenotazione inviata con successo');
-          this.prenotazioneInviata = true;
-          this.aggiungiPartecipantiInFormInvito();
-        })
-        .catch((error) => {
-          this.ms.error('Errore durante l\'invio della prenotazione');
-        });
-    } else {
-      this.ms.error('Compila tutti i campi correttamente.');
+    const numeroPartecipantiControl = this.prenotazioneForm.get('numeroPartecipanti');
+    if (numeroPartecipantiControl) {
+      const numeroPartecipantiValue = numeroPartecipantiControl.value;
+      this.updatePartecipantiControls(numeroPartecipantiValue); // Aggiorna i controlli dei partecipanti
     }
-  }
+}
 
-  aggiungiPartecipantiInFormInvito(): void {
+ updatePartecipantiControls(count: number): void {
+    const partecipantiForm = this.prenotazioneForm.get('partecipanti') as FormGroup;
+
+    // Rimuovi tutti i controlli esistenti prima di aggiungerne di nuovi
+    Object.keys(partecipantiForm.controls).forEach(key => {
+      partecipantiForm.removeControl(key);
+    });
+
+    for (let i = 0; i < count; i++) {
+      partecipantiForm.addControl('partecipante' + i, this.fb.control('', Validators.email));
+    }
+}
+
+
+  
+
+async inviaPrenotazione(): Promise<void> {
+  if (this.prenotazioneForm.valid) {
+    const dataPrenotazione = this.prenotazioneForm.get('dataPrenotazione')?.value;
+    const oraPrenotazione = this.prenotazioneForm.get('oraPrenotazione')?.value;
     const numeroPartecipanti = this.prenotazioneForm.get('numeroPartecipanti')?.value;
-    for (let i = 1; i < numeroPartecipanti -1; i++) {
-      this.partecipanti.push(this.fb.control('', Validators.email));
-    }
-  }
+    const metodoPagamento = this.prenotazioneForm.get('metodoPagamento')?.value;
 
-  invitaAllaPrenotazione(): void {
-    const emails = this.invitoForm.value.partecipanti;
+    const emails = [];
+    for (let i = 0; i < numeroPartecipanti - 1; i++) {
+      const controlName = 'partecipanti.partecipante' + i; // Accedi ai controlli dei partecipanti utilizzando i nomi dinamici
+      const email = this.prenotazioneForm.get(controlName)?.value;
+      emails.push(email);
+    }
+
+    const prenotazioneData = {
+      restaurantId: this.idRestaurant,
+      date: this.formatDate(dataPrenotazione, oraPrenotazione),
+      partecipants: numeroPartecipanti,
+      reservation_state: 'In attesa',
+      bill_splitting_method: metodoPagamento,
+    };
+
+    const prenotazioneId = await this.prenotazioneService.creaPrenotazione(prenotazioneData);
     this.prenotazioneService
-      .invitaPrenotazione(emails)
+      .invitaPrenotazione(prenotazioneId, emails)
       .then(() => {
         this.ms.log('Inviti alla prenotazione inviati con successo');
         this.router.navigate(['/prenotazioni']);
@@ -128,13 +129,18 @@ export class PrenotazioneComponent implements OnInit {
       .catch((error) => {
         this.ms.error('Errore durante l\'invio degli inviti alla prenotazione');
       });
+
+  } else {
+    this.ms.error('Compila tutti i campi correttamente.');
+  }
+}
+
+  getPartecipantiArray(): number[] {
+    const numeroPartecipanti = this.prenotazioneForm.get('numeroPartecipanti')?.value;
+    return Array.from({ length: numeroPartecipanti }, (_, index) => index);
   }
 
-  get partecipanti() {
-    return this.invitoForm.get('partecipanti') as FormArray;
-  }
-
-  private formatDate(date: string, time: string): string {
+   formatDate(date: string, time: string): string {
     const [hours, minutes] = time.split(':');
     const hoursUpdated = Number(hours);
     const formattedDate = new Date(date);

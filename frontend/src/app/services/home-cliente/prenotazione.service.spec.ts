@@ -30,57 +30,6 @@ describe('PrenotazioneService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should create a reservation', async () => {
-    const mockResponse = {
-      result: true,
-      message: 'Reservation created successfully',
-      data: [
-        {
-          id: 1,
-          id_restaurant: 1,
-          date: '2023-05-10',
-          partecipants: 4,
-          reservation_state: 'confirmed',
-          bill_splitting_method: 'equal',
-          paid_orders: 0,
-        },
-      ],
-    };
-
-    spyOn(axios, 'post').and.returnValue(
-      Promise.resolve({ data: mockResponse }),
-    );
-
-    const data = {
-      restaurantId: 1,
-      date: '2023-05-10',
-      partecipants: 4,
-      reservation_state: 'confirmed',
-      bill_splitting_method: 'equal',
-    };
-
-    const result = await service.creaPrenotazione(data);
-    expect(result).toEqual(mockResponse.data[0]);
-
-    // Utilizziamo la riflessione per accedere alla variabile privata prenotazioneId
-    const prenotazioneIdField = (service as any)['prenotazioneId'];
-    expect(prenotazioneIdField).toEqual(1);
-  });
-
-  it('should invite users to a reservation', async () => {
-    const emails = ['email1@example.com', 'email2@example.com'];
-
-    spyOn(axios, 'post').and.returnValue(Promise.resolve());
-
-    await service.invitaPrenotazione(emails);
-
-    // Utilizziamo la riflessione per accedere alla variabile privata prenotazioneId
-    const prenotazioneIdField = (service as any)['prenotazioneId'];
-    expect(axios.post).toHaveBeenCalledWith('users-reservations/invite', {
-      email_users: emails,
-      id_reservation: prenotazioneIdField,
-    });
-  });
 
   it('should find reservations by user', async () => {
     const mockResponse = {
@@ -181,17 +130,95 @@ describe('PrenotazioneService', () => {
       expect(error).toEqual('Error');
     }
   });
+  
+  it('should find reservations by reservation', async () => {
+    const idReservation = 1;
+    const mockResponse = {
+      result: true,
+      message: 'Reservations found successfully',
+      data: [
+        {
+          id_user: 1,
+          name_user: 'John',
+          surname_user: 'Doe',
+          id_reservation: 1,
+          id_restaurant: 1,
+          name_restaurant: 'Restaurant',
+          date: '2023-05-10',
+          partecipants: 4,
+          state: 'confirmed',
+          bill_splitting_method: 'equal',
+          accepted: true,
+        },
+      ],
+    };
 
-  it('should handle error during invitation', async () => {
-    const emails = ['email1@example.com', 'email2@example.com'];
+    spyOn(axios, 'get').and.returnValue(
+      Promise.resolve({ data: mockResponse }),
+    );
 
-    spyOn(axios, 'post').and.throwError('Invitation error');
+    const result = await service.findPrenotazioniByReservation(idReservation);
+    expect(result).toEqual(mockResponse.data);
+  });
+
+  it('should throw an error if the find reservations by reservation fails', async () => {
+    spyOn(axios, 'get').and.returnValue(Promise.reject('Error'));
 
     try {
-      await service.invitaPrenotazione(emails);
-      fail('The function should throw an error');
-    } catch (error: any) {
-      expect(error.message).toBe('Invitation error');
+      await service.findPrenotazioniByReservation(1);
+    } catch (error) {
+      expect(error).toEqual('Error');
     }
+  });
+
+  it('should invite a reservation', async () => {
+    const idReservation = 1;
+    const emails = ['email1', 'email2'];
+    spyOn(axios, 'post').and.returnValue(Promise.resolve());
+    await service.invitaPrenotazione(idReservation, emails);
+    expect(axios.post).toHaveBeenCalledWith('users-reservations/invite', {
+      id_reservation: idReservation,
+      email_users: emails,
+    });
+  });
+
+  it('should associate a reservation', async () => {
+    const idReservation = 1;
+    spyOn(axios, 'post').and.returnValue(Promise.resolve());
+    await service.associaPrenotazione(idReservation);
+    expect(axios.post).toHaveBeenCalledWith('users-reservations/create', {
+      id_reservation: idReservation,
+    });
+  });
+
+  /**writ a test that cover all the statements inside creaPrenotazione() function */
+  it('should create a reservation', async () => {
+    const data = {
+      restaurantId: 1,
+      date: '2023-05-10',
+      partecipants: 4,
+      reservation_state: 'confirmed',
+      bill_splitting_method: 'equal',
+    };
+
+    const mockResponse = {
+      result: true,
+      message: 'Reservation created successfully',
+      data: [
+        {
+          id: 1,
+          restaurantId: 1,
+          date: '2023-05-10',
+          partecipants: 4,
+          reservation_state: 'confirmed',
+          bill_splitting_method: 'equal',
+        },
+      ],
+    };
+
+    spyOn(axios, 'post').and.returnValue(Promise.resolve({ data: mockResponse }));
+
+    const result = await service.creaPrenotazione(data);
+    expect(result).toEqual(1);
   });
 });

@@ -6,11 +6,15 @@ import { reservations, restaurants, users, users_reservations } from '../../db/s
 import { and, eq } from 'drizzle-orm';
 import { ResultUsersReservationDto } from './dto/result-users-reservation.dto';
 import { InviteUsersReservationDto } from './dto/invite-users-reservation.dto';
+import { UserType } from '../authentication/dto/user-data.dto';
+import { CreateNotificationDto } from '../notifications/dto/create-notification.dto';
+import { NotificationsService } from '../notifications/notifications.service';
 
 @Injectable()
 export class UsersReservationsService {
   constructor(
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    private notificationService: NotificationsService
   ) { }
 
   async create(createUsersReservationDto: CreateUsersReservationDto): Promise<ResultUsersReservationDto> {
@@ -76,6 +80,9 @@ export class UsersReservationsService {
             throw new InternalServerErrorException(error.message)
           }
           data.push(invitedUser);
+          const title = "Nuovo invito";
+          const message = "Ha ricevuto un invito alla prenotazione: " + inviteUsersDto.id_reservation.toString();
+          await this.sendNotification(foundUser[0].id_user, title, message, UserType.user);
         }
       }
     }
@@ -266,6 +273,23 @@ export class UsersReservationsService {
       result: true,
       message: "Successfully deleted",
       data: data
+    }
+  }
+
+
+  async sendNotification(userId: number, titleValue: string, messageValue: string, roleValue: string): Promise<void> {
+    try {
+      const restaurantNotificationDto: CreateNotificationDto = {
+        title: titleValue,
+        message: messageValue,
+        id_receiver: userId,
+        role: roleValue
+      }
+      this.notificationService.create(restaurantNotificationDto);
+    }
+    catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException("Notification error");
     }
   }
 }

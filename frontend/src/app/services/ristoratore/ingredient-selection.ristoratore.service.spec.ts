@@ -18,33 +18,33 @@ describe('OneSelectionService', () => {
 
   describe('select and notify functionality', () => {
     it('should select an item and notify observers', () => {
-      const observer1: Observer = { notify: jasmine.createSpy('notify') };
-      const observer2: Observer = { notify: jasmine.createSpy('notify') };
+      const observer1: Observer = { update: jasmine.createSpy('update') };
+      const observer2: Observer = { update: jasmine.createSpy('update') };
       service.subscribe(observer1);
       service.subscribe(observer2);
 
       service.select(1);
 
       expect(service.selected()).toEqual(1);
-      expect(observer1.notify).toHaveBeenCalled();
-      expect(observer2.notify).toHaveBeenCalled();
+      expect(observer1.update).toHaveBeenCalled();
+      expect(observer2.update).toHaveBeenCalled();
     });
 
     it('should deselect an item and notify observers', () => {
-      const observer: Observer = { notify: jasmine.createSpy('notify') };
+      const observer: Observer = { update: jasmine.createSpy('update') };
       service.subscribe(observer);
 
       service.select(1); // Select an item first
       service.deselect(); // Then deselect
 
       expect(service.selected()).toBeNull();
-      expect(observer.notify).toHaveBeenCalledTimes(2);
+      expect(observer.update).toHaveBeenCalledTimes(2);
     });
   });
 
   describe('observer management', () => {
     it('should add and remove observers correctly', () => {
-      const observer: Observer = { notify: jasmine.createSpy('notify') };
+      const observer: Observer = { update: jasmine.createSpy('update') };
 
       service.subscribe(observer);
       expect(OneSelectionService['observers']).toContain(observer);

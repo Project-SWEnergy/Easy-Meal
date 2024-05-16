@@ -20,6 +20,7 @@ export class PrenotazioneService {
   private userReservationUrl = 'users-reservations/create';
   private inviteUrl = 'users-reservations/invite';
   private findPrenotazioniUrl = 'users-reservations/find-all-by-user';
+  private findPrenatzioniByReservationUrl = 'users-reservations/find-all-by-reservation';
   private cancellaPrenotazioneUrl = 'users-reservations';
   private accettaPrenotazioneUrl = 'users-reservations';
 
@@ -31,26 +32,34 @@ export class PrenotazioneService {
     this.user_id = this.auth.get()!.id;
   }
 
-  async creaPrenotazione(data: Prenotazione): Promise<PrenotazioneData> {
+   async findPrenotazioniByReservation(idReservation: number): Promise<FindPrenotazioni[]> {
     try {
-      const response = await axios.post<ResultPrenotazione<PrenotazioneData[]>>(
-        this.apiUrl,
-        data,
-      );
+      const response = await axios.get<{ data: FindPrenotazioni[] }>(this.findPrenatzioniByReservationUrl+`/${idReservation}`);
+      return response.data.data;
+    } catch (error) {
+      console.error("Errore durante il recupero delle prenotazioni della prenotazione:", error);
+      throw error;
+    }
+  }
+
+  async creaPrenotazione(data: Prenotazione): Promise<number> {
+    try {
+      const response = await axios.post<ResultPrenotazione<PrenotazioneData[]>>(this.apiUrl, data);
       const prenotazioneData = response.data.data[0];
-      this.prenotazioneId = prenotazioneData.id;
-      await this.associaPrenotazione(this.prenotazioneId);
-      return prenotazioneData;
+      const prenotazioneId = prenotazioneData.id;
+      await this.associaPrenotazione(prenotazioneId);
+      return prenotazioneId;
     } catch (error) {
       console.error('Errore durante la creazione della prenotazione:', error);
       throw error;
     }
   }
 
-  async invitaPrenotazione(emails: string[]): Promise<void> {
+  async invitaPrenotazione(idReservation: number, emails: any[]): Promise<void> {
+
     const invito: InvitoPrenotazione = {
       email_users: emails,
-      id_reservation: this.prenotazioneId,
+      id_reservation: idReservation,
     };
 
     try {
@@ -64,7 +73,7 @@ export class PrenotazioneService {
     }
   }
 
-  private async associaPrenotazione(idPrenotazione: number): Promise<void> {
+  async associaPrenotazione(idPrenotazione: number): Promise<void> {
     try {
       await axios.post(this.userReservationUrl, {
         id_reservation: idPrenotazione,

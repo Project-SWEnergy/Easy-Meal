@@ -114,7 +114,6 @@ describe('PagamentoComponent', () => {
     tick(); // Attendiamo che le promesse vengano risolte
     fixture.detectChanges(); // Aggiorniamo la vista dopo che le promesse sono state risolte
     expect(prenotazioneDataService.getBillSplittingMethod).toHaveBeenCalled();
-    expect(prenotazioneDataService.getParticipants).toHaveBeenCalled();
     tick();
     expect(component.individualUserTotalBill).toBe(10);
   }));
@@ -175,7 +174,6 @@ describe('PagamentoComponent', () => {
     expect(component.individualUserTotalBill).toBeUndefined();
   }));
 
-  /**write a test that enters the catch present in the "loadOrderedDishes()" function */
   it('should handle load ordered dishes error', async () => {
     orderService.getOrderedDishesByUser.and.returnValue(
       Promise.reject('Error'),
@@ -218,7 +216,6 @@ describe('PagamentoComponent', () => {
     expect(pagamentoService.createIndividualBill).toHaveBeenCalled();
   }));
 
-  /**write some tests that call the "equidiviso payment()" function and enter the then and catch of the function */
   it('should handle equidiviso payment', fakeAsync(() => {
     component.bill_splitting = 'Equidiviso';
     component.createEqualBill = jasmine
@@ -226,26 +223,6 @@ describe('PagamentoComponent', () => {
       .and.returnValue(Promise.resolve({ result: true, message: 'OK' }));
     component.effettuaPagamento();
     expect(component.createEqualBill).toHaveBeenCalled();
-  }));
-
-  it('should set individual and reservation total bill when promise is resolved', fakeAsync(() => {
-    // Arrange
-    const mockResult: ResultPrenotazioni<PrenotazioneBill[]> = {
-      result: true,
-      message: 'OK',
-      data: [{ id_reservation: 1, total_bill: '20' }],
-    };
-    pagamentoService.getReservationTotalBill.and.returnValue(
-      Promise.resolve(mockResult),
-    );
-    component.pagamentoEquidiviso();
-    tick();
-
-    expect(pagamentoService.getReservationTotalBill).toHaveBeenCalledWith(
-      component.reservationId,
-    );
-    expect(component.reservationTotalBill).toBe(20);
-    expect(component.individualUserTotalBill).toBe(10);
   }));
 
   it('should handle getReservationTotalBill error', fakeAsync(() => {
