@@ -15,8 +15,6 @@ import { NotificationLinkComponent } from '../notification-link/notification-lin
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
-  url_login: string;
-  url_registrazione: string;
   auth = inject(AuthService);
 
   constructor(private router: Router) { }
