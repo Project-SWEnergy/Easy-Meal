@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { NotificationService } from './notification.service';
 import { AuthService } from '../auth.service';
 import { MessageService } from './message.service';
-import axios from '../../../../axios-config'
+import axios from '../../../../axios-config';
 import MockAdapter from 'axios-mock-adapter';
 import { Notification } from '../../interfaces/notification';
 
@@ -15,17 +15,20 @@ describe('NotificationService', () => {
   beforeEach(() => {
     mockAxios = new MockAdapter(axios);
     mockAuthService = jasmine.createSpyObj('AuthService', ['isAuth', 'logout']);
-    mockMessageService = jasmine.createSpyObj('MessageService', ['log', 'error']);
+    mockMessageService = jasmine.createSpyObj('MessageService', [
+      'log',
+      'error',
+    ]);
 
     TestBed.configureTestingModule({
       providers: [
         NotificationService,
         { provide: AuthService, useValue: mockAuthService },
-        { provide: MessageService, useValue: mockMessageService }
-      ]
+        { provide: MessageService, useValue: mockMessageService },
+      ],
     });
     service = TestBed.inject(NotificationService);
-    mockAuthService.isAuth.and.returnValue(true);  // Assume user is always authenticated for simplicity
+    mockAuthService.isAuth.and.returnValue(true); // Assume user is always authenticated for simplicity
   });
 
   it('should be created', () => {
@@ -33,16 +36,18 @@ describe('NotificationService', () => {
   });
 
   it('should fetch notifications and update BehaviorSubject', async () => {
-    const notifications = [{ id: 1, message: 'Test Notification', visualized: false }];
+    const notifications = [
+      { id: 1, message: 'Test Notification', visualized: false },
+    ];
     mockAxios.onGet('notifications').reply(200, {
       result: true,
-      data: notifications
+      data: notifications,
     });
 
-    service['updateMessages']()  // Manually trigger to avoid waiting for interval
-    await new Promise(resolve => setTimeout(resolve, 100)); // wait for promises to resolve
+    service['updateMessages'](); // Manually trigger to avoid waiting for interval
+    await new Promise((resolve) => setTimeout(resolve, 100)); // wait for promises to resolve
 
-    service.get_all().subscribe(data => {
+    service.get_all().subscribe((data) => {
       expect(data).toEqual(notifications as Notification[]);
     });
   });
@@ -52,10 +57,12 @@ describe('NotificationService', () => {
       result: false,
     });
 
-    service['updateMessages']()  // Manually trigger to avoid waiting for interval
-    await new Promise(resolve => setTimeout(resolve, 100)); // wait for promises to resolve
+    service['updateMessages'](); // Manually trigger to avoid waiting for interval
+    await new Promise((resolve) => setTimeout(resolve, 100)); // wait for promises to resolve
 
-    expect(mockMessageService.error).toHaveBeenCalledWith('Error fetching notifications');
+    expect(mockMessageService.error).toHaveBeenCalledWith(
+      'Error fetching notifications',
+    );
   });
 
   it('should handle error on notifications fetch', async () => {
@@ -63,8 +70,8 @@ describe('NotificationService', () => {
       message: 'Unauthorized',
     });
 
-    service['updateMessages']()  // Manually trigger to avoid waiting for interval
-    await new Promise(resolve => setTimeout(resolve, 100)); // wait for promises to resolve
+    service['updateMessages'](); // Manually trigger to avoid waiting for interval
+    await new Promise((resolve) => setTimeout(resolve, 100)); // wait for promises to resolve
 
     expect(mockAuthService.logout).toHaveBeenCalled();
   });
@@ -83,7 +90,9 @@ describe('NotificationService', () => {
 
   it('should handle errors during reading notifications', async () => {
     const notificationId = 1;
-    mockAxios.onPatch(`notifications/${notificationId}`).reply(200, { result: false })
+    mockAxios
+      .onPatch(`notifications/${notificationId}`)
+      .reply(200, { result: false });
 
     const result = await service.read(notificationId);
 

@@ -30,7 +30,6 @@ describe('PrenotazioneService', () => {
     expect(service).toBeTruthy();
   });
 
-
   it('should find reservations by user', async () => {
     const mockResponse = {
       result: true,
@@ -130,7 +129,7 @@ describe('PrenotazioneService', () => {
       expect(error).toEqual('Error');
     }
   });
-  
+
   it('should find reservations by reservation', async () => {
     const idReservation = 1;
     const mockResponse = {
@@ -216,7 +215,9 @@ describe('PrenotazioneService', () => {
       ],
     };
 
-    spyOn(axios, 'post').and.returnValue(Promise.resolve({ data: mockResponse }));
+    spyOn(axios, 'post').and.returnValue(
+      Promise.resolve({ data: mockResponse }),
+    );
 
     const result = await service.creaPrenotazione(data);
     expect(result).toEqual(1);

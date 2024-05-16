@@ -99,7 +99,6 @@ describe('RistorantiComponent', () => {
       fixture.nativeElement.querySelector('app-indirizzo');
     expect(indirizzoComponent).toBeTruthy();
   });
-
 });
 
 // Mock services

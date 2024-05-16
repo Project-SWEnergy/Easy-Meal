@@ -43,7 +43,7 @@ export class LoginRistoratoreComponent {
         this.router.navigate(['ristoratore/home']);
       })
       .catch((_) => {
-        this.ms.error('Errore durante l\'autenticazione');
+        this.ms.error("Errore durante l'autenticazione");
       });
   }
 }

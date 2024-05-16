@@ -12,12 +12,15 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     // Setup TestBed
-    mockMessageService = jasmine.createSpyObj('MessageService', ['error', 'log']);
+    mockMessageService = jasmine.createSpyObj('MessageService', [
+      'error',
+      'log',
+    ]);
     TestBed.configureTestingModule({
       providers: [
         AuthService,
-        { provide: MessageService, useValue: mockMessageService }
-      ]
+        { provide: MessageService, useValue: mockMessageService },
+      ],
     });
     service = TestBed.inject(AuthService);
     mockAxios = new MockAdapter(axios);
@@ -57,11 +60,16 @@ describe('AuthService', () => {
   describe('auth', () => {
     it('should authenticate user and store token', async () => {
       const userData: User = { id: 1, role: 'user' };
-      mockAxios.onGet('authentication/setup').reply(200, { result: true, data: [userData] });
+      mockAxios
+        .onGet('authentication/setup')
+        .reply(200, { result: true, data: [userData] });
 
       await service.auth();
 
-      expect(localStorage.setItem).toHaveBeenCalledWith('token', JSON.stringify(userData))
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        'token',
+        JSON.stringify(userData),
+      );
       expect(mockMessageService.error).not.toHaveBeenCalled();
     });
 
@@ -70,14 +78,18 @@ describe('AuthService', () => {
 
       await service.auth();
 
-      expect(mockMessageService.error).toHaveBeenCalledWith('User not authenticated');
+      expect(mockMessageService.error).toHaveBeenCalledWith(
+        'User not authenticated',
+      );
       expect(localStorage.setItem).not.toHaveBeenCalled();
     });
   });
 
   describe('logout', () => {
     it('should clear token on logout', async () => {
-      mockAxios.onPost('authentication/signout').reply(200, { message: 'Logout successful' });
+      mockAxios
+        .onPost('authentication/signout')
+        .reply(200, { message: 'Logout successful' });
 
       await service.logout();
 
@@ -96,21 +108,21 @@ describe('AuthService', () => {
 
   it('should return true if user is a restaurant', () => {
     spyOn(localStorage, 'getItem').and.callFake((key: string) => {
-      return JSON.stringify({ id: 1, role: 'restaurant' })
+      return JSON.stringify({ id: 1, role: 'restaurant' });
     });
     expect(service.isRestaurant()).toBeTrue();
   });
 
   it('should return true if user is a user', () => {
     spyOn(localStorage, 'getItem').and.callFake((key: string) => {
-      return JSON.stringify({ id: 1, role: 'user' })
+      return JSON.stringify({ id: 1, role: 'user' });
     });
     expect(service.isUser()).toBeTrue();
   });
 
   it('should delete token if does not implement User interface', () => {
     spyOn(localStorage, 'getItem').and.callFake((key: string) => {
-      return JSON.stringify({ id: 1, role: 'invalid' })
+      return JSON.stringify({ id: 1, role: 'invalid' });
     });
 
     expect(service.get()).toBeNull();

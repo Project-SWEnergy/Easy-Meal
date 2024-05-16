@@ -61,7 +61,7 @@ export class NotificationService {
           this.ms.log('Notification read');
           return true;
         } else {
-          throw new Error()
+          throw new Error();
         }
       })
       .catch((err) => {

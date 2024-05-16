@@ -42,8 +42,8 @@ export class NotificationPageComponent {
     } else {
       this.filtered_notifications = this.notifications.filter(
         (n) => !n.visualized,
-      )
-      this.filtered_notifications = this.filtered_notifications.reverse()
+      );
+      this.filtered_notifications = this.filtered_notifications.reverse();
     }
   }
 

@@ -141,7 +141,7 @@ describe('DishIngredientFormComponent', () => {
 
     it('should handle failure on creation', async () => {
       component.ingredient = null; // Simulate new ingredient creation
-      component.form.setErrors({ invalid: true }) // Simulate invalid form
+      component.form.setErrors({ invalid: true }); // Simulate invalid form
       expect(component.form.valid).toBeFalse();
       await component.on_create();
       // the form is not valid
@@ -186,16 +186,16 @@ describe('DishIngredientFormComponent', () => {
   it('should dispaly the name of the ingredient', () => {
     const ingredient = mockIngredients[0];
     expect(component.displayFn(ingredient)).toBe(ingredient.name);
-  })
+  });
 
   it('should dispaly an empty string', () => {
     const ingredient = null;
     expect(component.displayFn(ingredient as any)).toBe('');
-  })
+  });
 
   it('should filter the ingredients', () => {
     component.ingredients = mockIngredients;
     const filtered = component['_filter']('Tom');
     expect(filtered).toEqual([mockIngredients[0]]);
-  })
+  });
 });

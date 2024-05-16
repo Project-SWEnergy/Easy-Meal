@@ -72,7 +72,7 @@ describe('RestaurantRistoratoreService', () => {
     expect(mockMessageService.error).toHaveBeenCalled();
   });
 
-  it('should create a restaurant and handle opening hours\' failure', async () => {
+  it("should create a restaurant and handle opening hours' failure", async () => {
     const restaurantData = { id: 1, name: 'Test Restaurant' };
     const hoursData = [
       { opening_time: '08:00', closing_time: '23:00' },

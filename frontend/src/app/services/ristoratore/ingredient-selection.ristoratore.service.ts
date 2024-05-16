@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 export interface Observer {
-  notify(): void;
+  update(): void;
 }
 
 @Injectable({
@@ -19,18 +19,18 @@ export class OneSelectionService {
 
   select(item_id: number) {
     OneSelectionService.selected_ingredient = item_id;
-    this.update();
+    this.notify();
   }
 
-  update() {
+  notify() {
     OneSelectionService.observers.forEach((obs) => {
-      obs.notify();
+      obs.update();
     });
   }
 
   deselect() {
     OneSelectionService.selected_ingredient = null;
-    this.update();
+    this.notify();
   }
 
   subscribe(obs: Observer) {

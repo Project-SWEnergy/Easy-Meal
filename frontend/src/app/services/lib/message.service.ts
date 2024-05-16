@@ -11,10 +11,10 @@ export class MessageService {
     type: 'log' | 'error';
     timeout: Date;
   }[] = [];
-  private messagesSubject = new BehaviorSubject<
+  private static messagesSubject = new BehaviorSubject<
     { message: string; type: 'log' | 'error' }[]
   >([]);
-  private checkInterval = 1000; // Interval to check for expired messages
+  private static checkInterval = 1000; // Interval to check for expired messages
 
   constructor() {
     // Initialize checking for message expiration
@@ -22,7 +22,7 @@ export class MessageService {
   }
 
   private initExpirationCheck(): void {
-    timer(0, this.checkInterval).subscribe(() => {
+    timer(0, MessageService.checkInterval).subscribe(() => {
       this.updateMessages();
     });
 
@@ -41,7 +41,7 @@ export class MessageService {
       (m) => m.timeout > now,
     );
 
-    this.messagesSubject.next(
+    MessageService.messagesSubject.next(
       MessageService.messages.map((m) => ({
         message: m.message,
         type: m.type,
@@ -66,6 +66,6 @@ export class MessageService {
   }
 
   notify(): Observable<{ message: string; type: 'log' | 'error' }[]> {
-    return this.messagesSubject.asObservable();
+    return MessageService.messagesSubject.asObservable();
   }
 }

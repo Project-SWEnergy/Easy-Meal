@@ -11,8 +11,7 @@ describe('AutenticazioneComponent', () => {
     await TestBed.configureTestingModule({
       imports: [AutenticazioneComponent],
       providers: [provideRouter([])],
-    })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AutenticazioneComponent);
     component = fixture.componentInstance;

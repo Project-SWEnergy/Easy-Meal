@@ -16,13 +16,13 @@ import { MessageService } from '../../../services/lib/message.service';
 export class PrenotazioniListComponent implements OnInit {
   prenotazioni: FindPrenotazioni[] = [];
 
-  ms = inject(MessageService)
+  ms = inject(MessageService);
 
   constructor(
     private prenotazioneService: PrenotazioneService,
     private prenotazioneDataService: PrenotazioneDataService,
     private router: Router,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getPrenotazioni();
@@ -43,19 +43,19 @@ export class PrenotazioniListComponent implements OnInit {
   async cancellaPrenotazione(idReservation: number): Promise<void> {
     try {
       await this.prenotazioneService.deletePrenotazione(idReservation);
-      this.ms.log('Prenotazione cancellata con successo')
+      this.ms.log('Prenotazione cancellata con successo');
       await this.getPrenotazioni();
     } catch (error) {
-      this.ms.error('Errore durante la cancellazione della prenotazione')
+      this.ms.error('Errore durante la cancellazione della prenotazione');
     }
   }
   async confermaPrenotazione(idReservation: number): Promise<void> {
     try {
       await this.prenotazioneService.acceptPrenotazione(idReservation);
-      this.ms.log('Prenotazione accettata con successo')
+      this.ms.log('Prenotazione accettata con successo');
       await this.getPrenotazioni();
     } catch (error) {
-      this.ms.error('Errore durante l\'accettazione della prenotazione')
+      this.ms.error("Errore durante l'accettazione della prenotazione");
     }
   }
 

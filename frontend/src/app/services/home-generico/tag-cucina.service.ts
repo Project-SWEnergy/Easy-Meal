@@ -30,13 +30,11 @@ export class TagCucinaService {
         for (const tag of tags) {
           observables.push(
             from(axios.get<ResultTag<Tag>>(`tags/find-one/${tag.id_tag}`)).pipe(
-              map((response: any) => response.data.data as Tag), 
+              map((response: any) => response.data.data as Tag),
             ),
           );
         }
-        return forkJoin(observables).pipe(
-          map((tags: any) => tags.flat()), 
-        );
+        return forkJoin(observables).pipe(map((tags: any) => tags.flat()));
       }),
       catchError((error) => {
         console.error('Error during API call:', error);

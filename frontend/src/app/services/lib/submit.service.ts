@@ -40,11 +40,11 @@ export class SubmitService<T, E> {
         if (response.data && response.data.result) {
           return response.data[this.field_to_access];
         } else {
-          throw new Error()
+          throw new Error();
         }
       })
       .catch((_) => {
-        throw new Error()
+        throw new Error();
       });
   }
 }

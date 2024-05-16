@@ -9,7 +9,7 @@ import { MessageService } from './lib/message.service';
 export class AuthService {
   ms = inject(MessageService);
 
-  constructor() { }
+  constructor() {}
 
   /** User if the User if the user is authenticated, null otherwise */
   get(): User | null {
@@ -53,7 +53,7 @@ export class AuthService {
         if (res && res.data && res.data.result) {
           return res.data.data[0];
         } else {
-          throw new Error()
+          throw new Error();
         }
       })
       .catch((_) => this.ms.error('User not authenticated'));
@@ -107,7 +107,7 @@ export class AuthService {
         }
       })
       .catch((_) => {
-        return
+        return;
       });
     localStorage.removeItem('token');
   }

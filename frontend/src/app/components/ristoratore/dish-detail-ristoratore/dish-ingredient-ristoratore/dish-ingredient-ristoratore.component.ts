@@ -55,7 +55,7 @@ export class DishIngredientRistoratoreComponent {
     }
   }
 
-  notify() {
+  update() {
     if (this.ingredient) {
       this.is_selected =
         this.ingredient.id_ingredient === this.one_selection_service.selected();

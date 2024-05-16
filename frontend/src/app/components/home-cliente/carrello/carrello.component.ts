@@ -16,9 +16,12 @@ export class CarrelloComponent implements OnInit {
   carrello: any[] = [];
   @Input() id_reservation: number;
 
-  ms = inject(MessageService)
+  ms = inject(MessageService);
 
-  constructor(private carrelloService: CarrelloService, private router: Router,) { }
+  constructor(
+    private carrelloService: CarrelloService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.carrelloService.clearCarrello();
@@ -41,7 +44,7 @@ export class CarrelloComponent implements OnInit {
         });
       })
       .catch((error) => {
-        this.ms.error('Errore durante l\'invio dell\'ordine');
+        this.ms.error("Errore durante l'invio dell'ordine");
       });
   }
 
@@ -55,7 +58,7 @@ export class CarrelloComponent implements OnInit {
         });
       })
       .catch((error) => {
-        this.ms.error('Errore durante la cancellazione dell\'ordine');
+        this.ms.error("Errore durante la cancellazione dell'ordine");
       });
   }
 }
