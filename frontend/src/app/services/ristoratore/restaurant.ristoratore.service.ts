@@ -30,9 +30,7 @@ export class RestaurantRistoratoreService {
         }
       })
       .catch((err) => {
-        this.ms.error(
-          'Something went wrong in the creation of the restaurant',
-        );
+        this.ms.error('Something went wrong in the creation of the restaurant');
       });
   }
 

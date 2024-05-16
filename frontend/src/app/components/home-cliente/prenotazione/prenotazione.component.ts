@@ -43,7 +43,6 @@ export class PrenotazioneComponent implements OnInit {
   selectedDayInfo: any;
   prenotazioneInviata: boolean = false;
 
-
   ms = inject(MessageService);
 
   constructor(
@@ -52,7 +51,7 @@ export class PrenotazioneComponent implements OnInit {
     private prenotazioneService: PrenotazioneService,
     private route: ActivatedRoute,
     private router: Router,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.idRestaurant = Number(this.route.snapshot.params['id']);
@@ -67,80 +66,92 @@ export class PrenotazioneComponent implements OnInit {
       oraPrenotazione: ['', Validators.required],
       numeroPartecipanti: ['', [Validators.required, Validators.min(1)]],
       metodoPagamento: ['', Validators.required],
-      partecipanti: this.fb.group({}) // Inizializza il form group per i partecipanti
+      partecipanti: this.fb.group({}), // Inizializza il form group per i partecipanti
     });
 
-    this.prenotazioneForm.get('numeroPartecipanti')?.valueChanges.subscribe(value => {
-      this.updatePartecipantiControls(value);
-    });
+    this.prenotazioneForm
+      .get('numeroPartecipanti')
+      ?.valueChanges.subscribe((value) => {
+        this.updatePartecipantiControls(value);
+      });
 
-    const numeroPartecipantiControl = this.prenotazioneForm.get('numeroPartecipanti');
+    const numeroPartecipantiControl =
+      this.prenotazioneForm.get('numeroPartecipanti');
     if (numeroPartecipantiControl) {
       const numeroPartecipantiValue = numeroPartecipantiControl.value;
       this.updatePartecipantiControls(numeroPartecipantiValue); // Aggiorna i controlli dei partecipanti
     }
-}
+  }
 
- updatePartecipantiControls(count: number): void {
-    const partecipantiForm = this.prenotazioneForm.get('partecipanti') as FormGroup;
+  updatePartecipantiControls(count: number): void {
+    const partecipantiForm = this.prenotazioneForm.get(
+      'partecipanti',
+    ) as FormGroup;
 
     // Rimuovi tutti i controlli esistenti prima di aggiungerne di nuovi
-    Object.keys(partecipantiForm.controls).forEach(key => {
+    Object.keys(partecipantiForm.controls).forEach((key) => {
       partecipantiForm.removeControl(key);
     });
 
     for (let i = 0; i < count; i++) {
-      partecipantiForm.addControl('partecipante' + i, this.fb.control('', Validators.email));
+      partecipantiForm.addControl(
+        'partecipante' + i,
+        this.fb.control('', Validators.email),
+      );
     }
-}
-
-
-  
-
-async inviaPrenotazione(): Promise<void> {
-  if (this.prenotazioneForm.valid) {
-    const dataPrenotazione = this.prenotazioneForm.get('dataPrenotazione')?.value;
-    const oraPrenotazione = this.prenotazioneForm.get('oraPrenotazione')?.value;
-    const numeroPartecipanti = this.prenotazioneForm.get('numeroPartecipanti')?.value;
-    const metodoPagamento = this.prenotazioneForm.get('metodoPagamento')?.value;
-
-    const emails = [];
-    for (let i = 0; i < numeroPartecipanti - 1; i++) {
-      const controlName = 'partecipanti.partecipante' + i; // Accedi ai controlli dei partecipanti utilizzando i nomi dinamici
-      const email = this.prenotazioneForm.get(controlName)?.value;
-      emails.push(email);
-    }
-
-    const prenotazioneData = {
-      restaurantId: this.idRestaurant,
-      date: this.formatDate(dataPrenotazione, oraPrenotazione),
-      partecipants: numeroPartecipanti,
-      reservation_state: 'In attesa',
-      bill_splitting_method: metodoPagamento,
-    };
-
-    const prenotazioneId = await this.prenotazioneService.creaPrenotazione(prenotazioneData);
-    this.prenotazioneService
-      .invitaPrenotazione(prenotazioneId, emails)
-      .then(() => {
-        this.ms.log('Inviti alla prenotazione inviati con successo');
-        this.router.navigate(['/prenotazioni']);
-      })
-      .catch((error) => {
-        this.ms.error('Errore durante l\'invio degli inviti alla prenotazione');
-      });
-
-  } else {
-    this.ms.error('Compila tutti i campi correttamente.');
   }
-}
+
+  async inviaPrenotazione(): Promise<void> {
+    if (this.prenotazioneForm.valid) {
+      const dataPrenotazione =
+        this.prenotazioneForm.get('dataPrenotazione')?.value;
+      const oraPrenotazione =
+        this.prenotazioneForm.get('oraPrenotazione')?.value;
+      const numeroPartecipanti =
+        this.prenotazioneForm.get('numeroPartecipanti')?.value;
+      const metodoPagamento =
+        this.prenotazioneForm.get('metodoPagamento')?.value;
+
+      const emails = [];
+      for (let i = 0; i < numeroPartecipanti - 1; i++) {
+        const controlName = 'partecipanti.partecipante' + i; // Accedi ai controlli dei partecipanti utilizzando i nomi dinamici
+        const email = this.prenotazioneForm.get(controlName)?.value;
+        emails.push(email);
+      }
+
+      const prenotazioneData = {
+        restaurantId: this.idRestaurant,
+        date: this.formatDate(dataPrenotazione, oraPrenotazione),
+        partecipants: numeroPartecipanti,
+        reservation_state: 'In attesa',
+        bill_splitting_method: metodoPagamento,
+      };
+
+      const prenotazioneId =
+        await this.prenotazioneService.creaPrenotazione(prenotazioneData);
+      this.prenotazioneService
+        .invitaPrenotazione(prenotazioneId, emails)
+        .then(() => {
+          this.ms.log('Inviti alla prenotazione inviati con successo');
+          this.router.navigate(['/prenotazioni']);
+        })
+        .catch((error) => {
+          this.ms.error(
+            "Errore durante l'invio degli inviti alla prenotazione",
+          );
+        });
+    } else {
+      this.ms.error('Compila tutti i campi correttamente.');
+    }
+  }
 
   getPartecipantiArray(): number[] {
-    const numeroPartecipanti = this.prenotazioneForm.get('numeroPartecipanti')?.value;
+    const numeroPartecipanti =
+      this.prenotazioneForm.get('numeroPartecipanti')?.value;
     return Array.from({ length: numeroPartecipanti }, (_, index) => index);
   }
 
-   formatDate(date: string, time: string): string {
+  formatDate(date: string, time: string): string {
     const [hours, minutes] = time.split(':');
     const hoursUpdated = Number(hours);
     const formattedDate = new Date(date);

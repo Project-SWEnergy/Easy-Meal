@@ -11,7 +11,7 @@ export class OneSelectionService {
   private static selected_ingredient: number | null = null;
   private static observers: Observer[] = [];
 
-  constructor() { }
+  constructor() {}
 
   selected(): number | null {
     return OneSelectionService.selected_ingredient;

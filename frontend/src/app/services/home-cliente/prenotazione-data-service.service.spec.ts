@@ -42,7 +42,7 @@ describe('PrenotazioneDataService', () => {
     service.setParticipants(count);
     expect(service.getParticipants()).toEqual(count);
   });
-  
+
   it('should return null if data is null', () => {
     spyOn(localStorage, 'getItem').and.returnValue(null);
     expect(service.loadFromLocalStorage()).toBeNull();
@@ -59,7 +59,7 @@ describe('PrenotazioneDataService', () => {
     service.setIdUser(123);
     expect(service.loadFromLocalStorage()).toEqual(null);
   });
-  
+
   it('should set setIdRestaurant to an empty object if loadFromLocalStorage returns null', () => {
     spyOn(localStorage, 'getItem').and.returnValue(null);
     service.setIdRestaurant(123);
@@ -68,7 +68,7 @@ describe('PrenotazioneDataService', () => {
 
   it('should set setBillSplittingMethod to an empty object if loadFromLocalStorage returns null', () => {
     spyOn(localStorage, 'getItem').and.returnValue(null);
-    service.setBillSplittingMethod("individuale");
+    service.setBillSplittingMethod('individuale');
     expect(service.loadFromLocalStorage()).toEqual(null);
   });
 
@@ -102,5 +102,4 @@ describe('PrenotazioneDataService', () => {
     spyOn(localStorage, 'getItem').and.returnValue(null);
     expect(service.getParticipants()).toBeNull();
   });
-  
 });

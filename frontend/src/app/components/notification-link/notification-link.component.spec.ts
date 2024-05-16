@@ -12,11 +12,13 @@ describe('NotificationLinkComponent', () => {
 
   beforeEach(async () => {
     // Create a spy object for NotificationService with a mock 'get_all' method
-    mockNotificationService = jasmine.createSpyObj('NotificationService', ['get_all']);
+    mockNotificationService = jasmine.createSpyObj('NotificationService', [
+      'get_all',
+    ]);
     const notifications = [
       { id: 1, visualized: false },
       { id: 2, visualized: false },
-      { id: 3, visualized: true }
+      { id: 3, visualized: true },
     ] as Notification[];
     mockNotificationService.get_all.and.returnValue(of(notifications));
 
@@ -24,8 +26,8 @@ describe('NotificationLinkComponent', () => {
       imports: [NotificationLinkComponent],
       providers: [
         { provide: NotificationService, useValue: mockNotificationService },
-        provideRouter([])
-      ]
+        provideRouter([]),
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NotificationLinkComponent);
@@ -46,7 +48,7 @@ describe('NotificationLinkComponent', () => {
     const updatedNotifications = [
       { id: 1, visualized: true },
       { id: 2, visualized: false },
-      { id: 3, visualized: true }
+      { id: 3, visualized: true },
     ] as Notification[];
     mockNotificationService.get_all.and.returnValue(of(updatedNotifications));
     component.ngOnInit(); // Re-initialize to fetch new notification data

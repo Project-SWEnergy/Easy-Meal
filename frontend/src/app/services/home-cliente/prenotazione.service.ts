@@ -20,7 +20,8 @@ export class PrenotazioneService {
   private userReservationUrl = 'users-reservations/create';
   private inviteUrl = 'users-reservations/invite';
   private findPrenotazioniUrl = 'users-reservations/find-all-by-user';
-  private findPrenatzioniByReservationUrl = 'users-reservations/find-all-by-reservation';
+  private findPrenatzioniByReservationUrl =
+    'users-reservations/find-all-by-reservation';
   private cancellaPrenotazioneUrl = 'users-reservations';
   private accettaPrenotazioneUrl = 'users-reservations';
 
@@ -32,19 +33,29 @@ export class PrenotazioneService {
     this.user_id = this.auth.get()!.id;
   }
 
-   async findPrenotazioniByReservation(idReservation: number): Promise<FindPrenotazioni[]> {
+  async findPrenotazioniByReservation(
+    idReservation: number,
+  ): Promise<FindPrenotazioni[]> {
     try {
-      const response = await axios.get<{ data: FindPrenotazioni[] }>(this.findPrenatzioniByReservationUrl+`/${idReservation}`);
+      const response = await axios.get<{ data: FindPrenotazioni[] }>(
+        this.findPrenatzioniByReservationUrl + `/${idReservation}`,
+      );
       return response.data.data;
     } catch (error) {
-      console.error("Errore durante il recupero delle prenotazioni della prenotazione:", error);
+      console.error(
+        'Errore durante il recupero delle prenotazioni della prenotazione:',
+        error,
+      );
       throw error;
     }
   }
 
   async creaPrenotazione(data: Prenotazione): Promise<number> {
     try {
-      const response = await axios.post<ResultPrenotazione<PrenotazioneData[]>>(this.apiUrl, data);
+      const response = await axios.post<ResultPrenotazione<PrenotazioneData[]>>(
+        this.apiUrl,
+        data,
+      );
       const prenotazioneData = response.data.data[0];
       const prenotazioneId = prenotazioneData.id;
       await this.associaPrenotazione(prenotazioneId);
@@ -55,8 +66,10 @@ export class PrenotazioneService {
     }
   }
 
-  async invitaPrenotazione(idReservation: number, emails: any[]): Promise<void> {
-
+  async invitaPrenotazione(
+    idReservation: number,
+    emails: any[],
+  ): Promise<void> {
     const invito: InvitoPrenotazione = {
       email_users: emails,
       id_reservation: idReservation,

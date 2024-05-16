@@ -7,17 +7,14 @@ import { NotificationLinkComponent } from '../notification-link/notification-lin
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [
-    RouterModule,
-    NotificationLinkComponent
-  ],
+  imports: [RouterModule, NotificationLinkComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
   auth = inject(AuthService);
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   navigateTo(route: string): void {
     this.router.navigate([route]);

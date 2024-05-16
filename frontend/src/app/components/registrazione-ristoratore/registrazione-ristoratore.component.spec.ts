@@ -22,7 +22,7 @@ describe('RegistrazioneRistoratoreComponent', () => {
   beforeEach(async () => {
     const restaurantServiceSpy = jasmine.createSpyObj(
       'RestaurantRistoratoreService',
-      ['create']
+      ['create'],
     );
 
     await TestBed.configureTestingModule({
@@ -45,7 +45,7 @@ describe('RegistrazioneRistoratoreComponent', () => {
     fixture.detectChanges();
 
     restaurantService = TestBed.inject(
-      RestaurantRistoratoreService
+      RestaurantRistoratoreService,
     ) as jasmine.SpyObj<RestaurantRistoratoreService>;
     router = TestBed.inject(Router);
   });
@@ -196,7 +196,7 @@ describe('RegistrazioneRistoratoreComponent', () => {
     );
 
     restaurantService.create.and.returnValue(
-      Promise.reject(new Error('Something went wrong'))
+      Promise.reject(new Error('Something went wrong')),
     );
 
     await component.on_submit();
@@ -346,7 +346,7 @@ describe('RegistrazioneRistoratoreComponent', () => {
         id_day: new FormControl(1),
         opening_time: new FormControl('', Validators.required),
         closing_time: new FormControl('20:00', Validators.required),
-      })
+      }),
     );
 
     await component.on_submit();
@@ -359,7 +359,7 @@ describe('RegistrazioneRistoratoreComponent', () => {
         id_day: new FormControl(1),
         opening_time: new FormControl('08:00', Validators.required),
         closing_time: new FormControl('20:00', Validators.required),
-      })
+      }),
     );
 
     // Set logo as null

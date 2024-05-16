@@ -64,8 +64,11 @@ export class HomeRistoratoreComponent {
     this.ingredients =
       await this.reservation_service.get_ingredients_by_reservations(
         this.reservations
-          .filter(res => res.reservation_state !== "Rifiutata"
-            && res.reservation_state !== "Annullata")
+          .filter(
+            (res) =>
+              res.reservation_state !== 'Rifiutata' &&
+              res.reservation_state !== 'Annullata',
+          )
           .map((res) => res.id),
       );
 

@@ -7,17 +7,17 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [RouterModule],
   templateUrl: './notification-link.component.html',
-  styleUrl: './notification-link.component.css'
+  styleUrl: './notification-link.component.css',
 })
 export class NotificationLinkComponent {
   @Input() notification_link: string;
 
   unread_count = 0;
-  notification_service = inject(NotificationService)
+  notification_service = inject(NotificationService);
 
   ngOnInit(): void {
-    this.notification_service.get_all().subscribe(notifications => {
-      this.unread_count = notifications.filter(n => !n.visualized).length
-    })
+    this.notification_service.get_all().subscribe((notifications) => {
+      this.unread_count = notifications.filter((n) => !n.visualized).length;
+    });
   }
 }

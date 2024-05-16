@@ -21,13 +21,21 @@ describe('CarrelloComponent', () => {
       'getCarrello',
       'inviaOrdine',
       'cancellaOrdine',
-      'clearCarrello'
+      'clearCarrello',
     ]);
 
     await TestBed.configureTestingModule({
       declarations: [],
-      imports: [RouterTestingModule.withRoutes([]),],
-      providers: [{ provide: CarrelloService, useValue: spy },{ provide: Router, useClass: class { navigate = jasmine.createSpy('navigate'); } },],
+      imports: [RouterTestingModule.withRoutes([])],
+      providers: [
+        { provide: CarrelloService, useValue: spy },
+        {
+          provide: Router,
+          useClass: class {
+            navigate = jasmine.createSpy('navigate');
+          },
+        },
+      ],
     }).compileComponents();
 
     carrelloService = TestBed.inject(

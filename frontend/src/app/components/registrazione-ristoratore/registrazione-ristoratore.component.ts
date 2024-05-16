@@ -23,7 +23,7 @@ import { OpeningHoursFormRistoratoreComponent } from '../form/opening-hours-form
   styleUrl: './registrazione-ristoratore.component.css',
 })
 export class RegistrazioneRistoratoreComponent {
-  constructor() { }
+  constructor() {}
 
   router = inject(Router);
   restaurant_service = inject(RestaurantRistoratoreService);

@@ -16,7 +16,7 @@ import { MessageService } from '../../services/lib/message.service';
   styleUrl: './registrazione-cliente.component.css',
 })
 export class RegistrazioneClienteComponent {
-  constructor() { }
+  constructor() {}
 
   auth = inject(AuthService);
   submit: SubmitService<SignonCliente, User> = inject(SubmitService);

@@ -32,14 +32,14 @@ export class RecensioneComponent implements OnInit {
   idRestaurant: number;
   form: FormGroup;
 
-  ms = inject(MessageService)
+  ms = inject(MessageService);
 
   constructor(
     private recensioneService: RecensioneService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private router: Router,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.idRestaurant = Number(this.route.snapshot.params['id']);
@@ -66,7 +66,7 @@ export class RecensioneComponent implements OnInit {
           this.ms.log('Recensione inviata con successo');
         })
         .catch((error) => {
-          this.ms.error('Errore durante l\'invio della recensione');
+          this.ms.error("Errore durante l'invio della recensione");
         });
     }
   }

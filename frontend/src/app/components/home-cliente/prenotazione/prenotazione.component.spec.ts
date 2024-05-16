@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  tick,
+  fakeAsync,
+} from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { PrenotazioneComponent } from './prenotazione.component';
@@ -18,7 +23,6 @@ import { FormBuilder } from '@angular/forms';
 import { FormArray } from '@angular/forms';
 import { of } from 'rxjs';
 
-
 describe('PrenotazioneComponent', () => {
   let component: PrenotazioneComponent;
   let fixture: ComponentFixture<PrenotazioneComponent>;
@@ -33,17 +37,33 @@ describe('PrenotazioneComponent', () => {
     };
 
     const orarioServiceStub = {
-      getOrariByRestaurantId: jasmine.createSpy('getOrariByRestaurantId').and.returnValue(
-        Promise.resolve([
-          { id_day: 1, name: 'Monday', opening_time: '08:00', closing_time: '18:00' },
-          { id_day: 2, name: 'Tuesday', opening_time: '08:00', closing_time: '18:00' }
-        ])
-      )
+      getOrariByRestaurantId: jasmine
+        .createSpy('getOrariByRestaurantId')
+        .and.returnValue(
+          Promise.resolve([
+            {
+              id_day: 1,
+              name: 'Monday',
+              opening_time: '08:00',
+              closing_time: '18:00',
+            },
+            {
+              id_day: 2,
+              name: 'Tuesday',
+              opening_time: '08:00',
+              closing_time: '18:00',
+            },
+          ]),
+        ),
     };
 
     const prenotazioneServiceStub = {
-      creaPrenotazione: jasmine.createSpy('creaPrenotazione').and.returnValue(Promise.resolve(1)),
-      invitaPrenotazione: jasmine.createSpy('invitaPrenotazione').and.returnValue(Promise.resolve()),
+      creaPrenotazione: jasmine
+        .createSpy('creaPrenotazione')
+        .and.returnValue(Promise.resolve(1)),
+      invitaPrenotazione: jasmine
+        .createSpy('invitaPrenotazione')
+        .and.returnValue(Promise.resolve()),
     };
 
     await TestBed.configureTestingModule({
@@ -61,7 +81,12 @@ describe('PrenotazioneComponent', () => {
       providers: [
         PrenotazioneDataService,
         FormBuilder,
-        { provide: Router, useClass: class { navigate = jasmine.createSpy('navigate'); } },
+        {
+          provide: Router,
+          useClass: class {
+            navigate = jasmine.createSpy('navigate');
+          },
+        },
         {
           provide: ActivatedRoute,
           useValue: { snapshot: { params: { id: '1' } } },
@@ -96,7 +121,10 @@ describe('PrenotazioneComponent', () => {
 
   it('should update partecipanti controls based on numeroPartecipanti', () => {
     component.updatePartecipantiControls(3);
-    expect(Object.keys(component.prenotazioneForm.controls['partecipanti'].value).length).toBe(3);
+    expect(
+      Object.keys(component.prenotazioneForm.controls['partecipanti'].value)
+        .length,
+    ).toBe(3);
   });
 
   it('should invoke inviaPrenotazione with valid form data', fakeAsync(() => {
@@ -105,27 +133,33 @@ describe('PrenotazioneComponent', () => {
       dataPrenotazione: '2024-05-20',
       oraPrenotazione: '12:00',
       numeroPartecipanti: 3,
-      metodoPagamento: 'Cash'
+      metodoPagamento: 'Cash',
     });
     component.inviaPrenotazione();
     tick();
     expect(component.inviaPrenotazione).toHaveBeenCalled();
   }));
-  
+
   it('should check if orario apertura is valid', () => {
-    component.selectedDayInfo = { opening_time: '08:00', closing_time: '18:00' };
+    component.selectedDayInfo = {
+      opening_time: '08:00',
+      closing_time: '18:00',
+    };
     component.prenotazioneForm.patchValue({
       dataPrenotazione: '2024-05-20',
-      oraPrenotazione: '10:00'
+      oraPrenotazione: '10:00',
     });
     expect(component.controllaOrarioApertura()).toBeTrue();
   });
 
   it('should check if orario apertura is invalid', () => {
-    component.selectedDayInfo = { opening_time: '08:00', closing_time: '18:00' };
+    component.selectedDayInfo = {
+      opening_time: '08:00',
+      closing_time: '18:00',
+    };
     component.prenotazioneForm.patchValue({
       dataPrenotazione: '2024-05-20',
-      oraPrenotazione: '20:00'
+      oraPrenotazione: '20:00',
     });
     expect(component.controllaOrarioApertura()).toBeFalse();
   });
@@ -139,7 +173,7 @@ describe('PrenotazioneComponent', () => {
 
   it('should get partecipanti array', () => {
     component.prenotazioneForm.patchValue({
-      numeroPartecipanti: 3
+      numeroPartecipanti: 3,
     });
     const partecipantiArray = component.getPartecipantiArray();
     expect(partecipantiArray.length).toBe(3);
@@ -152,13 +186,12 @@ describe('PrenotazioneComponent', () => {
     expect(formattedDate).toBe('2024-05-20T10:00:00.000Z');
   });
 
-
-
-
   it('should show error message if form is invalid', () => {
     spyOn(component.ms, 'error');
     component.inviaPrenotazione();
-    expect(component.ms.error).toHaveBeenCalledWith('Compila tutti i campi correttamente.');
+    expect(component.ms.error).toHaveBeenCalledWith(
+      'Compila tutti i campi correttamente.',
+    );
   });
 
   it('should create prenotazione and invite users', fakeAsync(() => {
@@ -168,11 +201,13 @@ describe('PrenotazioneComponent', () => {
       dataPrenotazione: '2024-05-20',
       oraPrenotazione: '12:00',
       numeroPartecipanti: 3,
-      metodoPagamento: 'Cash'
+      metodoPagamento: 'Cash',
     });
     component.inviaPrenotazione();
     tick();
-    expect(component.ms.log).toHaveBeenCalledWith('Inviti alla prenotazione inviati con successo');
+    expect(component.ms.log).toHaveBeenCalledWith(
+      'Inviti alla prenotazione inviati con successo',
+    );
   }));
 
   it('should handle error while creating prenotazione', fakeAsync(() => {
@@ -182,16 +217,18 @@ describe('PrenotazioneComponent', () => {
         dataPrenotazione: '2024-05-20',
         oraPrenotazione: '12:00',
         numeroPartecipanti: 3,
-        metodoPagamento: 'Cash'
+        metodoPagamento: 'Cash',
       });
       component.inviaPrenotazione();
       tick();
     } catch (error) {
       expect(prenotazioneService.creaPrenotazione).toHaveBeenCalled(); // Verifica che il metodo sia stato chiamato
-      expect(component.ms.error).toHaveBeenCalledWith('Errore durante la creazione della prenotazione:');
+      expect(component.ms.error).toHaveBeenCalledWith(
+        'Errore durante la creazione della prenotazione:',
+      );
     }
   }));
-  
+
   it('should handle error while inviting users', fakeAsync(() => {
     spyOn(component.ms, 'error');
     try {
@@ -199,14 +236,15 @@ describe('PrenotazioneComponent', () => {
         dataPrenotazione: '2024-05-20',
         oraPrenotazione: '12:00',
         numeroPartecipanti: 3,
-        metodoPagamento: 'Cash'
+        metodoPagamento: 'Cash',
       });
       component.inviaPrenotazione();
       tick();
     } catch (error) {
       expect(prenotazioneService.invitaPrenotazione).toHaveBeenCalled(); // Verifica che il metodo sia stato chiamato
-      expect(component.ms.error).toHaveBeenCalledWith('Errore durante l\'invio degli inviti alla prenotazione');
+      expect(component.ms.error).toHaveBeenCalledWith(
+        "Errore durante l'invio degli inviti alla prenotazione",
+      );
     }
   }));
-
 });
