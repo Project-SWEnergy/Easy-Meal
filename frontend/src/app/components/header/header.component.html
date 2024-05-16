@@ -8,11 +8,6 @@
 
     <div class="toolbar">
 
-      @if(!auth.isAuth()) {
-      <a routerLink="cliente/login"> Login </a>
-      <a routerLink="cliente/registrazione"> Registrati </a>
-      }
-
       @if(auth.isUser()) {
       <a routerLink="cliente/home"> Esplora </a>
       <a routerLink="prenotazioni"> Prenotazioni </a>
@@ -26,6 +21,11 @@
       <a routerLink="ristoratore/ingredients"> Ingredienti </a>
       <a routerLink="ristoratore/dishes"> Piatti </a>
       <a routerLink="ristoratore/home"> Prenotazioni </a>
+      }
+
+      @if(!auth.isAuth()) {
+      <a routerLink="cliente/registrazione"> Registrati </a>
+      <a routerLink="cliente/login"> Login </a>
       }
 
       @if(auth.isAuth()) {
