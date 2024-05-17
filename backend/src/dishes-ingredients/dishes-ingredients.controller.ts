@@ -5,6 +5,7 @@ import { UpdateDishesIngredientDto } from './dto/update-dishes-ingredient.dto';
 import { UserType } from '../authentication/dto/user-data.dto';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { ResultDishesIngredientDto } from './dto/result-dishes-ingredients.dto';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 
 @Controller('dishes-ingredients')
 export class DishesIngredientsController {
@@ -14,6 +15,9 @@ export class DishesIngredientsController {
   ) { }
 
   @Post('create')
+  @ApiOperation({ summary: 'Crea una nuova associazione tra piatto e ingrediente'})
+  @ApiResponse({ status: 200, description: 'Associazione creata con successo.', type: ResultDishesIngredientDto })
+  @ApiBody({ type: CreateDishesIngredientDto })
   async create(
     @Body() createDishesIngredientDto: CreateDishesIngredientDto[],
     @Req() req
@@ -24,6 +28,9 @@ export class DishesIngredientsController {
   }
 
   @Get('find-all-by-ingredient/:id')
+  @ApiOperation({ summary: 'Cerca tutte le associazioni tra piatti e un ingrediente specifico'})
+  @ApiResponse({ status: 200, description: 'Associazioni trovate con successo.', type: ResultDishesIngredientDto })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID ingrediente' })
   async findAllByIngredientId(
     @Param('id') id: string
   ): Promise<ResultDishesIngredientDto> {
@@ -34,6 +41,9 @@ export class DishesIngredientsController {
   }
 
   @Get('find-all-by-dish/:id')
+  @ApiOperation({ summary: 'Cerca tutte le associazioni tra un piatto specifico e gli ingredienti'})
+  @ApiResponse({ status: 200, description: 'Associazioni trovate con successo.', type: ResultDishesIngredientDto })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID piatto' })
   async findAllByDishId(
     @Param('id') id: string
   ): Promise<ResultDishesIngredientDto> {
@@ -44,6 +54,10 @@ export class DishesIngredientsController {
   }
 
   @Get('find-one/:dishId/:ingredientId')
+  @ApiOperation({ summary: 'Cerca una specifica associazione tra piatto e ingrediente'})
+  @ApiResponse({ status: 200, description: 'Associazione trovata con successo.', type: ResultDishesIngredientDto })
+  @ApiParam({ name: 'dishId', type: 'number', description: 'ID piatto' })
+  @ApiParam({ name: 'ingredientId', type: 'number', description: 'ID ingrediente' })
   async findOne(
     @Param('dishId') dishId: string,
     @Param('ingredientId') ingredientId: string
@@ -56,6 +70,11 @@ export class DishesIngredientsController {
   }
 
   @Patch(':dishId/:ingredientId')
+  @ApiOperation({ summary: 'Modifica una specifica associazione tra piatto e ingrediente'})
+  @ApiResponse({ status: 200, description: 'Associazione modificata con successo.', type: ResultDishesIngredientDto })
+  @ApiParam({ name: 'dishId', type: 'number', description: 'ID piatto' })
+  @ApiParam({ name: 'ingredientId', type: 'number', description: 'ID ingrediente' })
+  @ApiBody({ type: UpdateDishesIngredientDto })
   async update(
     @Param('dishId') dishId: string,
     @Param('ingredientId') ingredientId: string,
@@ -70,6 +89,10 @@ export class DishesIngredientsController {
   }
 
   @Delete(':dishId/:ingredientId')
+  @ApiOperation({ summary: 'Rimuove una specifica associazione tra piatto e ingrediente'})
+  @ApiResponse({ status: 200, description: 'Associazione rimossa con successo.', type: ResultDishesIngredientDto })
+  @ApiParam({ name: 'dishId', type: 'number', description: 'ID piatto' })
+  @ApiParam({ name: 'ingredientId', type: 'number', description: 'ID ingrediente' })
   async remove(
     @Param('dishId') dishId: string,
     @Param('ingredientId') ingredientId: string,
