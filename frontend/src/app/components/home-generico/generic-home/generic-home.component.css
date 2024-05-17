@@ -1,0 +1,22 @@
+form {
+  margin: 1em;
+}
+
+input[type="text"] {
+  border: solid 1px #605DC8;
+  padding: 10px;
+  border-radius: 8px;
+  margin-right: 4px;
+  display: inline-block;
+  width: 30%;
+}
+
+button {
+  @apply bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 disabled:bg-light-color;
+}
+
+@media (min-width: 500px) and (max-width: 768px) {
+  input[type="text"] {
+    width: 70%;
+  }
+}

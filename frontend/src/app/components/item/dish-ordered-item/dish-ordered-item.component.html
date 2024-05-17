@@ -1,0 +1,24 @@
+<mat-card class="dish-card">
+    <mat-card-header class="dish-card-header">
+        <mat-card-title-group class="dish-title-group">
+            <mat-card-title class="dish-title">
+                {{ ordered_dish.name_dish }}
+            </mat-card-title>
+            <mat-card-subtitle class="dish-subtitle">
+                <p>{{ ordered_dish.price_dish }}€</p>
+                <p>Stato di pagamento: {{ ordered_dish.paid ? 'pagato' : 'da pagare' }}</p>
+            </mat-card-subtitle>
+        </mat-card-title-group>
+    </mat-card-header>
+
+    <mat-card-content class="card-content">
+        @if(ordered_dish.removed_ingredients && ordered_dish.removed_ingredients){
+            <p><strong>Ingredienti rimossi:</strong></p>
+            <ul>
+            @for(ing of ordered_dish.removed_ingredients; track ordered_dish.removed_ingredients ) {
+                <li class="ingredient"> {{ ing.name_ingredient }} </li>
+            }
+            </ul>
+        }
+    </mat-card-content>
+</mat-card>

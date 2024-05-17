@@ -1,0 +1,10 @@
+.card {
+    @apply flex justify-between p-4 rounded-lg shadow-md 
+    transition-all duration-300 ease-in-out;
+  }
+  .name {
+    @apply text-label font-medium;
+  }
+  .quantity {
+    @apply text-right text-placeholder;
+  }

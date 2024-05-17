@@ -1,0 +1,18 @@
+/* Styling for the main container and dynamic list of dishes */
+.dishes-container {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4
+    py-8 mx-auto;
+    max-width: 1280px; /* Adjustable based on layout requirements */
+    min-height: 0; /* Necessary for flex children in Firefox */
+}
+
+/* Ensure all cards have the same height */
+.dish-item {
+    @apply flex flex-col justify-between; /* Stretches items to fill the container */
+    min-height: 0;
+}
+
+/* Header styling to emphasize the title */
+h1 {
+    @apply text-4xl font-bold text-center py-4;
+}

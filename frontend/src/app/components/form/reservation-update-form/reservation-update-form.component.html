@@ -1,0 +1,56 @@
+@if(!selected) {
+    <app-reservation-item
+        [reservation]="reservation"
+        (click)="selected = !selected">
+    </app-reservation-item>
+}
+@if(selected) {
+    <form [formGroup]="form">
+        <!-- partecipants -->
+        <mat-form-field>
+            <mat-label>Numero partecipanti</mat-label>
+            <input matInput
+                type="number"
+                formControlName="partecipants">
+            @if (form.get('partecipants')?.touched && form.get('partecipants')?.hasError('required')){
+            <mat-error> Inserire il numero di partecipanti </mat-error>
+            }
+        </mat-form-field>
+
+        <!-- reservation's status -->
+        <mat-form-field>
+            <mat-label>Stato della prenotazione</mat-label>
+            <input matInput
+                type="text"
+                formControlName="reservation_state"
+                [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+                @for (status of reservation_states; track status) {
+                    <mat-option [value]="status">{{status}}</mat-option>
+                }
+            </mat-autocomplete>
+            @if (form.get('reservation_state')?.touched && form.get('reservation_state')?.hasError('required')){
+            <mat-error> Inserire lo stato della prenotazione </mat-error>
+            }
+        </mat-form-field>
+
+        <!-- reservation's bill splitting method -->
+        <mat-form-field>
+            <mat-label>Metodo di divisione del conto</mat-label>
+            <input matInput
+                type="text"
+                formControlName="bill_splitting_method"
+                [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+                @for (method of bill_splitting_methods; track method) {
+                    <mat-option [value]="method">{{method}}</mat-option>
+                }
+            </mat-autocomplete>
+            @if (form.get('reservation_state')?.touched && form.get('reservation_state')?.hasError('required')){
+            <mat-error> Inserire un metodo di pagamento </mat-error>
+            }
+        </mat-form-field>
+
+        <button mat-button type="submit" [disabled]="!form.valid" (click)="send_form()"> Salva </button>
+    </form>
+}

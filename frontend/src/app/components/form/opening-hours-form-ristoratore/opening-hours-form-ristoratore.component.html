@@ -1,0 +1,55 @@
+<div class="container">
+    <form [formGroup]="hour_form">
+        <!-- Form to add new hour -->
+        <mat-form-field>
+            <mat-label>Giorno della settimana</mat-label>
+            <input matInput type="text" formControlName="id_day" [matAutocomplete]="auto">
+            @if(hour_form.get('id_day')?.touched && hour_form.get('id_day')?.hasError('required')) {
+            <mat-error> Selezionare un giorno </mat-error>
+            }
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+
+                @for (day of filtered_weekdays | async; track day) {
+                <mat-option [value]="day">{{day.name}}</mat-option>
+                }
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <!-- Opening time -->
+        <mat-form-field>
+            <mat-label>Orario di apertura</mat-label>
+            <input matInput type="text" formControlName="opening_time">
+            @if(hour_form.get('opening_time')?.touched && hour_form.get('opening_time')?.hasError('pattern')) {
+            <mat-error> Inserisci un orario nel formato HH:MM. </mat-error>
+            }
+            @if(hour_form.get('opening_time')?.touched && hour_form.get('opening_time')?.hasError('required')) {
+            <mat-error> Inserisci un orario </mat-error>
+            }
+        </mat-form-field>
+
+        <!-- Opening time -->
+        <mat-form-field>
+            <mat-label>Orario di chiusura</mat-label>
+            <input matInput type="text" formControlName="closing_time">
+            @if(hour_form.get('closing_time')?.touched && hour_form.get('closing_time')?.hasError('pattern')) {
+            <mat-error> Inserisci un orario nel formato HH:MM. </mat-error>
+            }
+            @if(hour_form.get('closing_time')?.touched && hour_form.get('closing_time')?.hasError('required')) {
+            <mat-error> Inserisci un orario. </mat-error>
+            }
+        </mat-form-field>
+
+        <button type="button" class="submit-button" (click)="add_hour()" [disabled]="!hour_form.valid">+</button>
+    </form>
+
+    @for(control_group of openings_form.controls; let i = $index; track openings_form) {
+    <div class="weekday">
+        <div class="data">
+            <span class="weekday-name">{{ control_group.value.id_day.name }} </span>
+            <span class="weekday-time">{{ control_group.value.opening_time }}/</span>
+            <span class="weekday-time">{{ control_group.value.closing_time }} </span>
+        </div>
+        <button class="remove-button" (click)="remove_hour(i)">X</button>
+    </div>
+    }
+</div>

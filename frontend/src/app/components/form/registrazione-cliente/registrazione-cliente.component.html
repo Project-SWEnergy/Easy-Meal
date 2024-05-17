@@ -1,0 +1,62 @@
+<div class="login-container bg-gray-100 py-10 px-6 rounded-lg shadow-md max-w-md mx-auto">
+<form [formGroup]="form" (ngSubmit)="on_submit()" class="login-form">
+    <!-- Nome -->
+    <mat-form-field>
+        <mat-label> Nome </mat-label>
+        <input matInput 
+            type="text" 
+            formControlName="name">
+        @if(form.get('name')?.hasError('required') && form.get('name')?.touched)
+        {
+            <mat-error> Inserisci un nome </mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Cognome -->
+    <mat-form-field>
+        <mat-label> Cognome </mat-label>
+        <input matInput 
+            type="text" 
+            formControlName="surname">
+        @if(form.get('surname')?.hasError('required') && form.get('surname')?.touched)
+        {
+            <mat-error> Inserisci un nome </mat-error>
+        }
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput 
+            type="email" 
+            formControlName="email">
+    @if(form.get('email')?.hasError('required') && form.get('email')?.touched)
+    {
+        <mat-error> Inserisci una email </mat-error>
+    }
+    @if(form.get('email')?.hasError('pattern') && form.get('email')?.touched)
+    {
+        <mat-error> Inserisci una email valida </mat-error>
+    }
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput 
+            [type]="hidePassword ? 'password' : 'text'" 
+            formControlName="password">
+        @if(form.get('password')?.hasError('required') && form.get('password')?.touched)
+        {
+            <mat-error> Inserisci la password </mat-error>
+        }
+        <button mat-icon-button matSuffix 
+            (click)="hidePassword = !hidePassword" 
+            [attr.aria-label]="'Nascondi password'"
+            [attr.aria-pressed]="hidePassword"
+        >
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <button mat-button type="submit" class="submit-button" [disabled]="!form.valid"> Registrati </button>
+</form>
+</div>

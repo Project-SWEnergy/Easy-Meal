@@ -1,0 +1,4 @@
+.notification-badge {
+    @apply bg-lt-purple text-white py-1 px-2 rounded-full text-xs;
+    display: inline;
+}

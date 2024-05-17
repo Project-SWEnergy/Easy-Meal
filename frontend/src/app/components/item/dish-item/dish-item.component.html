@@ -1,0 +1,31 @@
+@if(dish.price === 0){
+  <mat-card class="new-dish-card">
+    <mat-card-header>
+      <mat-card-title-group>
+        <div class="title-and-subtitle">
+          <mat-card-title>{{ dish.name }}</mat-card-title>
+        </div>
+        <img mat-card-lg-image [src]="dish.image"> 
+      </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+      {{ dish.description }}
+    </mat-card-content>
+  </mat-card>
+}
+@if(dish.price !== 0){
+  <mat-card class="bg-form">
+    <mat-card-header>
+      <mat-card-title-group>
+        <div class="title-and-subtitle">
+          <mat-card-title>{{ dish.name }}</mat-card-title>
+          <mat-card-subtitle>{{ dish.price }}€</mat-card-subtitle>
+        </div>
+        <img mat-card-lg-image [src]="dish.image"> 
+      </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+      {{ dish.description }}
+    </mat-card-content>
+  </mat-card>
+}

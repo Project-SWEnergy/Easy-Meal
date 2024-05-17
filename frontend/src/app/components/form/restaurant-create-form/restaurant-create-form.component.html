@@ -1,0 +1,140 @@
+<form [formGroup]="form" class="login-form">
+    <!-- Nome del titolare -->
+    <mat-form-field>
+        <mat-label>Nome del proprietario</mat-label>
+        <input matInput 
+            type="text" 
+            formControlName="owner_name">
+        @if(form.get('owner_name')?.hasError('required') && form.get('owner_name')?.touched)
+        {
+            <mat-error> Inserisci il nome del titolare </mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Cognome del titolare -->
+    <mat-form-field>
+        <mat-label>Cognome del proprietario</mat-label>
+        <input matInput 
+            type="text" 
+            formControlName="owner_surname">
+        @if(form.get('owner_surname')?.hasError('required') && form.get('owner_surname')?.touched)
+        {
+            <mat-error> Inserisci il cognome del titolare </mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Nome del ristorante -->
+    <mat-form-field>
+        <mat-label>Nome del ristorante</mat-label>
+        <input matInput 
+            type="text" 
+            formControlName="name">
+        @if(form.get('name')?.hasError('required') && form.get('name')?.touched)
+        {
+            <mat-error> Inserisci il nome del ristorante </mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Email -->
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput 
+            type="email" 
+            formControlName="email">
+    @if(form.get('email')?.hasError('required') && form.get('email')?.touched)
+    {
+        <mat-error> Inserisci una email </mat-error>
+    }
+    @if(form.get('email')?.hasError('pattern') && form.get('email')?.touched)
+    {
+        <mat-error> Inserisci una email valida </mat-error>
+    }
+    </mat-form-field>
+
+    <!-- Password -->
+    <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput 
+            [type]="hide_password ? 'password' : 'text'" 
+            formControlName="password">
+        @if(form.get('password')?.hasError('required') && form.get('password')?.touched)
+        {
+            <mat-error> Inserisci la password </mat-error>
+        }
+        <button mat-icon-button matSuffix 
+            (click)="hide_password = !hide_password" 
+            [attr.aria-label]="'Nascondi password'"
+            [attr.aria-pressed]="hide_password"
+        >
+            <mat-icon>{{hide_password ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <!-- Numero di telefono -->
+    <mat-form-field>
+        <mat-label>Numero di telefono</mat-label>
+        <input matInput 
+            type="text" 
+            formControlName="phone">
+        @if(form.get('phone')?.hasError('maxlength') && form.get('phone')?.touched)
+        {
+            <mat-error> Il numero di telefono è troppo lungo </mat-error>
+        }
+        @if(form.get('phone')?.hasError('minlength') && form.get('phone')?.touched)
+        {
+            <mat-error> Il numero di telefono è troppo corto </mat-error>
+        }
+        @if(form.get('phone')?.hasError('required') && form.get('phone')?.touched)
+        {
+            <mat-error> Inserire un numero di telefono </mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Posti a sedere -->
+    <mat-form-field>
+        <mat-label>Posti a sedere</mat-label>
+        <input matInput 
+            type="number" 
+            formControlName="seats">
+        @if(form.get('seats')?.hasError('min'))
+        {
+            <mat-error> Inserisci un numero di sedute positivo </mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Price tier -->
+    <mat-form-field>
+        <mat-label>Costo</mat-label>
+        <input matInput 
+            type="number" 
+            formControlName="price_tier">
+        @if(form.get('price_tier')?.hasError('min') || form.get('price_tier')?.hasError('max'))
+        {
+            <mat-error> Inserisci un valore di costo compreso tra 0 e 3 </mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Link al sito web -->
+    <mat-form-field>
+        <mat-label>Sito web</mat-label>
+        <input matInput 
+            type="text" 
+            formControlName="website">
+    </mat-form-field>
+
+    <!-- Descrizione del ristorante -->
+    <mat-form-field>
+        <mat-label>Descrizione del ristorante</mat-label>
+        <textarea 
+            matInput 
+            formControlName="description"
+            #descriptionTextArea
+            rows="10"
+            >
+        </textarea>
+        @if(form.get('description')?.hasError('maxlength'))
+        {
+            <mat-error> Il testo è troppo lungo </mat-error>
+        }
+        </mat-form-field>
+</form>

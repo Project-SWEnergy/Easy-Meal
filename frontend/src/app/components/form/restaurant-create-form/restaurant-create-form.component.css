@@ -1,0 +1,15 @@
+mat-form-field {
+  @apply mb-6 w-full;
+}
+
+mat-form-filed input {
+  @apply w-full border rounded-md px-4 py-2;
+}
+
+mat-form-filed mat-error {
+  @apply text-error;
+}
+
+.toggle-visibility {
+  @apply relative top-2 right-2;
+}

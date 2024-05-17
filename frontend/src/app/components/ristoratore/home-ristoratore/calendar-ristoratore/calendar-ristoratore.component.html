@@ -1,0 +1,16 @@
+<mat-card>
+  @if(reservations_dates !== undefined) {
+  <mat-calendar [(selected)]="selected" (selectedChange)="onDateChange()" [dateClass]="dateClass"
+    [dateFilter]="dateFilter">
+  </mat-calendar>
+  }
+  <div class='desc'>
+    <ul>
+      <li class='in-attesa-desc'> Almeno una prenotazione "In Attesa" </li>
+      <li class='waiting-desc'> Almeno una prenotazione "Approvata", "In corso" o "Pagamento" e
+        nessuna prenotazione "In Attesa"</li>
+      <li class='ended-desc'> Almeno una prenotazione "Conclusa" e nessuna prenotazine
+        appartenente alle due categorie qui sopra</li>
+    </ul>
+  </div>
+</mat-card>

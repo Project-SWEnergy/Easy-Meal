@@ -1,0 +1,12 @@
+{
+  "/api": {
+    "target": "",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/resources": {
+    "target": "http://nest:3000",
+    "secure": false
+  }
+}

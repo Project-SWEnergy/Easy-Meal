@@ -1,0 +1,64 @@
+version: '3'
+
+networks:
+  easymeal:
+    driver: bridge
+
+services:
+  db:
+    image: postgres:alpine
+    restart: always
+    mem_limit: "1g"
+    mem_reservation: "512m"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=easymeal
+    volumes: 
+      - db:/var/lib/postgresql/data
+    networks:
+      - easymeal
+    ports:
+      - 5432:5432
+
+  nest:
+    build: ./backend/
+    ports:
+      - 3000:3000
+    networks:
+      - easymeal
+    command: ["npm", "run", "start"]
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/easymeal
+    volumes: 
+      - ./resources:/usr/src/app/resources
+    mem_limit: "1g"
+    mem_reservation: "512m"
+
+  frontend:
+    build: ./frontend
+    ports:
+      - 4200:4200
+    depends_on:
+      - nest
+    networks:
+      - easymeal
+    command: ng serve --host 0.0.0.0 --port 4200 --proxy-config proxy.conf.json
+    mem_limit: "1g"
+    mem_reservation: "512m"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8000:8080
+    networks:
+      - easymeal
+    mem_limit: "1g"
+    mem_reservation: "512m"
+
+volumes:
+  db:
+    driver: local

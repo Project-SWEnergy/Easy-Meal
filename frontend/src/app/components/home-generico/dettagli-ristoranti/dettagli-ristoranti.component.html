@@ -1,0 +1,70 @@
+@if(ristorante)
+{
+<div class="container mx-auto py-8 flex justify-center items-center">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden max-w-screen-lg w-full p-6">
+        <h2 class="ristoranti-heading text-3xl font-semibold mb-4">{{ristorante.name}}</h2>
+        <p class="ristoranti-location flex items-center text-lg mb-4">
+            <img src="../../../../assets/location-pin.svg" alt="Location icon" class="mr-2 w-6 h-6">
+            <app-indirizzo [ristoranteId]="ristorante.id"></app-indirizzo>
+        </p>
+        <img class="w-full h-100 object-cover rounded-xl" src="{{ristorante.banner_image}}"
+            alt="Exterior photo of {{ristorante.name}}">
+        <div class="p-8 space-y-8">
+            <div>
+                <p class="text-lg mb-2 flex items-center">
+                    <img src="../../../../assets/description-icon.svg" alt="Description icon" class="mr-2 w-6 h-6">
+                    {{ristorante.description}}
+                </p>
+            </div>
+            <div>
+                <p class="text-lg mb-2 flex items-center">
+                    <img src="../../../../assets/phone-icon.svg" alt="Phone icon" class="mr-2 w-6 h-6">
+                    <span class="font-bold mr-1">Numero di telefono:</span>{{ristorante.phone}}
+                </p>
+            </div>
+            <div>
+                <p class="text-lg mb-2 flex items-center">
+                    <img src="../../../../assets/price-icon.svg" alt="Price icon" class="mr-2 w-6 h-6">
+                    <span class="font-bold mr-1">Fascia di prezzo medio: </span>{{ristorante.price_tier}}€
+                </p>
+            </div>
+            <div>
+                <p class="text-lg mb-2 flex items-center">
+                    <img src="../../../../assets/website-icon.svg" alt="Website icon" class="mr-2 w-6 h-6">
+                    <span class="font-bold mr-1">Sito web del ristorante: </span><a href="{{ristorante.website}}"
+                        target="_blank" class="text-blue-500 hover:underline"> {{ristorante.website}} </a>
+                </p>
+            </div>
+            <div>
+                <h2 class="text-xl font-bold mb-2">Orari:</h2>
+                <app-orari [ristoranteId]="ristorante.id"></app-orari>
+            </div>
+                <div class="flex justify-center mt-8">
+                    @if(userPaid && ristorante)
+                    {
+                    <button (click)="goToReviewPage(ristorante.id)"
+                        class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color">
+                        Inserisci recensione
+                    </button>
+                    }
+                    @if(this.auth.isAuth() && ristorante)
+                    {
+                    <button (click)="goToReservationPage(ristorante.id)"
+                        class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color">
+                        Prenota</button>
+                    }
+                </div>
+            <div>
+                <h2 class="text-lg font-semibold mb-2">Recensioni del ristorante:</h2>
+                <app-recensioni-list [ristoranteId]="ristorante.id"></app-recensioni-list>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mx-auto py-8">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden p-8">
+        <h2 class="text-lg font-semibold mb-2">Menù del ristorante:</h2>
+        <app-menu [ristoranteId]="ristorante.id"></app-menu>
+    </div>
+</div>
+}

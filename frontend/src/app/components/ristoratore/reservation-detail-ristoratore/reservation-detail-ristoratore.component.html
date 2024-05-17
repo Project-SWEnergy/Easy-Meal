@@ -1,0 +1,28 @@
+<h1> Dettagli della prenotazione </h1>
+@if(reservation) {
+    <div class="content-container">
+        <div class="empty-container">
+        </div>
+
+        <div class="main">
+            <app-reservation-update-form 
+                [reservation]="reservation" 
+                (onChange)="onReservationChange()">
+            </app-reservation-update-form>
+
+            <div class="order-container">
+                <h2> Ordini </h2>
+                @for(order of dish_orders; track order){
+                    <app-order-item [order]="order"></app-order-item>
+                }
+            </div>
+        </div>
+
+        <div class="ingredient-container">
+            <h3> Ingredienti </h3>
+            @for(ing of ingredients; track ing && ingredients){
+                <app-ordered-ingredient-item [ingredient]="ing"></app-ordered-ingredient-item>
+            }
+        </div>
+    </div>
+}

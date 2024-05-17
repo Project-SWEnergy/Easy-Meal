@@ -1,0 +1,39 @@
+<header>
+  <div>
+    <a routerLink="">
+      <img src="../../../assets/logo_finale.png" alt="Logo" class="navbar-icon">
+      <span class="">Easy Meal</span>
+    </a>
+
+
+    <div class="toolbar">
+
+      @if(auth.isUser()) {
+      <a routerLink="cliente/home"> Esplora </a>
+      <a routerLink="prenotazioni"> Prenotazioni </a>
+      }
+      @else if(!auth.isUser())
+      {
+      <a routerLink=""> Esplora </a>
+      }
+
+      @if(auth.isRestaurant()) {
+      <a routerLink="ristoratore/ingredients"> Ingredienti </a>
+      <a routerLink="ristoratore/dishes"> Piatti </a>
+      <a routerLink="ristoratore/home"> Prenotazioni </a>
+      }
+
+      @if(!auth.isAuth()) {
+      <a routerLink="cliente/registrazione"> Registrati </a>
+      <a routerLink="cliente/login"> Login </a>
+      }
+
+      @if(auth.isAuth()) {
+      <app-notification-link [notification_link]="'/notifiche'"></app-notification-link>
+      <a routerLink="/logout"> Logout </a>
+      }
+
+    </div>
+
+  </div>
+</header>

@@ -1,0 +1,25 @@
+<h1> Notifiche </h1>
+
+<div class="container">
+    <mat-button-toggle-group 
+        [(ngModel)]="notificationType"
+        (change)="onTypeChange()"
+        class="toggle-group"
+    >
+        <mat-button-toggle class="button-toggle" value="unread">Nuove</mat-button-toggle>
+        <mat-button-toggle class="button-toggle" value="read">Lette</mat-button-toggle>
+    </mat-button-toggle-group>
+@for(notifica of filtered_notifications; track notifications) {
+    <mat-card>
+        <mat-card-header class="header-container">
+            <mat-card-title> {{notifica.title}} </mat-card-title>
+            @if(!notifica.visualized) {
+            <button class="read-button" (click)="read_notification(notifica.id)">Segna come già letto</button>
+            }
+        </mat-card-header>
+        <mat-card-content>
+            <p> {{notifica.message}} </p>
+        </mat-card-content>
+    </mat-card>
+}
+</div>

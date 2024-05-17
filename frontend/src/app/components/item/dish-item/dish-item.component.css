@@ -1,0 +1,39 @@
+/* Tailwind CSS for mat-card-header components */
+mat-card {
+  @apply shadow-md rounded-lg overflow-hidden hover:bg-form
+  transition-all duration-300 ease-in-out flex flex-col justify-between; 
+  min-height: 0; /* Necessary for flex children in Firefox */
+  flex-grow: 1;
+}
+
+.new-dish-card {
+  @apply bg-form
+}
+
+mat-card-header {
+  @apply flex flex-col w-full;
+}
+
+mat-card-title-group {
+  @apply flex flex-row-reverse justify-between w-full;
+}
+
+.title-and-subtitle {
+  @apply flex flex-col w-3/4;
+}
+
+mat-card-title {
+  @apply text-lg font-semibold;
+}
+
+mat-card-subtitle {
+  @apply text-sm text-label;
+}
+
+img[mat-card-lg-image] {
+  @apply w-1/4 h-auto object-contain;
+}
+
+p {
+  @apply w-full px-4 py-2 text-base text-justify mt-4;
+}

@@ -1,0 +1,49 @@
+.ristoranti-description
+{
+  padding-left: 3em;
+}
+.ristoranti-photo {
+  margin-top: 3em;
+  margin-right: 3em;
+  height: 45em;
+  width: 50%;
+  object-fit: cover;
+  border-radius: 3em;
+  float: right;
+}
+
+.ristoranti-location {
+  font-size: 1.7em;
+  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+}
+
+.ristoranti-location img {
+  margin-right: 0.5em;
+}
+
+.ristoranti-features > .ristoranti-heading {
+  color: #8B89E6;
+  font-size: 1.5em;
+  margin-bottom: 1em;
+}
+
+.ristoranti-features p {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.ristoranti-heading {
+  font-size: 3em;
+  font-weight: bold;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+@media (max-width: 1024px) {
+  .ristoranti-photo {
+      width: 100%;
+      height: 400px;
+  }
+}

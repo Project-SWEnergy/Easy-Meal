@@ -1,0 +1,22 @@
+<section>
+    <form (submit)="onSubmit($event)">
+      <input type="text" placeholder="Filtra per nome del ristorante" #filter>
+      <button class="primary" type="button" (click)="filterResultsByName(filter.value)">Cerca</button>
+    </form>
+</section>
+
+ 
+@if(ristorantiList && ristorantiList.length > 0)
+{
+      <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+        @for(ristoranti of filteredRistorantiList; track filteredRistorantiList)
+        {
+          <ng-container>
+            <app-ristoranti [ristoranti]="[ristoranti]"></app-ristoranti>
+          </ng-container>
+        }
+      
+    </section>
+}
+
+

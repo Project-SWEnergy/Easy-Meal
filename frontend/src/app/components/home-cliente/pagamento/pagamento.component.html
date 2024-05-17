@@ -1,0 +1,158 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold text-center mb-8"><span class="font-bold">Area Pagamento</span></h1>
+  <div class="mb-8">
+    <h2 class="text-2xl font-bold mb-4 text-center">Dettagli dell'ordine</h2>
+    <h3 class="text-lg mb-4 text-center">Il metodo scelto per il pagamento è: {{bill_splitting}}</h3>
+    @if(hasUserPaid === true || unpaidDishes.length === 0)
+    {
+      <div class="flex items-center justify-center">
+        <h1 class="text-3xl font-bold text-green-600">
+          Hai pagato tutto
+        </h1>
+      </div>
+    }
+  </div>
+
+  <div class="mb-8">
+    <h2 class="text-2xl font-bold mb-4">Riepilogo del tuo ordine:</h2>
+  </div>
+
+  @if(orderedDishes.length > 0)
+  {
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+    @for(dish of orderedDishes; track orderedDishes)
+    {
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <img [src]="dish.image_dish" alt="{{ dish.name_dish }}" class="w-full h-40 object-cover">
+      <div class="p-4">
+        <h3 class="text-lg font-bold mb-2">{{ dish.name_dish }}</h3>
+        <p class="text-gray-600 mb-2">Prezzo: {{ dish.price_dish }} €</p>
+        <p class="text-gray-600 mb-4">Ingredienti Rimossi:</p>
+        <ul class="list-disc ml-4">
+          @if(dish.removed_ingredients.length !== 0)
+          {
+            @for(ingredient of dish.removed_ingredients; track ingredient)
+            {
+              <li>{{ ingredient.name_ingredient }}</li>
+            }
+          }
+          @else
+          {
+          <li>Nessun ingrediente rimosso</li>
+          }
+        </ul>
+        @if(bill_splitting === 'Individuale'){<p class="text-gray-600 mb-2">Stato Pagamento: {{ dish.paid ? 'Pagato' : 'Non Pagato' }}</p>}
+      </div>
+    </div>
+    }
+  </div>
+  }
+
+@if(bill_splitting === 'Individuale' && unpaidDishes.length > 0)
+{
+      <div class="text-center">
+        <h2 class="text-2xl font-bold mb-4">Saldo da pagare</h2>
+        <p class="text-3xl font-semibold">{{ individualUserTotalBill }} €</p>
+      </div>
+        @if( unpaidDishes.length > 0)
+        {
+          <button
+            class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color"
+            (click)="effettuaPagamento()">
+            Effettua Pagamento
+          </button>
+        }
+        <div class="container mx-auto px-4 py-8">
+          @if(unpaidDishes.length > 0)
+          {
+            <div class="mb-8">
+              <h2 class="text-2xl font-bold mb-4">Piatti non pagati:</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              @for(dish of unpaidDishes; track unpaidDishes)
+              {
+              <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img [src]="dish.image_dish" alt="{{ dish.name_dish }}" class="w-full h-40 object-cover">
+                <div class="p-4">
+                  <h3 class="text-lg font-bold mb-2">{{ dish.name_dish }}</h3>
+                  <p class="text-gray-600 mb-2">Prezzo: {{ dish.price_dish }} €</p>
+                  <p class="text-gray-600 mb-4">Ingredienti Rimossi:</p>
+                  <ul class="list-disc ml-4">
+                    @if(dish.removed_ingredients.length !== 0)
+                    {
+                      @for(ingredient of dish.removed_ingredients; track ingredient)
+                      {
+                        <li>{{ ingredient.name_ingredient }}</li>
+                      }
+                    }
+                    @else
+                    {
+                    <li>Nessun ingrediente rimosso</li>
+                    }
+                  </ul>
+                  <p class="text-gray-600 mb-2">Stato Pagamento: {{ dish.paid ? 'Pagato' : 'Non Pagato' }}</p>
+                </div>
+              </div>
+              }
+            </div>
+          }
+        </div>
+}
+
+@if(bill_splitting === 'Equidiviso' && hasUserPaid === false)
+{
+  {{hasUserPaid}}
+    <div class="text-center">
+      <h2 class="text-2xl font-bold mb-4">Saldo totale della prenotazione</h2>
+      <p class="text-3xl font-semibold">{{ reservationTotalBill }} €</p>
+      <h2 class="text-2xl font-bold mb-4">Il tuo saldo da pagare</h2>
+      <p class="text-3xl font-semibold">{{ individualUserTotalBill }} €</p>
+    </div>
+      @if( hasUserPaid === false)
+      {
+        <button
+          class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color"
+          (click)="effettuaPagamento()">
+          Effettua Pagamento
+        </button>
+      }
+      <div class="container mx-auto px-4 py-8">
+        @if(hasUserPaid === false)
+        {
+          <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">Piatti non pagati:</h2>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            @for(dish of unpaidDishes; track unpaidDishes)
+            {
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+              <img [src]="dish.image_dish" alt="{{ dish.name_dish }}" class="w-full h-40 object-cover">
+              <div class="p-4">
+                <h3 class="text-lg font-bold mb-2">{{ dish.name_dish }}</h3>
+                <p class="text-gray-600 mb-2">Prezzo: {{ dish.price_dish }} €</p>
+                <p class="text-gray-600 mb-4">Ingredienti Rimossi:</p>
+                <ul class="list-disc ml-4">
+                  @if(dish.removed_ingredients.length !== 0)
+                  {
+                    @for(ingredient of dish.removed_ingredients; track ingredient)
+                    {
+                      <li>{{ ingredient.name_ingredient }}</li>
+                    }
+                  }
+                  @else
+                  {
+                  <li>Nessun ingrediente rimosso</li>
+                  }
+                </ul>
+              </div>
+            </div>
+            }
+          </div>
+        }
+      </div>
+}
+</div>
+

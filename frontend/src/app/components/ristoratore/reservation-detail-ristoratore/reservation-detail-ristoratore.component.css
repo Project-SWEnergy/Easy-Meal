@@ -1,0 +1,48 @@
+/* Main container for the reservation details */
+h1 {
+    @apply text-3xl font-bold text-center;
+}
+
+.content-container {
+    @apply grid grid-cols-1 md:grid-cols-4 gap-4;
+  }
+
+  .empty-container{
+    @apply col-span-1;
+  }
+
+  app-reservation-update-form {
+    @apply p-4;
+  }
+  
+  /* Main content area for the reservation and orders */
+  .main {
+    @apply col-span-2 flex flex-col space-y-4;
+  }
+  
+  /* Container for the list of orders */
+  .order-container {
+    @apply p-4;
+  }
+  
+  /* Container for the ingredients, aligned to the right */
+  .ingredient-container {
+    @apply col-span-1 p-4;
+  }
+  
+  /* Styling for headers within the containers */
+  .content-container h1, .content-container h2, .content-container h3 {
+    @apply font-bold px-4;
+  }
+  
+  /* Responsive considerations */
+  @media (max-width: 768px) {
+    .content-container {
+      @apply flex flex-col;
+    }
+  
+    .main, .ingredient-container {
+      @apply col-span-1;
+    }
+  }
+  

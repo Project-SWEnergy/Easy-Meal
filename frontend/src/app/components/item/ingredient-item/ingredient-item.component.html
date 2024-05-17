@@ -1,0 +1,45 @@
+@if(!is_selected) {
+    <mat-card (click)="select()" class="non-selected">
+        <mat-card-header>
+        <mat-card-title-group>
+            <mat-card-title>
+                {{ ingredient.name }} ({{ ingredient.unit_of_measurement }}) 
+            </mat-card-title>
+        </mat-card-title-group>
+        </mat-card-header>
+    </mat-card>
+}
+@if(is_selected) {
+    <form [formGroup]="form">
+        <!-- ingredient's name -->
+        <mat-form-field>
+            <mat-label>Nome</mat-label>
+            <input matInput
+                type="text"
+                formControlName="name">
+            @if (form.get('name')?.touched && form.get('name')?.hasError('required')){
+            <mat-error> Inserire il nome di un ingrediente </mat-error>
+            }
+        </mat-form-field>
+
+        <!-- ingredient's unit_of_measurement -->
+        <mat-form-field>
+            <mat-label>Unità di misura</mat-label>
+            <input matInput
+                type="text"
+                formControlName="unit_of_measurement"
+                [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+                @for (option of units_of_measurement; track option) {
+                    <mat-option [value]="option">{{option}}</mat-option>
+                }
+            </mat-autocomplete>
+            @if (form.get('unit_of_measurement')?.touched && form.get('unit_of_measurement')?.hasError('required')){
+            <mat-error> Inserire il nome di un ingrediente </mat-error>
+            }
+        </mat-form-field>
+
+        <button mat-button type="submit" [disabled]="!form.valid" (click)="update()"> Salva </button>
+        <button mat-button type="button" (click)="delete()"> Elimina </button>
+    </form>
+}

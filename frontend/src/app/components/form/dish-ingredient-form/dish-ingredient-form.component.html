@@ -1,0 +1,63 @@
+@if(ingredients) {
+<form [formGroup]="form">
+    <!-- select the ingredient -->
+    <mat-form-field>
+        <mat-label>Ingrediente</mat-label>
+        <input 
+            type="text" 
+            matInput 
+            formControlName="name" 
+            [matAutocomplete]="auto">
+        <mat-autocomplete 
+            #auto="matAutocomplete" 
+            [displayWith]="displayFn">
+
+            @for (option of filteredIngredients | async; track option) {
+                <mat-option [value]="option">{{option.name}} ({{option.unit_of_measurement}})</mat-option>
+            }
+        </mat-autocomplete>      
+        @if(form.get('name')?.hasError('required') && form.get('name')?.touched)
+        {
+        <mat-error> Inserisci una ingrediente </mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Quantity -->
+    <mat-form-field>
+        <mat-label>Quantità</mat-label>
+        <input matInput 
+            type="number" 
+            formControlName="quantity">
+        @if(form.get('quantity')?.hasError('min'))
+        {
+            <mat-error> Inserisci una quantità positiva. </mat-error>
+        }
+    </mat-form-field>
+
+    @if(ingredient) {
+    <div class="flex flex-row space-x-2">
+        <button mat-button 
+            type="submit" 
+            class="submit-button" 
+            [disabled]="!form.valid"
+            (click)="on_update()"
+        > Modifica ingrediente </button>
+
+        <button mat-button 
+            type="button" 
+            class="submit-button"
+            (click)="on_delete()"
+        > Elimina ingrediente </button>
+    </div>
+    }
+
+    @if(!ingredient) {
+    <button mat-button 
+        type="submit" 
+        class="submit-button" 
+        [disabled]="!form.valid"
+        (click)="on_create()"
+    > Aggiungi ingrediente </button>
+    }
+</form>
+}

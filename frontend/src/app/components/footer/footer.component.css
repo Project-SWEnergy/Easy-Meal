@@ -1,0 +1,23 @@
+.footer-text {
+  @apply text-gray-700;
+}
+
+.container {
+  @apply mx-auto px-4 flex justify-between items-stretch;
+}
+
+.links-container {
+  @apply flex flex-col;
+}
+
+.footer-link {
+  @apply text-lt-purple hover:text-dk-purple;
+}
+
+.footer-heading {
+  @apply text-lg font-semibold;
+}
+
+.footer-contact {
+  @apply text-sm;
+}

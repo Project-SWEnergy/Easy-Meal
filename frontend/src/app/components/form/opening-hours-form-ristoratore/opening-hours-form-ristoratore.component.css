@@ -1,0 +1,47 @@
+.container {
+  @apply mt-16;
+}
+
+.error-message {
+  @apply text-error text-sm italic;
+}
+
+.weekday {
+  @apply mt-4 flex justify-between hover:bg-gray-200 p-2 mb-2 rounded w-full items-center;
+}
+
+.weekday-name {
+  @apply font-semibold ml-4;
+}
+
+.weekday-time {
+  @apply text-gray-600;
+}
+
+.mat-autocomplete {
+  @apply border border-gray-300 rounded shadow-sm;
+}
+
+mat-option {
+  @apply cursor-pointer hover:bg-gray-200;
+}
+
+.submit-button {
+  @apply bg-lt-purple text-white px-16 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color;
+}
+
+.remove-button {
+  @apply bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block disabled:bg-light-color;
+}
+
+mat-form-field {
+  @apply mb-6 w-full;
+}
+
+mat-form-filed input {
+  @apply w-full border rounded-md px-4 py-2;
+}
+
+mat-form-filed mat-error {
+  @apply text-error;
+}

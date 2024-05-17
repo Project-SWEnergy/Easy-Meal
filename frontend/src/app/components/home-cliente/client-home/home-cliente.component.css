@@ -1,0 +1,4 @@
+.main-home {
+    min-height: calc(100vh - 3em); /* Altezza minima pari all'altezza della finestra del browser meno l'altezza del footer */
+    padding-bottom: 3em; /* Padding inferiore per lasciare spazio al footer */
+}

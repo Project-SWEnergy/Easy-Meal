@@ -1,0 +1,34 @@
+/* Styles for non-selected ingredient card */
+.non-selected {
+  @apply bg-white shadow-md rounded-lg overflow-hidden hover:bg-form;
+}
+
+/* Styles for selected ingredient card */
+form {
+  @apply bg-form shadow-md rounded-lg overflow-hidden flex items-center space-x-4 p-4 !important;
+}
+
+mat-card {
+  @apply p-4 mb-4 transition-all duration-300 ease-in-out;
+}
+
+mat-card-header {
+  @apply mb-4;
+}
+
+mat-form-field {
+  @apply flex-1 mx-4 my-auto;
+}
+
+button {
+  @apply bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color !important;
+}
+
+input {
+  @apply placeholder-placeholder;
+}
+
+/* Error styling for the form (assuming error class is added based on form state) */
+.error {
+  @apply text-error;
+}
