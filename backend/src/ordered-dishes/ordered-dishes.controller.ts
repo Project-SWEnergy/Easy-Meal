@@ -144,6 +144,9 @@ export class OrderedDishesController {
 
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Rimuovi un ordine' })
+  @ApiResponse({ status: 200, description: 'Ordine rimosso con successo.' })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID ordine' })
   async remove(@Param('id') id: string, @Req() req) {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken);
