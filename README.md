@@ -39,27 +39,15 @@ Accederai alla pagina di amministrazione di Adminer, un tool per la gestione dei
 
 Per cambiare le credenziali di accesso al database, modifica il file `docker-compose.yml`. Assicurati di aggiornare le variabili d'ambiente sia del servizio `db` che del servizio `nest`, che si connette al database.
 
-### 🗂️ Creazione delle Tabelle
-
-Dopo aver effettuato l'accesso, crea le tabelle nel database:
-1. Seleziona la voce di menu `Import`
-2. Clicca su `Choose Files`
-3. Seleziona il file [0000_gorgeous_natasha_romanoff.sql](backend/drizzle/0000_gorgeous_natasha_romanoff.sql)
-4. Clicca su `Execute` per eseguire i comandi SQL contenuti nel file
-
-### 📦 Popolazione del Database
+### 📦 Migrazione
 
 È fornito un dump con dati fasulli per esempio. Per importarlo:
-1. Seleziona la voce di menu `Import`
-2. Clicca su `Choose Files`
-3. Seleziona il file [populate.sql](backend/dump/populate.sql)
-4. Clicca su `Execute`
+1. Entrando nella cartella `backend`
+2. Eseguendo ``npm run postgres-load``
 
 Ora puoi accedere all'applicazione tramite browser al link:
 
-
 [Web App](http://localhost:4200) o inserendo nella barra degli indirizzi l'indirizzo `http://localhost:4200`
-
 
 ## 🧰 Utilizzo
 
