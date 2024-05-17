@@ -64,11 +64,7 @@ export class PagamentoComponent {
 
   async loadPartecipants(): Promise<void> {
     try {
-      const prenotazioni =
-        await this.prenotazioneService.findPrenotazioniByReservation(
-          this.reservationId,
-        );
-      this.partecipants = prenotazioni.length;  
+      this.partecipants = await this.prenotazioneDataService.getParticipants()
     } catch (error) {
       console.error('Errore durante il recupero dei partecipanti:', error);
     }
