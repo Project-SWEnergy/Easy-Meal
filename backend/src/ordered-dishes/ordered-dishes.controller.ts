@@ -144,7 +144,7 @@ export class OrderedDishesController {
 
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Rimuovi un ordine' })
+  @ApiOperation({ summary: 'Rimuovi un ordine specifico' })
   @ApiResponse({ status: 200, description: 'Ordine rimosso con successo.' })
   @ApiParam({ name: 'id', type: 'number', description: 'ID ordine' })
   async remove(@Param('id') id: string, @Req() req) {
