@@ -7,6 +7,8 @@ import { AuthorizationService } from '../authorization/authorization.service';
 import { UserType } from '../authentication/dto/user-data.dto';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { Response } from 'express'; 
+import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+
 
 
 @Controller('users')
@@ -19,6 +21,9 @@ export class UsersController {
   ) { }
 
   @Post('create')
+  @ApiOperation({ summary: 'Crea un nuovo utente.' })
+  @ApiResponse({ status: 200, description: 'Utente creato con successo.', type: ResultUserDto })
+  @ApiBody({ type: CreateUserDto })
   async create(@Body() createUserDto: CreateUserDto, @Res() res: Response): Promise<any> {
     const result = await this.usersService.create(createUserDto);
     if (!result.result)
@@ -43,6 +48,8 @@ export class UsersController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Cerca un utente specifico.' })
+  @ApiResponse({ status: 200, description: 'Utente trovato con successo.', type: ResultUserDto })
   async findOne(@Req() req): Promise<ResultUserDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken, UserType.user);
@@ -50,6 +57,9 @@ export class UsersController {
   }
 
   @Patch()
+  @ApiOperation({ summary: 'Modifica un utente specifico.' })
+  @ApiResponse({ status: 200, description: 'Utente modificato con successo.', type: ResultUserDto })
+  @ApiBody({ type: UpdateUserDto })
   async update(@Body() updateUserDto: UpdateUserDto, @Req() req): Promise<ResultUserDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken, UserType.user);
@@ -57,6 +67,8 @@ export class UsersController {
   }
 
   @Delete()
+  @ApiOperation({ summary: 'Rimuove un utente specifico.' })
+  @ApiResponse({ status: 200, description: 'Utente rimosso con successo.', type: ResultUserDto })
   async remove(@Req() req): Promise<ResultUserDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken, UserType.user);
