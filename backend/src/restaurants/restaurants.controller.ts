@@ -9,6 +9,8 @@ import { AddressesService } from '../addresses/addresses.service';
 import { UpdateRestaurantAddressDto } from './dto/update-restaurant-address.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { UploadFileService } from '../upload-file/upload-file.service';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+
 
 
 
@@ -24,6 +26,9 @@ export class RestaurantsController {
   ) { }
 
   @Post('create')
+  @ApiOperation({ summary: 'Crea un nuovo ristorante.' })
+  @ApiResponse({ status: 200, description: 'Ristorante creato con successo.' })
+  @ApiBody({ type: CreateRestaurantAddressDto })
   @UseInterceptors(FileFieldsInterceptor([
     { name: 'logo', maxCount: 1 },
     { name: 'banner_image', maxCount: 1 },
@@ -78,22 +83,33 @@ export class RestaurantsController {
   }
 
   @Get('find-all')
+  @ApiOperation({ summary: 'Cerca tutti i ristoranti.' })
+  @ApiResponse({ status: 200, description: 'Ristoranti trovati con successo.' })
   async findAll() {
     return await this.restaurantsService.findAll();
   }
 
   @Get('find-all-by-city/:cityName')
+  @ApiOperation({ summary: 'Cerca tutti i ristoranti di una specifica città.' })
+  @ApiResponse({ status: 200, description: 'Ristoranti trovati con successo.' })
+  @ApiParam({ name: 'cityName', type: 'string', description: 'Nome della città' })
   async findAllByCity(@Param('cityName') cityName: string) {
     return await this.restaurantsService.findAllByCity(cityName);
   }
 
   @Get('find-one/:id')
+  @ApiOperation({ summary: 'Cerca un ristorante specifico basandosi sul suo ID.' })
+  @ApiResponse({ status: 200, description: 'Ristorante trovato con successo.' })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID ristorante' })
   async findOne(@Param('id') id: string) {
     const idRestaurant = parseInt(id);
     return await this.restaurantsService.findOne(idRestaurant);
   }
 
   @Patch()
+  @ApiOperation({ summary: 'Modifica un ristorante specifico.' })
+  @ApiResponse({ status: 200, description: 'Ristorante modificato con successo.' })
+  @ApiBody({ type: UpdateRestaurantAddressDto })
   @UseInterceptors(FileFieldsInterceptor([
     { name: 'logo', maxCount: 1 },
     { name: 'banner_image', maxCount: 1 },
@@ -129,6 +145,8 @@ export class RestaurantsController {
   }
 
   @Delete()
+  @ApiOperation({ summary: 'Rimuove un ristorante specifico.' })
+  @ApiResponse({ status: 200, description: 'Ristorante rimosso con successo.' })
   async remove(@Req() req) {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken, UserType.restaurant);
