@@ -53,3 +53,21 @@ export interface PagamentoEquidiviso {
   total_bill: number;
   bill_state: string;
 }
+
+export interface ResultFindBillByReservation<T> {
+  result: boolean;
+  message: string;
+  data: T;
+}
+
+export interface FindBillByReservation {
+  id: number,
+  id_user: number,
+	name_user: string,
+	surname_user: string,
+	id_reservation: number,
+	date: string,
+	total_bill: number,
+	bill_state: string,
+	bill_details: []
+}

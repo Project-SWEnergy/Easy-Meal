@@ -9,6 +9,8 @@ import {
   UserBill,
   PagamentoIndividuale,
   PagamentoEquidiviso,
+  ResultFindBillByReservation,
+  FindBillByReservation
 } from '../../interfaces/pagamento';
 
 @Injectable({
@@ -17,6 +19,7 @@ import {
 export class PagamentoService {
   auth = inject(AuthService);
   user_id: number;
+  
 
   constructor() {
     this.user_id = this.auth.get()!.id;
@@ -65,4 +68,19 @@ export class PagamentoService {
         throw error.response.data;
       });
   }
+
+  async hasUserPaidForReservation(reservationId: number): Promise<boolean> {
+    try {
+      const response = await axios.get<ResultFindBillByReservation<FindBillByReservation[]>>(
+        `bills/find-all-by-reservation/${reservationId}`
+      );
+      const bills = response.data.data;
+      return bills.some(bill => bill.id_user === this.user_id);
+    } catch (error) {
+      console.error('Errore durante il recupero delle fatture per la prenotazione:', error);
+      throw error;
+    }
+  }
+
+
 }

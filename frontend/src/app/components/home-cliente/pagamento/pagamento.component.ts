@@ -26,6 +26,7 @@ export class PagamentoComponent {
   bill_splitting: string;
   partecipants: number;
   user_id: number;
+  hasUserPaid: boolean = false;
 
   individualUserTotalBill: number | undefined;
   reservationTotalBill: number | undefined;
@@ -57,6 +58,7 @@ export class PagamentoComponent {
     if (this.bill_splitting === 'Individuale') {
       this.pagamentoIndividuale();
     } else if (this.bill_splitting === 'Equidiviso') {
+      this.equalBillPaid(this.reservationId);
       this.loadPartecipants();
       this.pagamentoEquidiviso();
     }
@@ -157,6 +159,9 @@ export class PagamentoComponent {
       .createEqualBill(billData)
       .then((response) => {
         this.ms.log('Pagamento equidiviso effettuato con successo');
+        this.router.navigate(['/pagamento']).then(() => {
+          location.reload();
+        });
       })
       .catch((error) => {
         this.ms.error('Errore durante il pagamento equidiviso');
@@ -169,5 +174,13 @@ export class PagamentoComponent {
       dishIds.push(dish.id);
     }
     return dishIds;
+  }
+
+  async equalBillPaid(reservationId: number): Promise<void> {
+    try {
+      this.hasUserPaid = await this.pagamentoService.hasUserPaidForReservation(reservationId);
+    } catch (error) {
+      console.error('Errore durante la verifica del pagamento:', error);
+    }
   }
 }
