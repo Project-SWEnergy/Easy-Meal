@@ -68,8 +68,7 @@ export class PagamentoComponent {
         await this.prenotazioneService.findPrenotazioniByReservation(
           this.reservationId,
         );
-      this.partecipants = prenotazioni.length;
-      console.log('Partecipanti:', this.partecipants);
+      this.partecipants = prenotazioni.length;  
     } catch (error) {
       console.error('Errore durante il recupero dei partecipanti:', error);
     }
