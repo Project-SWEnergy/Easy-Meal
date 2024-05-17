@@ -18,6 +18,8 @@ services:
       - db:/var/lib/postgresql/data
     networks:
       - easymeal
+    ports:
+      - 5432:5432
 
   nest:
     build: ./backend/

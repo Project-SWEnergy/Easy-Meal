@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 16.2
+-- Dumped from database version 16.3
 -- Dumped by pg_dump version 16.2
 
 SET statement_timeout = 0;
@@ -16,79 +16,9 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
---
--- Name: drizzle; Type: SCHEMA; Schema: -; Owner: postgres
---
-
-CREATE SCHEMA drizzle;
-
-
-ALTER SCHEMA drizzle OWNER TO postgres;
-
---
--- Name: bill_state; Type: TYPE; Schema: public; Owner: postgres
---
-
-CREATE TYPE public.bill_state AS ENUM (
-    'In corso',
-    'Rifiutato',
-    'Concluso'
-);
-
-
-ALTER TYPE public.bill_state OWNER TO postgres;
-
---
--- Name: transaction_state; Type: TYPE; Schema: public; Owner: postgres
---
-
-CREATE TYPE public.transaction_state AS ENUM (
-    'In corso',
-    'Rifiutato',
-    'Concluso'
-);
-
-
-ALTER TYPE public.transaction_state OWNER TO postgres;
-
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
-
---
--- Name: __drizzle_migrations; Type: TABLE; Schema: drizzle; Owner: postgres
---
-
-CREATE TABLE drizzle.__drizzle_migrations (
-    id integer NOT NULL,
-    hash text NOT NULL,
-    created_at bigint
-);
-
-
-ALTER TABLE drizzle.__drizzle_migrations OWNER TO postgres;
-
---
--- Name: __drizzle_migrations_id_seq; Type: SEQUENCE; Schema: drizzle; Owner: postgres
---
-
-CREATE SEQUENCE drizzle.__drizzle_migrations_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE drizzle.__drizzle_migrations_id_seq OWNER TO postgres;
-
---
--- Name: __drizzle_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: drizzle; Owner: postgres
---
-
-ALTER SEQUENCE drizzle.__drizzle_migrations_id_seq OWNED BY drizzle.__drizzle_migrations.id;
-
 
 --
 -- Name: addresses; Type: TABLE; Schema: public; Owner: postgres
@@ -381,6 +311,44 @@ ALTER SEQUENCE public.ingredients_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.ingredients_id_seq OWNED BY public.ingredients.id;
+
+
+--
+-- Name: notifications; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.notifications (
+    id integer NOT NULL,
+    title character varying(255) NOT NULL,
+    message character varying(255) NOT NULL,
+    id_receiver integer NOT NULL,
+    role character varying(255) NOT NULL,
+    visualized boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public.notifications OWNER TO postgres;
+
+--
+-- Name: notifications_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.notifications_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.notifications_id_seq OWNER TO postgres;
+
+--
+-- Name: notifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.notifications_id_seq OWNED BY public.notifications.id;
 
 
 --
@@ -718,13 +686,6 @@ CREATE TABLE public.users_reservations (
 ALTER TABLE public.users_reservations OWNER TO postgres;
 
 --
--- Name: __drizzle_migrations id; Type: DEFAULT; Schema: drizzle; Owner: postgres
---
-
-ALTER TABLE ONLY drizzle.__drizzle_migrations ALTER COLUMN id SET DEFAULT nextval('drizzle.__drizzle_migrations_id_seq'::regclass);
-
-
---
 -- Name: addresses id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -771,6 +732,13 @@ ALTER TABLE ONLY public.dishes ALTER COLUMN id SET DEFAULT nextval('public.dishe
 --
 
 ALTER TABLE ONLY public.ingredients ALTER COLUMN id SET DEFAULT nextval('public.ingredients_id_seq'::regclass);
+
+
+--
+-- Name: notifications id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notifications ALTER COLUMN id SET DEFAULT nextval('public.notifications_id_seq'::regclass);
 
 
 --
@@ -823,24 +791,13 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
--- Data for Name: __drizzle_migrations; Type: TABLE DATA; Schema: drizzle; Owner: postgres
---
-
-COPY drizzle.__drizzle_migrations (id, hash, created_at) FROM stdin;
-1	6c7f116cdbcf9b7831dd9d86a775236ee972868910cc27aa66f3a35c24827857	1713796533328
-2	826485e19eb558802991a1aef41643bcb95edc61e445eb8318f53e3bf8610142	1713878626446
-3	bc8940d59c5a5027da01c34668c6a1ee1fc25ed9c497c90550aa64aca973cd26	1714239536026
-4	3344227363093456d846193cc229c071cefeb8f25766ab3ede271541dbd6ef19	1714582817225
-\.
-
-
---
 -- Data for Name: addresses; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.addresses (id, state, city, street, street_number, zip_code) FROM stdin;
-1	Italia	Padova	Via Vai	1A	35100
-3	Italia	Padova	Via Vai	1A	35101
+1001	Italia	Padova	 Via Andrea Colotti	23	35133
+1002	Italia	Padova	Via Bartolomeo Cristofori	12a	35137
+1003	Italia	Padova	Piazza Duomo	1	35122
 \.
 
 
@@ -865,12 +822,6 @@ COPY public.allergies_ingredients (id_allergy, id_ingredient) FROM stdin;
 --
 
 COPY public.bills (id, id_user, id_reservation, date, total_bill, bill_state) FROM stdin;
-25	3	3	2024-04-05 08:30:00+00	12.45	Concluso
-26	3	3	2024-04-05 08:30:00+00	12.45	Concluso
-27	3	3	2024-04-05 08:30:00+00	12.45	Concluso
-28	3	3	2024-04-05 08:30:00+00	12.45	Concluso
-29	3	3	2024-04-05 08:30:00+00	12.45	Concluso
-31	3	3	2024-04-05 08:30:00+00	12.45	Concluso
 \.
 
 
@@ -879,16 +830,6 @@ COPY public.bills (id, id_user, id_reservation, date, total_bill, bill_state) FR
 --
 
 COPY public.bills_details (id, id_ordered_dishes, id_bill) FROM stdin;
-43	25	25
-44	24	25
-45	25	26
-46	24	26
-47	25	27
-48	24	27
-49	25	28
-50	24	28
-51	25	29
-52	24	29
 \.
 
 
@@ -899,6 +840,11 @@ COPY public.bills_details (id, id_ordered_dishes, id_bill) FROM stdin;
 COPY public.days_of_week (id, name, abbreviation, "order") FROM stdin;
 1	Lunedì	LUN	1
 2	Martedì	MAR	2
+3	Mercoledì	MER	3
+4	Giovedì	GIO	4
+5	Venerdì	VEN	5
+6	Sabato	SAB	6
+7	Domenica	DOM	7
 \.
 
 
@@ -907,8 +853,13 @@ COPY public.days_of_week (id, name, abbreviation, "order") FROM stdin;
 --
 
 COPY public.dishes (id, id_restaurant, name, description, price, image) FROM stdin;
-2	1	asd	sad	12	asdad
-1	1	test	Test	14	asd
+1001	1001	Margherita	Classica pizza margherita	6	./resources/restaurant/2/d3cb69df-2735-4c06-beca-a5a7f309aea6.png
+1002	1001	4 Stagioni	Pizza alle 4 stagioni, le olive sono aggiunte a fine cottura	9	./resources/restaurant/2/70cd5ee4-3362-443e-a1fc-8d3ba646f90c.png
+1003	1001	Capricciosa	Una pizza	9	./resources/restaurant/2/b4c85bbc-b9b5-4b4f-a4e6-84218c02044f.jpeg
+1004	1001	Melanzane	Pizza alle melanzane	7	./resources/restaurant/2/6d7f0e1e-c5b7-4f54-9161-32cb0164270d.png
+1005	1001	Marinara	Pizza alla marinara	5.5	./resources/restaurant/2/bde7a9eb-aa36-4367-a5be-eabce72bca4b.webp
+1006	1001	Funghi	Pizza ai funghi	7	./resources/restaurant/2/37ecd832-fdc4-49da-af78-1bb6ae798ab1.jpeg
+1007	1001	Diavola	Una pizza	7.5	./resources/restaurant/2/434f46c6-4921-401d-b735-7d7f34fbf84f.jpeg
 \.
 
 
@@ -917,8 +868,38 @@ COPY public.dishes (id, id_restaurant, name, description, price, image) FROM std
 --
 
 COPY public.dishes_ingredients (id_dish, id_ingredient, quantity) FROM stdin;
-1	2	10
-2	2	10
+1001	1001	2
+1002	1001	2
+1003	1001	2
+1004	1001	2
+1005	1001	2
+1006	1001	2
+1007	1001	2
+1001	1002	2
+1002	1002	2
+1003	1002	2
+1004	1002	2
+1006	1002	2
+1007	1002	1
+1002	1003	1
+1003	1003	1
+1002	1004	50
+1003	1004	50
+1002	1005	1
+1003	1005	1
+1006	1005	3
+1002	1006	7
+1007	1007	100
+1005	1008	10
+1005	1009	10
+1004	1010	1
+1001	1018	1
+1002	1018	1
+1003	1018	1
+1004	1018	1
+1005	1018	\N
+1006	1018	1
+1007	1018	1
 \.
 
 
@@ -935,9 +916,35 @@ COPY public.dishes_tags (id_tag, id_dish) FROM stdin;
 --
 
 COPY public.ingredients (id, id_restaurant, name, unit_of_measurement) FROM stdin;
-1	1	test	\N
-2	1	qwqe	\N
-3	1	wqeqwe	\N
+1001	1001	Pomodoro	pz
+1002	1001	Mozzarella	pz
+1003	1001	Carciofi	pz
+1004	1001	Prosciutto Cotto	g
+1005	1001	Funghi	pz
+1006	1001	Olive	pz
+1007	1001	Salamino Piccante	g
+1008	1001	Aglio	g
+1009	1001	Origano	g
+1010	1001	Melanzane	pz
+1011	1001	Capperi di Pantelleria	g
+1012	1001	Acciughe di Cetara	g
+1013	1001	Olive taggiasche	pz
+1014	1001	Prosciutto Crudo di Norcia	g
+1015	1001	Patatine	g
+1016	1001	Porcini	g
+1017	1001	Radicchio	g
+1018	1001	Pasta della pizza	pz
+\.
+
+
+--
+-- Data for Name: notifications; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.notifications (id, title, message, id_receiver, role, visualized) FROM stdin;
+1001	Nuova prenotazione	Hai ricevuto una nuova prenotazione con numero: 1	2	restaurant	f
+1003	Nuova prenotazione	Hai ricevuto una nuova prenotazione con numero: 2	2	restaurant	f
+1002	Nuova ordinazione	La tua prenotazione 1 ha un nuovo ordine	2	restaurant	f
 \.
 
 
@@ -946,10 +953,32 @@ COPY public.ingredients (id, id_restaurant, name, unit_of_measurement) FROM stdi
 --
 
 COPY public.opening_hours (id, id_restaurant, id_day, opening_time, closing_time) FROM stdin;
-3	2	1	09:00:00	12:00:00
-4	2	1	15:00:00	18:00:00
-5	2	1	09:00:00	12:00:00
-6	2	1	15:00:00	18:00:00
+1001	1001	1	19:00:00	23:00:00
+1002	1001	2	19:00:00	23:00:00
+1003	1001	3	19:00:00	23:00:00
+1004	1001	4	19:00:00	23:00:00
+1005	1001	5	19:00:00	23:00:00
+1006	1001	6	19:00:00	23:00:00
+1007	1001	7	19:00:00	23:00:00
+1008	1002	1	10:00:00	23:00:00
+1009	1002	2	11:00:00	23:00:00
+1010	1002	3	11:00:00	23:00:00
+1011	1002	4	11:00:00	23:00:00
+1012	1002	5	11:00:00	02:00:00
+1013	1002	6	10:00:00	02:00:00
+1014	1002	7	10:00:00	02:00:00
+1015	1003	1	12:00:00	15:30:00
+1016	1003	1	18:30:00	01:00:00
+1017	1003	3	12:00:00	15:30:00
+1018	1003	3	18:30:00	01:00:00
+1019	1003	4	12:00:00	15:30:00
+1020	1003	4	18:30:00	01:00:00
+1021	1003	5	12:00:00	15:30:00
+1022	1003	5	18:30:00	01:00:00
+1023	1003	6	12:30:00	15:30:00
+1024	1003	6	18:30:00	01:00:00
+1025	1003	7	12:30:00	15:30:00
+1027	1003	7	18:30:00	00:00:00
 \.
 
 
@@ -958,8 +987,8 @@ COPY public.opening_hours (id, id_restaurant, id_day, opening_time, closing_time
 --
 
 COPY public.ordered_dishes (id, id_user, id_reservation, id_dish, paid) FROM stdin;
-25	3	3	2	t
-24	3	3	2	t
+1001	1000	1001	1001	f
+1002	1000	1001	1003	f
 \.
 
 
@@ -976,7 +1005,8 @@ COPY public.removed_ingredients (id_ordered_dish, id_ingredient) FROM stdin;
 --
 
 COPY public.reservations (id, id_restaurant, date, partecipants, reservation_state, bill_splitting_method, paid_orders) FROM stdin;
-3	1	2024-04-05 08:30:00+00	12	In attesa	Equidiviso	2
+1001	1001	2024-05-14 19:30:00+00	10	In attesa	Equidiviso	0
+1002	1001	2024-05-14 20:00:00+00	4	In attesa	Equidiviso	0
 \.
 
 
@@ -985,8 +1015,9 @@ COPY public.reservations (id, id_restaurant, date, partecipants, reservation_sta
 --
 
 COPY public.restaurants (id, email, password, name, owner_name, owner_surname, id_address, seats, website, price_tier, description, phone, childrenn_seats, accessibility, logo, banner_image) FROM stdin;
-1	ristorante222@gmail.com	$argon2id$v=19$m=65536,t=3,p=4$nwyTdi3lkMsRm0kI3I6RkQ$xoEakoHHj+3MrwL0QlMBrsuQxhAAlLcmiGJcQv5zf8E	Nome1	Paolo	Paoli	1	12	\N	2	Descrizione	3333333333	\N	\N		
-2	ristorante@gmail.com	$argon2id$v=19$m=65536,t=3,p=4$hNkdFPkypqwp6WGDkr8Y2g$U5eCOkR5bUqQ7nQggpBfbo1+UKGOuhiiy9g2pg2sglQ	Nome1	Paolo	Paoli	3	12	\N	2	Descrizione	3333333333	\N	\N	test	
+1001	ristorante@gmail.com	$argon2id$v=19$m=65536,t=3,p=4$tNuyjGjZyOzqZLBacYxSyg$kF+CBaww+/Cwsgr9SmXfFzS9uCVYMD+0BwFqJbSbbbk	Al Solito Posto	Carlo	Rosso	1001	100	https://pizzeriaalsolitoposto.it/	2	Il ristorante pizzeria a Padova Al Solito Posto è un luogo accogliente e familiare perfetto per gli amanti della pizza gustosa e leggera.	049 8643877	\N	\N	./resources/restaurant/2/fc6d5116-b298-4e7c-9357-1811fac0a575.svg	./resources/restaurant/2/9fd1f154-608e-4f15-a98b-53bc50f9da13.jpeg
+1002	ristorante2@gmail.com	$argon2id$v=19$m=65536,t=3,p=4$tNuyjGjZyOzqZLBacYxSyg$kF+CBaww+/Cwsgr9SmXfFzS9uCVYMD+0BwFqJbSbbbk	Il Gancino	Alessandro	Tigani Sava	1003	90	https://www.ilgancino.com/	3	Per noi l’essenza della materia prima è la base delle nostre ricette. I nostri fornitori sono per il 99% Veneti, per assicurare un prodotto a chilometri zero con una qualità sorprendente.	049 9819978	\N	\N	./resources/restaurant/3/2ac6e260-e770-4bb7-8da5-e13a76ed85b7.webp	./resources/restaurant/3/c8c2e15b-7336-4ec8-a6c3-736d3cea227b.jpeg
+1003	ristorante3@gmail.com	$argon2id$v=19$m=65536,t=3,p=4$+YD4POYUFL3G5G0cdxYl7w$buPbKclL3Cj1gT6ygjRXdETqNmSwOPRvfR2tLD9Et7o	A Banda Del Buso	Matteo	Bando	1002	70	https://www.abandadelbuso.it/	1	Si dice corresse l’anno 1947 quando Ettore Buso aprì la sua trattoria con specialità padovane, di cui conserviamo l’insegna originale.	049 2023453	\N	\N	./resources/restaurant/4/bb708d28-212c-4168-a3b0-349b145643ff.svg	./resources/restaurant/4/0734a27d-a3ad-4d03-a366-4c329c23d806.jpg
 \.
 
 
@@ -995,8 +1026,6 @@ COPY public.restaurants (id, email, password, name, owner_name, owner_surname, i
 --
 
 COPY public.restaurants_tags (id_tag, id_restaurant) FROM stdin;
-1	2
-2	2
 \.
 
 
@@ -1013,8 +1042,6 @@ COPY public.reviews (id_restaurant, id_user, date, score, description) FROM stdi
 --
 
 COPY public.tags (id, name, description) FROM stdin;
-1	1	asd
-2	2	sadsad
 \.
 
 
@@ -1023,12 +1050,6 @@ COPY public.tags (id, name, description) FROM stdin;
 --
 
 COPY public.transactions_logs (id, id_bill, date, transaction_state, message) FROM stdin;
-15	25	2024-05-01 17:30:53.414+00	Concluso	Transazione effettuata correttamente
-16	26	2024-05-01 17:30:54.964+00	Concluso	Transazione effettuata correttamente
-17	27	2024-05-01 17:30:56.505+00	Concluso	Transazione effettuata correttamente
-18	28	2024-05-01 17:30:58.045+00	Concluso	Transazione effettuata correttamente
-19	29	2024-05-01 17:31:00.625+00	Concluso	Transazione effettuata correttamente
-20	31	2024-05-01 17:42:10.856+00	Concluso	Transazione effettuata correttamente
 \.
 
 
@@ -1037,8 +1058,7 @@ COPY public.transactions_logs (id, id_bill, date, transaction_state, message) FR
 --
 
 COPY public.users (id, name, surname, email, password) FROM stdin;
-1	Cliente	Abituale	cliente@gmail.com	$argon2id$v=19$m=65536,t=3,p=4$LqSiQdks2iTprl0v9SRPSw$7WaoBJE57w1bzNLdO7802MAR88Xdofalxsc8aboPins
-3	Cliente	Abituale	cliente1@gmail.com	$argon2id$v=19$m=65536,t=3,p=4$vTwzLaVi3Jw9v6tg2a9ZGA$HERKqWwHy8DIYC8i5wqrp31UAdlQZMKX3++PpXr+H0I
+1000	Davide	Maffei	cliente@gmail.com	$argon2id$v=19$m=65536,t=3,p=4$U61KzqgU7g8mR5O4Z8SWfg$YORt1LqpOI5qZEAjEDD74wE8LLesrK4UF569dCKhblk
 \.
 
 
@@ -1055,22 +1075,16 @@ COPY public.users_allergies (id_user, id_allergy) FROM stdin;
 --
 
 COPY public.users_reservations (id_user, id_reservation, accepted) FROM stdin;
-3	3	t
+1000	1001	t
+1000	1002	t
 \.
-
-
---
--- Name: __drizzle_migrations_id_seq; Type: SEQUENCE SET; Schema: drizzle; Owner: postgres
---
-
-SELECT pg_catalog.setval('drizzle.__drizzle_migrations_id_seq', 4, true);
 
 
 --
 -- Name: addresses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.addresses_id_seq', 3, true);
+SELECT pg_catalog.setval('public.addresses_id_seq', 1, false);
 
 
 --
@@ -1084,92 +1098,91 @@ SELECT pg_catalog.setval('public.allergies_id_seq', 1, false);
 -- Name: bills_details_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.bills_details_id_seq', 52, true);
+SELECT pg_catalog.setval('public.bills_details_id_seq', 1, false);
 
 
 --
 -- Name: bills_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.bills_id_seq', 31, true);
+SELECT pg_catalog.setval('public.bills_id_seq', 1, false);
 
 
 --
 -- Name: days_of_week_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.days_of_week_id_seq', 2, true);
+SELECT pg_catalog.setval('public.days_of_week_id_seq', 1, false);
 
 
 --
 -- Name: dishes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.dishes_id_seq', 2, true);
+SELECT pg_catalog.setval('public.dishes_id_seq', 1, false);
 
 
 --
 -- Name: ingredients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.ingredients_id_seq', 3, true);
+SELECT pg_catalog.setval('public.ingredients_id_seq', 1, false);
+
+
+--
+-- Name: notifications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.notifications_id_seq', 1, false);
 
 
 --
 -- Name: opening_hours_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.opening_hours_id_seq', 6, true);
+SELECT pg_catalog.setval('public.opening_hours_id_seq', 1, false);
 
 
 --
 -- Name: ordered_dishes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.ordered_dishes_id_seq', 25, true);
+SELECT pg_catalog.setval('public.ordered_dishes_id_seq', 1, false);
 
 
 --
 -- Name: reservations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.reservations_id_seq', 3, true);
+SELECT pg_catalog.setval('public.reservations_id_seq', 1, false);
 
 
 --
 -- Name: restaurants_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.restaurants_id_seq', 2, true);
+SELECT pg_catalog.setval('public.restaurants_id_seq', 1, false);
 
 
 --
 -- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.tags_id_seq', 2, true);
+SELECT pg_catalog.setval('public.tags_id_seq', 1, false);
 
 
 --
 -- Name: transactions_logs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.transactions_logs_id_seq', 20, true);
+SELECT pg_catalog.setval('public.transactions_logs_id_seq', 1, false);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 3, true);
-
-
---
--- Name: __drizzle_migrations __drizzle_migrations_pkey; Type: CONSTRAINT; Schema: drizzle; Owner: postgres
---
-
-ALTER TABLE ONLY drizzle.__drizzle_migrations
-    ADD CONSTRAINT __drizzle_migrations_pkey PRIMARY KEY (id);
+SELECT pg_catalog.setval('public.users_id_seq', 1, false);
 
 
 --
@@ -1282,6 +1295,14 @@ ALTER TABLE ONLY public.dishes_tags
 
 ALTER TABLE ONLY public.ingredients
     ADD CONSTRAINT ingredients_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: notifications notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notifications
+    ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
 
 
 --
