@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Dish } from '../../../interfaces/dish';
 import { MenuService } from '../../../services/home-generico/menu.service';
-import { IngredientiListComponent } from '../ingredienti-list/ingredienti-list.component';
+import { IngredientiListComponent } from '../../home-generico/ingredienti-list-generico/ingredienti-list.component';
 import { CarrelloService } from '../../../services/home-cliente/carrello.service';
 
 @Component({

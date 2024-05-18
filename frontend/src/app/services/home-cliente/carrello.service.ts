@@ -8,6 +8,7 @@ import { from } from 'rxjs';
 })
 export class CarrelloService {
   private carrello: any[] = [];
+  private currentId: number = 1;
 
   constructor() {
     // Carica il carrello dal local storage all'avvio del servizio
@@ -25,7 +26,9 @@ export class CarrelloService {
     dishImage: string,
     dishPrice: number,
   ): void {
+    const uniqueId = this.currentId++;
     this.carrello.push({
+      uniqueId,
       id_dish,
       dishName,
       dishImage,
@@ -45,11 +48,11 @@ export class CarrelloService {
   }
 
   removeIngredientFromCart(
-    id_dish: number,
+    uniqueId: number,
     ingredientId: number,
     ingredientName: string,
   ): void {
-    const index = this.carrello.findIndex((item) => item.id_dish === id_dish);
+    const index = this.carrello.findIndex((item) => item.uniqueId === uniqueId);
     if (index !== -1) {
       const removedIngredients = this.carrello[index].removed_ingredients;
       let removedIngredientNames = this.carrello[index].removedIngredientNames;
