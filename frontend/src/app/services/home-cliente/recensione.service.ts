@@ -21,7 +21,7 @@ export class RecensioneService {
     descrizione: string,
   ): Promise<ResultRecensione<any>> {
     const data = {
-      id_restaurant: 1,
+      id_restaurant: idRestaurant,
       id_user: this.user_id,
       date: new Date().toISOString(),
       score: punteggio,
