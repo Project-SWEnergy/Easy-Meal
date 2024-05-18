@@ -37,7 +37,7 @@ import { RecensioniService } from '../../../services/home-generico/recensioni.se
 export class DettagliRistorantiComponent implements OnInit {
   ristorante: Ristorante | undefined;
   indirizzo: Indirizzo | undefined;
-  hasUserReviewd = false
+  hasUserReviewd = true
   userPaid = false;
   auth = inject(AuthService);
   orderService: OrderService;
