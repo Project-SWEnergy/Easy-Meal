@@ -39,21 +39,21 @@
                 <h2 class="text-xl font-bold mb-2">Orari:</h2>
                 <app-orari [ristoranteId]="ristorante.id"></app-orari>
             </div>
-                <div class="flex justify-center mt-8">
-                    @if(userPaid && ristorante)
-                    {
-                    <button (click)="goToReviewPage(ristorante.id)"
-                        class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color">
-                        Inserisci recensione
-                    </button>
-                    }
-                    @if(this.auth.isAuth() && ristorante)
-                    {
-                    <button (click)="goToReservationPage(ristorante.id)"
-                        class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color">
-                        Prenota</button>
-                    }
-                </div>
+            <div class="flex justify-center mt-8">
+                @if(userPaid && ristorante && !reviews.hasUserReviewed(ristorante.id))
+                {
+                <button (click)="goToReviewPage(ristorante.id)"
+                    class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color">
+                    Inserisci recensione
+                </button>
+                }
+                @if(this.auth.isAuth() && ristorante)
+                {
+                <button (click)="goToReservationPage(ristorante.id)"
+                    class="bg-lt-purple text-white px-4 py-2 rounded-md shadow-md hover:bg-dk-purple transition-colors duration-300 block mx-auto disabled:bg-light-color">
+                    Prenota</button>
+                }
+            </div>
             <div>
                 <h2 class="text-lg font-semibold mb-2">Recensioni del ristorante:</h2>
                 <app-recensioni-list [ristoranteId]="ristorante.id"></app-recensioni-list>

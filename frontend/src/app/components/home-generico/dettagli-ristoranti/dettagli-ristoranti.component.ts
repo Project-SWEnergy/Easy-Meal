@@ -17,6 +17,7 @@ import { RecensioniListComponent } from '../recensioni-list/recensioni-list.comp
 
 import { AuthService } from '../../../services/auth.service';
 import { inject } from '@angular/core';
+import { RecensioniService } from '../../../services/home-generico/recensioni.service';
 
 @Component({
   standalone: true,
@@ -36,9 +37,11 @@ import { inject } from '@angular/core';
 export class DettagliRistorantiComponent implements OnInit {
   ristorante: Ristorante | undefined;
   indirizzo: Indirizzo | undefined;
+  hasUserReviewd = false
   userPaid = false;
   auth = inject(AuthService);
   orderService: OrderService;
+  reviews = inject(RecensioniService)
 
   constructor(
     private route: ActivatedRoute,
@@ -56,6 +59,10 @@ export class DettagliRistorantiComponent implements OnInit {
     if (this.auth.isAuth()) {
       this.checkUserPayment(id);
     }
+
+    this.reviews.hasUserReviewed(id).then(res => {
+      this.hasUserReviewd = res
+    })
   }
 
   async getRestaurantDetails(id: number): Promise<void> {
