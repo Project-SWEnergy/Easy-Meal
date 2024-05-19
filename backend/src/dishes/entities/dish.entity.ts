@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 /**
  * @param id number: identificativo piatto
  * @param id_restaurant number: identificativo ristorante
@@ -7,10 +8,16 @@
  * @param image string: URL immagine
  */
 export class Dish { 
+    @ApiProperty()
     id: number;
+    @ApiProperty()
     id_restaurant: number;
+    @ApiProperty()
     name: string;
+    @ApiProperty()
     description: string;
+    @ApiProperty()
     price: number; 
+    @ApiProperty()
     image: string;
 }

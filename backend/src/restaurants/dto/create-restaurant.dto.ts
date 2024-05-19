@@ -21,31 +21,38 @@ export class CreateRestaurantDto {
     @IsEmail()
     @IsString()
     @IsNotEmpty() 
+    @ApiProperty()
     email: string
 
     @IsString()
     @IsNotEmpty()
+    @ApiProperty()
     password: string
 
     @IsString()
     @IsNotEmpty()
+    @ApiProperty()
     name: string
 
     @IsString()
     @IsNotEmpty()
+    @ApiProperty()
     owner_name: string
 
     @IsString()
     @IsNotEmpty()
+    @ApiProperty()
     owner_surname: string
 
     @IsInt()
     @IsOptional()
+    @ApiProperty()
     id_address: number
 
     @IsInt()
     @Min(1)
     @IsNotEmpty()
+    @ApiProperty()
     seats: number
 
     @ApiProperty({ required: false })
@@ -57,14 +64,17 @@ export class CreateRestaurantDto {
     @Min(1)
     @Max(3)
     @IsNotEmpty()
+    @ApiProperty()
     price_tier: number
 
     @IsString()
     @IsNotEmpty()
+    @ApiProperty()
     description: string
 
     @IsString()
     @IsNotEmpty()
+    @ApiProperty()
     phone: string
 
     @ApiProperty({ required: false })

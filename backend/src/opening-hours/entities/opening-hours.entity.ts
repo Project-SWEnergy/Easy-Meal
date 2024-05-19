@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 /**
  * @param id number: identificativo della riga.
  * @param id_restaurant number: identificativo del ristorante.
@@ -9,12 +10,20 @@
  * @param closing_time string: orario di chiusura.
  */
 export class OpeningHours {
+    @ApiProperty()
     id: number
+    @ApiProperty()
     id_restaurant: number
+    @ApiProperty()
     id_day: number
+    @ApiProperty()
     name_day: String
+    @ApiProperty()
     abbreviation_day: String
+    @ApiProperty()
     order_day: String
+    @ApiProperty()
     opening_time: String
+    @ApiProperty()
     closing_time: String
 }

@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 /**
  * @param id number: id ingrediente
  * @param id_restaurant number: id ristorante
@@ -5,9 +6,13 @@
  * @param unit_of_measurement string: unità di misura
  */
 export class Ingredient {
+    @ApiProperty()
     id: number;
+    @ApiProperty()
     id_restaurant: number;
+    @ApiProperty()
     name: string;
+    @ApiProperty()
     unit_of_measurement: string;
 }
 
