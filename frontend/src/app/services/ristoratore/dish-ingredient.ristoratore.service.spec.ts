@@ -51,7 +51,7 @@ describe('DishIngredientRistoratoreService', () => {
 
     expect(await service['get_all_ingredients']()).toBeFalse();
     expect(messageService.error).toHaveBeenCalledWith(
-      "Failed to fetch restaurant's ingredients",
+      'Errore nel recupero degli ingredienti',
     );
   });
 
@@ -76,7 +76,7 @@ describe('DishIngredientRistoratoreService', () => {
 
     await service.ingredients_in_dish(dishId);
     expect(messageService.error).toHaveBeenCalledWith(
-      'Failed to fetch ingredients in dish',
+      'Errore nel recupero degli ingredienti del piatto',
     );
   });
 
@@ -161,7 +161,7 @@ describe('DishIngredientRistoratoreService', () => {
     const result = await service.create(dishIngredient);
     expect(result).toBeFalse();
     expect(messageService.error).toHaveBeenCalledWith(
-      'Failed to create a binding between a dish and an ingredient',
+      'Errore nella creazione del collegamento tra il piatto e l\'ingrediente'
     );
   });
 
@@ -176,7 +176,7 @@ describe('DishIngredientRistoratoreService', () => {
     const result = await service.update(dishIngredient);
     expect(result).toBeTrue();
     expect(messageService.log).toHaveBeenCalledWith(
-      'Binding between dish and ingredient updated',
+      'Collegamento tra piatto e ingrediente aggiornato con successo'
     );
   });
 
@@ -191,7 +191,7 @@ describe('DishIngredientRistoratoreService', () => {
     const result = await service.update(dishIngredient);
     expect(result).toBeFalse();
     expect(messageService.error).toHaveBeenCalledWith(
-      'Failed to update a binding between a dish and an ingredient',
+      'Errore nell\'aggiornamento di un collegamento tra piatto e ingrediente'
     );
   });
 
@@ -220,7 +220,7 @@ describe('DishIngredientRistoratoreService', () => {
     const result = await service.delete(dishIngredient);
     expect(result).toBeTrue();
     expect(messageService.log).toHaveBeenCalledWith(
-      'Binding between dish and ingredient deleted',
+      'Eliminazione di un collegamento tra piatto e ingrediente riuscita con successo'
     );
   });
 
@@ -244,7 +244,7 @@ describe('DishIngredientRistoratoreService', () => {
     const result = await service.delete(dishIngredient);
     expect(result).toBeFalse();
     expect(messageService.error).toHaveBeenCalledWith(
-      'Failed to delete a binding between a dish and an ingredient',
+      'Errore nell\'eliminazione di un collegamento tra piatto e ingrediente'
     );
   });
 });

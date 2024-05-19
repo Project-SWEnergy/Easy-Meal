@@ -11,7 +11,7 @@ export class DishRistoratoreService {
   new_dish_service = inject(SubmitService<DishCreate, Dish[]>);
   ms = inject(MessageService);
 
-  constructor() {}
+  constructor() { }
 
   async create(new_dish: DishCreate): Promise<Dish> {
     return axios
@@ -22,17 +22,14 @@ export class DishRistoratoreService {
       })
       .then((response) => {
         if (response && response.data && response.data.result) {
-          this.ms.log('Dish created successfully');
+          this.ms.log('Piatto creato con successo');
           return response.data.data[0];
         } else {
-          throw (
-            response.data.message ??
-            'Something went wrong in the creation of a new dish, no message from the backend provided'
-          );
+          throw new Error();
         }
       })
       .catch((err) => {
-        this.ms.error(err);
+        this.ms.error('Errore nella creazione del piatto');
       });
   }
 
@@ -47,7 +44,7 @@ export class DishRistoratoreService {
         }
       })
       .catch((_) => {
-        this.ms.error('Failed to get the dish');
+        this.ms.error('Errore nel recupero del piatto');
       });
   }
 
@@ -60,14 +57,14 @@ export class DishRistoratoreService {
       })
       .then((response) => {
         if (response && response.data && response.data.result) {
-          this.ms.log('Dish updated successfully');
+          this.ms.log('Piatto aggiornato con successo');
           return true;
         } else {
           throw new Error();
         }
       })
       .catch((err) => {
-        this.ms.error('Failed to update the dish');
+        this.ms.error('Errore nell\'aggiornamento del piatto');
         return false;
       });
   }
@@ -77,14 +74,14 @@ export class DishRistoratoreService {
       .delete('dishes/' + dish_id)
       .then((response) => {
         if (response.data && response.data.result) {
-          this.ms.log('Dish deleted successfully');
+          this.ms.log('Piatto eliminato con successo');
           return true;
         } else {
           throw new Error();
         }
       })
       .catch((err) => {
-        this.ms.error('Failed to delete the dish');
+        this.ms.error('Errore nell\'eliminazione del piatto');
         return false;
       });
   }

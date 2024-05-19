@@ -34,7 +34,7 @@ export class DishDetailRistoratoreComponent {
   ngOnInit() {
     const id = this.router.snapshot.paramMap.get('id');
     if (!id) {
-      this.ms.log('No dish id provided');
+      this.ms.log('Id del piatto non specificato.');
       return;
     }
 

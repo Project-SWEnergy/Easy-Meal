@@ -58,7 +58,7 @@ describe('OrderedDishesRistoratoreService', () => {
         .onGet('ordered-dishes/find-all-by-reservation/1')
         .reply(200, {});
       await service.get_ordered_dishes(1);
-      expect(mockMessageService.error).toHaveBeenCalledWith('No orders found');
+      expect(mockMessageService.error).toHaveBeenCalledWith('Errore nel recupero dei piatti ordinati');
     });
   });
 

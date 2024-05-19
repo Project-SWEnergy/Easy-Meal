@@ -23,7 +23,7 @@ export class WeekDaysRistoratoreService {
         return weekdays.sort((a, b) => a.order - b.order);
       })
       .catch((err) => {
-        this.ms.error('Network error');
+        this.ms.error('Errore nel recupero dei giorni della settimana');
         return [];
       });
   }

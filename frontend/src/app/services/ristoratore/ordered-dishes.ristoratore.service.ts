@@ -12,7 +12,7 @@ export class OrderedDishesRistoratoreService {
   dis = inject(DishIngredientRistoratoreService);
   ms = inject(MessageService);
 
-  constructor() {}
+  constructor() { }
 
   async get_ordered_dishes(res_id: number): Promise<OrderedDishes[]> {
     return axios
@@ -25,7 +25,7 @@ export class OrderedDishesRistoratoreService {
         }
       })
       .catch((_) => {
-        this.ms.error('No orders found');
+        this.ms.error('Errore nel recupero dei piatti ordinati');
       });
   }
 

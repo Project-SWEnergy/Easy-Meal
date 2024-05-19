@@ -24,7 +24,7 @@ export class DishIngredientRistoratoreService {
         return true;
       })
       .catch((err) => {
-        this.ms.error("Failed to fetch restaurant's ingredients");
+        this.ms.error("Errore nel recupero degli ingredienti");
         return false;
       });
   }
@@ -39,7 +39,7 @@ export class DishIngredientRistoratoreService {
           throw new Error();
         }
       })
-      .catch((_) => this.ms.error('Failed to fetch ingredients in dish'));
+      .catch((_) => this.ms.error('Errore nel recupero degli ingredienti del piatto'));
   }
 
   private async take_off_existing(dish_id: number): Promise<boolean> {
@@ -63,14 +63,14 @@ export class DishIngredientRistoratoreService {
         if (res && res.data && !res.data.result) {
           throw new Error();
         } else {
-          this.ms.log('Binding between dish and ingredient created');
+          this.ms.log('Collegamento tra piatto e ingrediente creato con successo');
           this.ingredients = await this.get(params.id_dish);
           return true;
         }
       })
       .catch((_) => {
         this.ms.error(
-          'Failed to create a binding between a dish and an ingredient',
+          'Errore nella creazione del collegamento tra il piatto e l\'ingrediente'
         );
         return false;
       });
@@ -84,7 +84,7 @@ export class DishIngredientRistoratoreService {
       )
       .then((res) => {
         if (res && res.data && res.data.result) {
-          this.ms.log('Binding between dish and ingredient updated');
+          this.ms.log('Collegamento tra piatto e ingrediente aggiornato con successo');
           return true;
         } else {
           throw new Error();
@@ -92,7 +92,7 @@ export class DishIngredientRistoratoreService {
       })
       .catch((err) => {
         this.ms.error(
-          'Failed to update a binding between a dish and an ingredient',
+          'Errore nell\'aggiornamento di un collegamento tra piatto e ingrediente'
         );
         return false;
       });
@@ -105,7 +105,7 @@ export class DishIngredientRistoratoreService {
       )
       .then(async (res) => {
         if (res && res.data && res.data.result) {
-          this.ms.log('Binding between dish and ingredient deleted');
+          this.ms.log('Eliminazione di un collegamento tra piatto e ingrediente riuscita con successo')
           this.ingredients = await this.get(params.id_dish);
           return true;
         } else {
@@ -114,7 +114,7 @@ export class DishIngredientRistoratoreService {
       })
       .catch((err) => {
         this.ms.error(
-          'Failed to delete a binding between a dish and an ingredient',
+          'Errore nell\'eliminazione di un collegamento tra piatto e ingrediente'
         );
         return false;
       });

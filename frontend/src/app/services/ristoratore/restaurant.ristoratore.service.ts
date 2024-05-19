@@ -23,14 +23,14 @@ export class RestaurantRistoratoreService {
       })
       .then((res) => {
         if (res && res.data && res.data.result) {
-          this.ms.log('Restaurant created successfully');
+          this.ms.log('Ristorante creato con successo');
           return res.data.data;
         } else {
           throw new Error();
         }
       })
       .catch((err) => {
-        this.ms.error('Something went wrong in the creation of the restaurant');
+        this.ms.error('Errore nella creazione del ristorante');
       });
   }
 
@@ -51,7 +51,7 @@ export class RestaurantRistoratoreService {
       })
       .catch((err) => {
         this.ms.error(
-          'Something went wrong in the creation of the opening hours',
+          'Errore nella creazione degli orari di apertura del ristorante'
         );
       });
   }
@@ -70,7 +70,7 @@ export class RestaurantRistoratoreService {
       // 3. crea gli orari di apertura
       await this.opening_hours_create(new_hours);
     } catch (e) {
-      this.ms.error('Something went wrong in the creation of the restaurant');
+      this.ms.error('Errore nella creazione del ristorante');
     }
     return true;
   }

@@ -61,7 +61,7 @@ describe('NotificationService', () => {
     await new Promise((resolve) => setTimeout(resolve, 100)); // wait for promises to resolve
 
     expect(mockMessageService.error).toHaveBeenCalledWith(
-      'Error fetching notifications',
+      'Errore nel recupero delle notifiche'
     );
   });
 
@@ -85,7 +85,7 @@ describe('NotificationService', () => {
     const result = await service.read(notificationId);
 
     expect(result).toBeTrue();
-    expect(mockMessageService.log).toHaveBeenCalledWith('Notification read');
+    expect(mockMessageService.log).toHaveBeenCalledWith('Notifica letta con successo');
   });
 
   it('should handle errors during reading notifications', async () => {

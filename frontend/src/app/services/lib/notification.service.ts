@@ -43,7 +43,7 @@ export class NotificationService {
         if (err.response && err.response.status === 401) {
           this.auth.logout();
         } else {
-          this.ms.error('Error fetching notifications');
+          this.ms.error('Errore nel recupero delle notifiche');
         }
       });
   }
@@ -58,14 +58,14 @@ export class NotificationService {
       .then((res) => {
         if (res && res.data && res.data.result) {
           this.updateMessages();
-          this.ms.log('Notification read');
+          this.ms.log('Notifica letta con successo');
           return true;
         } else {
           throw new Error();
         }
       })
       .catch((err) => {
-        this.ms.error('Error reading notification');
+        this.ms.error('Errore nella lettura della notifica');
         return false;
       });
   }

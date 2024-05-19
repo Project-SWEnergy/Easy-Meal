@@ -79,7 +79,7 @@ describe('AuthService', () => {
       await service.auth();
 
       expect(mockMessageService.error).toHaveBeenCalledWith(
-        'User not authenticated',
+        'Errore nel recupero dell\'utente'
       );
       expect(localStorage.setItem).not.toHaveBeenCalled();
     });
@@ -94,7 +94,7 @@ describe('AuthService', () => {
       await service.logout();
 
       expect(localStorage.removeItem).toHaveBeenCalledWith('token');
-      expect(mockMessageService.log).toHaveBeenCalledWith('Logout successful');
+      expect(mockMessageService.log).toHaveBeenCalledWith('Logout avvenuto con successo')
     });
 
     it('should handle logout errors', async () => {

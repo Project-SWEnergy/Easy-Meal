@@ -51,7 +51,7 @@ describe('DishRistoratoreService', () => {
     expect(result.description).toEqual(newDish.description);
     expect(result.price as any as string).toEqual(newDish.price);
     expect(mockMessageService.log).toHaveBeenCalledWith(
-      'Dish created successfully',
+      'Piatto creato con successo'
     );
   });
 
@@ -90,7 +90,7 @@ describe('DishRistoratoreService', () => {
 
     await service.get(1);
     expect(mockMessageService.error).toHaveBeenCalledWith(
-      'Failed to get the dish',
+      'Errore nel recupero del piatto'
     );
   });
 
@@ -107,7 +107,7 @@ describe('DishRistoratoreService', () => {
 
     expect(result).toBeTrue();
     expect(mockMessageService.log).toHaveBeenCalledWith(
-      'Dish updated successfully',
+      'Piatto aggiornato con successo'
     );
   });
 
@@ -124,7 +124,7 @@ describe('DishRistoratoreService', () => {
 
     expect(result).toBeFalse();
     expect(mockMessageService.error).toHaveBeenCalledWith(
-      'Failed to update the dish',
+      'Errore nell\'aggiornamento del piatto'
     );
   });
 
@@ -138,7 +138,7 @@ describe('DishRistoratoreService', () => {
 
     expect(result).toBeTrue();
     expect(mockMessageService.log).toHaveBeenCalledWith(
-      'Dish deleted successfully',
+      'Piatto eliminato con successo'
     );
   });
 
@@ -149,7 +149,7 @@ describe('DishRistoratoreService', () => {
 
     expect(result).toBeFalse();
     expect(mockMessageService.error).toHaveBeenCalledWith(
-      'Failed to delete the dish',
+      'Errore nell\'eliminazione del piatto'
     );
   });
 });

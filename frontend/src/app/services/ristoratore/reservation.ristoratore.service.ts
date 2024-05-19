@@ -14,7 +14,7 @@ export class ReservationRistoratoreService {
   ing_service = inject(IngredientRistoratoreService);
   ms = inject(MessageService);
 
-  constructor() {}
+  constructor() { }
 
   async get(res_id: number): Promise<Reservation> {
     return axios
@@ -27,7 +27,7 @@ export class ReservationRistoratoreService {
         }
       })
       .catch((_) => {
-        this.ms.error('No reservation found');
+        this.ms.error('Prenotazione non trovata');
       });
   }
 
@@ -42,7 +42,7 @@ export class ReservationRistoratoreService {
         }
       })
       .catch((err) => {
-        this.ms.error('No reservations found');
+        this.ms.error('Errore nel recupero delle prenotazioni');
         throw err;
       });
   }
@@ -55,14 +55,14 @@ export class ReservationRistoratoreService {
       .patch('reservations/' + res_id, updated_reservation)
       .then((res) => {
         if (res && res.data && res.data.result) {
-          this.ms.log('Reservation updated successfully');
+          this.ms.log('Prenotazione aggiornata con successo');
           return true;
         } else {
           throw new Error();
         }
       })
       .catch((err) => {
-        this.ms.error('Failed to update reservation');
+        this.ms.error('Errore nell\'aggiornamento della prenotazione');
         return false;
       });
   }

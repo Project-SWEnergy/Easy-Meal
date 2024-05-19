@@ -51,7 +51,7 @@ describe('WeekDaysRistoratoreService', () => {
     mockAxios.onGet('days-of-the-week/find-all').reply(200, { result: false });
     const result = await service.get();
 
-    expect(mockMessageService.error).toHaveBeenCalledWith('Network error');
+    expect(mockMessageService.error).toHaveBeenCalledWith('Errore nel recupero dei giorni della settimana');
     expect(result).toEqual([]);
   });
 });

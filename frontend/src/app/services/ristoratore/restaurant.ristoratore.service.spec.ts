@@ -96,7 +96,7 @@ describe('RestaurantRistoratoreService', () => {
     expect(mockMessageService.log.calls.count()).toEqual(1);
     expect(mockAuthService.auth).toHaveBeenCalled();
     expect(mockMessageService.error).toHaveBeenCalledWith(
-      'Something went wrong in the creation of the opening hours',
+      'Errore nella creazione degli orari di apertura del ristorante'
     );
   });
 });

@@ -84,7 +84,7 @@ describe('ReservationRistoratoreService', () => {
 
       await service.get(1);
       expect(mockMessageService.error).toHaveBeenCalledWith(
-        'No reservation found',
+        'Prenotazione non trovata'
       );
     });
   });
@@ -113,7 +113,7 @@ describe('ReservationRistoratoreService', () => {
         fail('The request should have failed');
       } catch (err) {
         expect(mockMessageService.error).toHaveBeenCalledWith(
-          'No reservations found',
+          'Errore nel recupero delle prenotazioni'
         );
       }
     });
@@ -135,7 +135,7 @@ describe('ReservationRistoratoreService', () => {
       const result = await service.update(update, 1);
       expect(result).toBeTrue();
       expect(mockMessageService.log).toHaveBeenCalledWith(
-        'Reservation updated successfully',
+        'Prenotazione aggiornata con successo'
       );
     });
 

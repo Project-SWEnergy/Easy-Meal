@@ -29,7 +29,7 @@ export class DishesRistoratoreService {
         }
       })
       .catch((err) => {
-        this.ms.error('Error fetching dishes');
+        this.ms.error('Errore nel recupero dei piatti');
       });
   }
 }

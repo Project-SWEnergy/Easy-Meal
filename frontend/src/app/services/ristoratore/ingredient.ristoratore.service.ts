@@ -21,14 +21,14 @@ export class IngredientRistoratoreService {
       .post('ingredients/create', ing)
       .then((res) => {
         if (res && res.data && res.data.result) {
-          this.ms.log('Ingredient created successfully');
+          this.ms.log('Ingrediente creato con successo');
           return res.data.data[0];
         } else {
           throw new Error();
         }
       })
       .catch((err) => {
-        this.ms.error('Creation failed');
+        this.ms.error('Errore nella creazione dell\'ingrediente');
       });
   }
 
@@ -43,7 +43,7 @@ export class IngredientRistoratoreService {
         }
       })
       .catch((err) => {
-        this.ms.error('Ingredient not found');
+        this.ms.error('Ingrediente non trovato');
       });
   }
 
@@ -58,7 +58,7 @@ export class IngredientRistoratoreService {
         }
       })
       .catch((_) => {
-        this.ms.error('No ingredients found');
+        this.ms.error('Errore nel recupero degli ingredienti');
       });
   }
 
@@ -67,14 +67,14 @@ export class IngredientRistoratoreService {
       .patch('ingredients/' + ing_id, ingredient)
       .then((response) => {
         if (response.data && response.data.result) {
-          this.ms.log('Ingredient updated successfully');
+          this.ms.log('Ingrediente aggiornato con successo')
           return true;
         } else {
           throw new Error();
         }
       })
       .catch((_) => {
-        this.ms.error('Update of the ingredient failed');
+        this.ms.error('Errore nell\'aggiornamento dell\'ingrediente')
         return false;
       });
   }
@@ -84,14 +84,14 @@ export class IngredientRistoratoreService {
       .delete('ingredients/' + ingredient_id)
       .then((response) => {
         if (response.data && response.data.result) {
-          this.ms.log('Ingredient deleted successfully');
+          this.ms.log('Ingrediente eliminato con successo');
           return true;
         } else {
           throw new Error();
         }
       })
       .catch((_) => {
-        this.ms.error('Deletion of the ingredient failed');
+        this.ms.error('Errore nell\'eliminazione dell\'ingrediente');
         return false;
       });
   }

@@ -9,7 +9,7 @@ import { MessageService } from './lib/message.service';
 export class AuthService {
   ms = inject(MessageService);
 
-  constructor() {}
+  constructor() { }
 
   /** User if the User if the user is authenticated, null otherwise */
   get(): User | null {
@@ -56,12 +56,12 @@ export class AuthService {
           throw new Error();
         }
       })
-      .catch((_) => this.ms.error('User not authenticated'));
+      .catch((_) => this.ms.error('Errore nel recupero dell\'utente'));
 
     if (this.isOk(user)) {
       localStorage.setItem('token', JSON.stringify(user));
     } else {
-      this.ms.error("User doesn't implement User interface");
+      this.ms.error('Errore nel recupero dell\'utente');
     }
   }
 
@@ -101,7 +101,7 @@ export class AuthService {
           res.data.message &&
           res.data.message === 'Logout successful'
         ) {
-          this.ms.log(res.data.message);
+          this.ms.log('Logout avvenuto con successo');
         } else {
           throw new Error();
         }

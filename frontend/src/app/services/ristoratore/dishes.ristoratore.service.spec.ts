@@ -62,7 +62,7 @@ describe('DishesRistoratoreService', () => {
         .reply(500, { message: errorMessage });
       await service.get();
       expect(mockMessageService.error).toHaveBeenCalledWith(
-        'Error fetching dishes',
+        'Errore nel recupero dei piatti'
       );
     });
 
@@ -70,7 +70,7 @@ describe('DishesRistoratoreService', () => {
       mockAxios.onGet(`dishes/find-all/123`).reply(200, { result: false });
       await service.get();
       expect(mockMessageService.error).toHaveBeenCalledWith(
-        'Error fetching dishes',
+        'Errore nel recupero dei piatti'
       );
     });
   });

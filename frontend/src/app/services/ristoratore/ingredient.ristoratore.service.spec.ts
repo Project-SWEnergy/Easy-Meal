@@ -54,14 +54,14 @@ describe('IngredientRistoratoreService', () => {
       const result = await service.create(newIngredient);
       expect(result).toEqual(responseIngredient);
       expect(mockMessageService.log).toHaveBeenCalledWith(
-        'Ingredient created successfully',
+        'Ingrediente creato con successo'
       );
     });
 
     it('should handle creation errors', async () => {
       mockAxios.onPost('ingredients/create').reply(200, { result: false });
       await service.create(newIngredient);
-      expect(mockMessageService.error).toHaveBeenCalledWith('Creation failed');
+      expect(mockMessageService.error).toHaveBeenCalledWith('Errore nella creazione dell\'ingrediente');
     });
   });
 
@@ -85,7 +85,7 @@ describe('IngredientRistoratoreService', () => {
       mockAxios.onGet('ingredients/find-one/1').reply(200, { result: false });
       await service.get_one(1);
       expect(mockMessageService.error).toHaveBeenCalledWith(
-        'Ingredient not found',
+        'Ingrediente non trovato'
       );
     });
   });
@@ -120,7 +120,7 @@ describe('IngredientRistoratoreService', () => {
         .reply(200, { result: false });
       await service.get_all();
       expect(mockMessageService.error).toHaveBeenCalledWith(
-        'No ingredients found',
+        'Errore nel recupero degli ingredienti'
       );
     });
   });
@@ -141,7 +141,7 @@ describe('IngredientRistoratoreService', () => {
       const result = await service.update(1, ingredient);
       expect(result).toBeTrue();
       expect(mockMessageService.log).toHaveBeenCalledWith(
-        'Ingredient updated successfully',
+        'Ingrediente aggiornato con successo'
       );
     });
 
@@ -150,7 +150,7 @@ describe('IngredientRistoratoreService', () => {
       const result = await service.update(1, ingredient);
       expect(result).toBeFalse();
       expect(mockMessageService.error).toHaveBeenCalledWith(
-        'Update of the ingredient failed',
+        'Errore nell\'aggiornamento dell\'ingrediente'
       );
     });
   });
@@ -164,7 +164,7 @@ describe('IngredientRistoratoreService', () => {
       const result = await service.delete(1);
       expect(result).toBeTrue();
       expect(mockMessageService.log).toHaveBeenCalledWith(
-        'Ingredient deleted successfully',
+        'Ingrediente eliminato con successo'
       );
     });
 
@@ -173,7 +173,7 @@ describe('IngredientRistoratoreService', () => {
       const result = await service.delete(1);
       expect(result).toBeFalse();
       expect(mockMessageService.error).toHaveBeenCalledWith(
-        'Deletion of the ingredient failed',
+        'Errore nell\'eliminazione dell\'ingrediente'
       );
     });
   });
