@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { IsInt, IsNotEmpty, IsString } from "class-validator";
 
 /**
@@ -8,13 +9,16 @@ import { IsInt, IsNotEmpty, IsString } from "class-validator";
 export class CreateDaysOfTheWeekDto {
     @IsString()
     @IsNotEmpty()
+    @ApiProperty()
     name: string;
 
     @IsString()
     @IsNotEmpty()
+    @ApiProperty()
     abbreviation: string;
     
     @IsInt()
     @IsNotEmpty()
+    @ApiProperty()
     order: number;
 }

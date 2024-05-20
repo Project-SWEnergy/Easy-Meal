@@ -1,4 +1,5 @@
 import { Tag } from "../entities/tag.entity";
+import { ApiProperty } from "@nestjs/swagger";
 
 /**
  * @param result bool: risultato dell'operazione.
@@ -7,7 +8,10 @@ import { Tag } from "../entities/tag.entity";
  */
 
 export class ResultTagDto {
+    @ApiProperty()
     result: boolean;
+    @ApiProperty()
     message: string;
+    @ApiProperty()
     data: Tag[];
 }

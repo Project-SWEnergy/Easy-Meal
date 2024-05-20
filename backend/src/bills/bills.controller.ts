@@ -11,6 +11,7 @@ import { CreateTransactionLogDto } from '../transaction-logs/dto/create-transact
 import { TransactionState } from '../transaction-logs/entities/transaction-log.entity';
 import { OrderedDishesService } from '../ordered-dishes/ordered-dishes.service';
 import { ReservationsService } from '../reservations/reservations.service';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 
 @Controller('bills')
 export class BillsController {
@@ -22,7 +23,11 @@ export class BillsController {
     private readonly reservationsService: ReservationsService
   ) { }
 
+
   @Post('create-proportional')
+  @ApiOperation({ summary: 'Crea uno nuovo scontrino con pagamento proporzionale'})
+  @ApiResponse({ status: 200, description: 'Scontrino proporzionale creato con successo.', type: ResultBillDto })
+  @ApiBody({ type: CreateBillDto })
   async createProportional(@Body() createBillDto: CreateBillDto, @Req() req): Promise<ResultBillDto> {
     let billUpdateResult: any;
     try {
@@ -67,6 +72,9 @@ export class BillsController {
 
 
   @Post('create-equidivided')
+  @ApiOperation({ summary: 'Crea uno nuovo scontrino con pagamento equidiviso'})
+  @ApiResponse({ status: 200, description: 'Scontrino equidiviso creato con successo.', type: ResultBillDto })
+  @ApiBody({ type: CreateBillDto })
   async createEquidivided(@Body() createBillDto: CreateBillDto, @Req() req): Promise<ResultBillDto> {
     let billUpdateResult: any;
     try {
@@ -103,6 +111,9 @@ export class BillsController {
 
   
   @Get('find-all-by-reservation/:reservationId')
+  @ApiOperation({ summary: 'Cerca tutti gli scontrini relativi ad una specifica prenotazione'})
+  @ApiResponse({ status: 200, description: 'Scontrini trovati con successo.', type: ResultBillDto })
+  @ApiParam({ name: 'reservationId', type: 'number', description: 'ID prenotazione' })
   async findAllByReservationId(@Param('reservationId') reservationId: string, @Req() req): Promise<ResultBillDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken);
@@ -112,6 +123,9 @@ export class BillsController {
 
 
   @Get('find-one/:id')
+  @ApiOperation({ summary: 'Cerca uno specifico scontrino basandosi sul suo ID'})
+  @ApiResponse({ status: 200, description: 'Scontrino trovato con successo.', type: ResultBillDto })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID scontrino' })
   async findOne(@Param('id') id: string, @Req() req): Promise<ResultBillDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken);
@@ -120,6 +134,10 @@ export class BillsController {
   }
 
   @Get('did-user-paid-once/:idUser/:idRestaurant')
+  @ApiOperation({ summary: 'Verifica se un utente ha già pagato almeno una volta in un ristorante'})
+  @ApiResponse({ status: 200, description: 'Verifica effettuata con successo.', type: ResultBillDto })
+  @ApiParam({ name: 'idUser', type: 'string', description: 'ID utente' })
+  @ApiParam({ name: 'idRestaurant', type: 'string', description: 'ID ristorante' })
   async didUserPaidOnce(@Param('idUser') idUser: string, @Param('idRestaurant') idRestaurant: string, @Req() req): Promise<ResultBillDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken);
@@ -129,6 +147,10 @@ export class BillsController {
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: 'Modifica uno specifico scontrino basandosi sul suo ID'})
+  @ApiResponse({ status: 200, description: 'Scontrino modificato con successo.', type: ResultBillDto })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID scontrino' })
+  @ApiBody({ type: UpdateBillDto })
   async update(@Param('id') id: string, @Body() updateBillDto: UpdateBillDto, @Req() req) { 
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken, UserType.restaurant);
@@ -138,6 +160,9 @@ export class BillsController {
 
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Rimuove uno specifico scontrino basandosi sul suo ID'})
+  @ApiResponse({ status: 200, description: 'Scontrino rimosso con successo.', type: ResultBillDto })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID scontrino' })
   async remove(@Param('id') id: string, @Req() req): Promise<ResultBillDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken, UserType.restaurant);

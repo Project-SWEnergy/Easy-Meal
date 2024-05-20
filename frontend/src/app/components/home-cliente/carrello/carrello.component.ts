@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { Input } from '@angular/core';
 import { MessageService } from '../../../services/lib/message.service';
 import { Router } from '@angular/router';
+import { IngredientiListComponent } from '../ingredienti-list/ingredienti-list.component';
 
 @Component({
   selector: 'app-carrello',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,IngredientiListComponent],
   templateUrl: './carrello.component.html',
   styleUrl: './carrello.component.css',
 })

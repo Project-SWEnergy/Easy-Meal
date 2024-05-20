@@ -13,6 +13,7 @@ import { CarrelloService } from '../../../services/home-cliente/carrello.service
 })
 export class IngredientiListComponent {
   @Input() dishId: number | undefined;
+  @Input() uniqueId : number;
   ingredients: Ingredient[] = [];
 
   constructor(
@@ -39,9 +40,9 @@ export class IngredientiListComponent {
   }
 
   removeIngredientFromCart(ingredientId: number, ingredientName: string): void {
-    if (this.dishId) {
+    if (this.uniqueId) {
       this.cartService.removeIngredientFromCart(
-        this.dishId,
+        this.uniqueId,
         ingredientId,
         ingredientName,
       );

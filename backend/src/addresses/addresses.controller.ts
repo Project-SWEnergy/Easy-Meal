@@ -4,6 +4,7 @@ import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 import { AuthorizationService } from '../authorization/authorization.service';
 import { ResultAddressDto } from './dto/result-address.dto';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 
 @Controller('addresses')
 export class AddressesController {
@@ -13,11 +14,16 @@ export class AddressesController {
   ) { }
 
   @Post()
+  @ApiOperation({ summary: 'Crea un nuovo indirizzo' })
+  @ApiResponse({ status: 200, description: 'Indirizzo creato con successo.', type: ResultAddressDto })
+  @ApiBody({ type: CreateAddressDto })
   async create(@Body() createAddressDto: CreateAddressDto): Promise<ResultAddressDto> {
     return await this.addressesService.create(createAddressDto);
   }
 
   @Get()
+  @ApiOperation({ summary: 'Cerca l\'indirizzo dell\'utente' })
+  @ApiResponse({ status: 200, description: 'Indirizzo trovato con successo.', type: ResultAddressDto })
   async findOne(@Req() req): Promise<ResultAddressDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken);
@@ -25,12 +31,18 @@ export class AddressesController {
   }
 
   @Get('find-by-restaurantId/:id')
+  @ApiOperation({ summary: 'Cerca l\'indirizzo di un ristorante' })
+  @ApiResponse({ status: 200, description: 'Indirizzo trovato con successo.', type: ResultAddressDto })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID ristorante' })
   async findByRestaurantId(@Param('id') id: string): Promise<ResultAddressDto> {
     const tagId = parseInt(id);
     return await this.addressesService.findByRestaurantId(tagId);
   }
 
   @Patch()
+  @ApiOperation({ summary: 'Modifica l\'indirizzo dell\'utente' })
+  @ApiResponse({ status: 200, description: 'Indirizzo modificato con successo.', type: ResultAddressDto })
+  @ApiBody({ type: UpdateAddressDto })
   async update(@Body() updateUserDto: UpdateAddressDto, @Req() req): Promise<ResultAddressDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken);
@@ -38,6 +50,8 @@ export class AddressesController {
   }
 
   @Delete()
+  @ApiOperation({ summary: 'Rimuove l\'indirizzo dell\'utente' })
+  @ApiResponse({ status: 200, description: 'Indirizzo rimosso con successo.', type: ResultAddressDto })
   async remove(@Req() req): Promise<ResultAddressDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken);

@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { IsInt, IsNotEmpty } from "class-validator";
 
 /**
@@ -7,9 +8,11 @@ import { IsInt, IsNotEmpty } from "class-validator";
 export class CreateAllergiesIngredientDto {
     @IsNotEmpty()
     @IsInt()
+    @ApiProperty()
     id_allergy: number;
 
     @IsNotEmpty()
     @IsInt()
+    @ApiProperty()
     id_ingredient: number;
 }

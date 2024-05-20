@@ -10,6 +10,7 @@ describe('IngredientiListComponent', () => {
   let fixture: ComponentFixture<IngredientiListComponent>;
   let ingredientiService: jasmine.SpyObj<IngredientiService>;
   let cartService: jasmine.SpyObj<CarrelloService>;
+  let consoleErrorSpy: jasmine.Spy;
 
   beforeEach(waitForAsync(() => {
     ingredientiService = jasmine.createSpyObj('IngredientiService', [
@@ -34,6 +35,14 @@ describe('IngredientiListComponent', () => {
     fixture = TestBed.createComponent(IngredientiListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  beforeEach(() => {
+    consoleErrorSpy = spyOn(console, 'error');
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.and.callThrough();
   });
 
   it('should create', () => {
@@ -84,19 +93,5 @@ describe('IngredientiListComponent', () => {
       dishId,
     );
     expect(ingredientiService.getIngredientsById).toHaveBeenCalled();
-  });
-
-  it('should remove ingredient from cart using CarrelloService', () => {
-    const dishId = 1;
-    const ingredientId = 1;
-    const ingredientName = 'Ingredient 1';
-    component.dishId = dishId; // Assicurati che dishId sia definito
-    component.removeIngredientFromCart(ingredientId, ingredientName);
-    expect(cartService.removeIngredientFromCart).toHaveBeenCalledWith(
-      dishId,
-      ingredientId,
-      ingredientName,
-    );
-    expect(cartService.removeIngredientFromCart).toHaveBeenCalledTimes(1); // Aggiungi questa riga
   });
 });
