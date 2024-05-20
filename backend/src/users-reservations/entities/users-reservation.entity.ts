@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 /**
  * @param id_user number: id utente
  * @param name_user string?: nome utente
@@ -12,15 +13,26 @@
  * @param accepted boolean?: se l'invito alla prenotazione è accettato o in attesa
  */
 export class UsersReservation {
+    @ApiProperty()
     id_user: number;
+    @ApiProperty()
     name_user?: string;
+    @ApiProperty()
     surname_user?: string;
+    @ApiProperty()
     id_reservation: number;
+    @ApiProperty()
     id_restaurant?: number
+    @ApiProperty()
     name_restaurant?: string;
+    @ApiProperty()
     date?: Date;
+    @ApiProperty()
     partecipants?: number;
+    @ApiProperty()
     state?: string;
+    @ApiProperty()
     bill_splitting_method?: string;
+    @ApiProperty()
     accepted?: boolean;
 }

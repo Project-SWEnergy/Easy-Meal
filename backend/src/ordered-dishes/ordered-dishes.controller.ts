@@ -8,6 +8,7 @@ import { UserType } from '../authentication/dto/user-data.dto';
 import { removed_ingredients } from '../../db/schema';
 import { ReservationsService } from '../reservations/reservations.service';
 import { ReservationState } from '../reservations/entities/reservation.entity';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 
 @Controller('ordered-dishes')
 export class OrderedDishesController {
@@ -18,6 +19,9 @@ export class OrderedDishesController {
   ) { }
 
   @Post('create')
+  @ApiOperation({ summary: 'Crea un nuovo ordine' })
+  @ApiResponse({ status: 200, description: 'Ordine creato con successo.', type: ResultOrderedDishDto })
+  @ApiBody({ type: CreateOrderedDishDto, isArray: true })
   async create(@Body() createOrderedDishDto: CreateOrderedDishDto[], @Req() req): Promise<ResultOrderedDishDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken, UserType.user);
@@ -52,6 +56,9 @@ export class OrderedDishesController {
   }
 
   @Get('find-all-by-reservation/:id')
+  @ApiOperation({ summary: 'Cerca tutti gli ordini associati ad un ID prenotazione' })
+  @ApiResponse({ status: 200, description: 'Ordini trovati con successo.', type: ResultOrderedDishDto })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID prenotazione' })
   async findAllByReservationId(@Param('id') id: string, @Req() req): Promise<ResultOrderedDishDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken);
@@ -60,6 +67,10 @@ export class OrderedDishesController {
   }
 
   @Get('find-all-by-user/:idUser/:idReservation')
+  @ApiOperation({ summary: 'Cerca tutti gli ordini associati ad un ID utente e ID prenotazione' })
+  @ApiResponse({ status: 200, description: 'Ordini trovati con successo.', type: ResultOrderedDishDto })
+  @ApiParam({ name: 'idUser', type: 'number', description: 'ID utente' })
+  @ApiParam({ name: 'idReservation', type: 'number', description: 'ID prenotazione' })
   async findAllByUserId(@Param('idUser') idUser: string, @Param('idReservation') idReservation: string, @Req() req): Promise<ResultOrderedDishDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken);
@@ -69,6 +80,9 @@ export class OrderedDishesController {
   }
 
   @Get('find-all-unpaid/:idReservation')
+  @ApiOperation({ summary: 'Cerca tutti gli ordini non pagati associati ad un ID prenotazione' })
+  @ApiResponse({ status: 200, description: 'Ordini trovati con successo.', type: ResultOrderedDishDto })
+  @ApiParam({ name: 'idReservation', type: 'number', description: 'ID prenotazione' })
   async findAllUnpaidOrders(@Param('idReservation') idReservation: string, @Req() req): Promise<ResultOrderedDishDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken);
@@ -77,6 +91,10 @@ export class OrderedDishesController {
   }
 
   @Get('find-all-unpaid-by-user/:idUser/:idReservation')
+  @ApiOperation({ summary: 'Cerca tutti gli ordini non pagati associati ad un ID utente e ID prenotazione' })
+  @ApiResponse({ status: 200, description: 'Ordini trovati con successo.', type: ResultOrderedDishDto })
+  @ApiParam({ name: 'idUser', type: 'number', description: 'ID utente' })
+  @ApiParam({ name: 'idReservation', type: 'number', description: 'ID prenotazione' })
   async findAllUnpaidOrdersByUserId(@Param('idUser') idUser: string, @Param('idReservation') idReservation: string, @Req() req): Promise<ResultOrderedDishDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken);
@@ -86,6 +104,9 @@ export class OrderedDishesController {
   }
 
   @Get('find-one/:id')
+  @ApiOperation({ summary: 'Cerca un ordine specifico' })
+  @ApiResponse({ status: 200, description: 'Ordine trovato con successo.', type: ResultOrderedDishDto })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID ordine' })
   async findOne(@Param('id') id: string, @Req() req): Promise<ResultOrderedDishDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken);
@@ -94,6 +115,9 @@ export class OrderedDishesController {
   }
 
   @Get('reservation-total-bill/:idReservation')
+  @ApiOperation({ summary: 'Calcola il totale della prenotazione' })
+  @ApiResponse({ status: 200, description: 'Totale prenotazione calcolato con successo.', type: ResultOrderedDishDto })
+  @ApiParam({ name: 'idReservation', type: 'number', description: 'ID prenotazione' })
   async reservationTotalBill(@Param('idReservation') idReservation: string, @Req() req): Promise<ResultOrderedDishDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken);
@@ -102,6 +126,10 @@ export class OrderedDishesController {
   }
 
   @Get('user-total-bill/:idUser/:idReservation')
+  @ApiOperation({ summary: 'Calcola il totale dell\'utente per la prenotazione' })
+  @ApiResponse({ status: 200, description: 'Totale utente calcolato con successo.', type: ResultOrderedDishDto })
+  @ApiParam({ name: 'idUser', type: 'number', description: 'ID utente' })
+  @ApiParam({ name: 'idReservation', type: 'number', description: 'ID prenotazione' })
   async userTotalBill(
     @Param('idUser') idUser: string,
     @Param('idReservation') idReservation: string,
@@ -116,6 +144,9 @@ export class OrderedDishesController {
 
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Rimuovi un ordine specifico' })
+  @ApiResponse({ status: 200, description: 'Ordine rimosso con successo.' })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID ordine' })
   async remove(@Param('id') id: string, @Req() req) {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken);

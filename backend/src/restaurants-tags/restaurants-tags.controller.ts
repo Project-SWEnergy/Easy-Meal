@@ -6,6 +6,7 @@ import { AuthorizationService } from '../authorization/authorization.service';
 import { ResultRestaurantsTagsDto } from './dto/result-restaurants-tags.dto';
 import { UserType } from '../authentication/dto/user-data.dto';
 import { Request } from 'express';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 
 @Controller('restaurants-tags')
 export class RestaurantsTagsController {
@@ -15,6 +16,9 @@ export class RestaurantsTagsController {
   ) { }
 
   @Post('create')
+  @ApiOperation({ summary: 'Crea un nuovo tag per un ristorante' })
+  @ApiResponse({ status: 200, description: 'Tag creato con successo.', type: ResultRestaurantsTagsDto })
+  @ApiBody({ type: CreateRestaurantsTagDto })
   async create(
     @Body() createRestaurantsTagDto: CreateRestaurantsTagDto,
     @Req() req: Request
@@ -25,6 +29,9 @@ export class RestaurantsTagsController {
   }
 
   @Get('find-all-by-restaurant/:id')
+  @ApiOperation({ summary: 'Cerca tutti i tag associati ad un ID ristorante' })
+  @ApiResponse({ status: 200, description: 'Tag trovati con successo.', type: ResultRestaurantsTagsDto })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID ristorante' })
   async findAllByRestaurantId(@Param('id') restaurantId): Promise<ResultRestaurantsTagsDto> {
     const restaurantIdNumber = parseInt(restaurantId);
     if (!Number.isInteger(restaurantIdNumber))
@@ -33,6 +40,9 @@ export class RestaurantsTagsController {
   }
 
   @Patch()
+  @ApiOperation({ summary: 'Aggiorna un tag' })
+  @ApiResponse({ status: 200, description: 'Tag aggiornato con successo.', type: ResultRestaurantsTagsDto })
+  @ApiBody({ type: UpdateRestaurantsTagDto })
   update(
     @Body() updateRestaurantsTagDto: UpdateRestaurantsTagDto,
     @Req() req: Request

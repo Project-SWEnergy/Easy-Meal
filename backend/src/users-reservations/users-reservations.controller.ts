@@ -9,6 +9,8 @@ import { InviteUsersReservationDto } from './dto/invite-users-reservation.dto';
 import { ReservationsService } from '../reservations/reservations.service';
 import { UpdateReservationDto } from '../reservations/dto/update-reservation.dto';
 import { ReservationState } from '../reservations/entities/reservation.entity';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+
 
 @Controller('users-reservations')
 export class UsersReservationsController {
@@ -19,6 +21,9 @@ export class UsersReservationsController {
   ) { }
 
   @Post('create')
+  @ApiOperation({ summary: 'Crea una nuova prenotazione'})
+  @ApiResponse({ status: 200, description: 'Prenotazione creata con successo.', type: ResultUsersReservationDto })
+  @ApiBody({ type: CreateUsersReservationDto })
   async create(@Body() createUsersReservationDto: CreateUsersReservationDto, @Req() req): Promise<ResultUsersReservationDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken, UserType.user);
@@ -28,6 +33,9 @@ export class UsersReservationsController {
   }
 
   @Post('invite')
+  @ApiOperation({ summary: 'Invita un utente ad una prenotazione'})
+  @ApiResponse({ status: 200, description: 'Invito inviato con successo.', type: ResultUsersReservationDto })
+  @ApiBody({ type: InviteUsersReservationDto })
   async invite(@Body() inviteUsersDto: InviteUsersReservationDto, @Req() req): Promise<ResultUsersReservationDto> {
     let invite: any;
     try {
@@ -43,6 +51,8 @@ export class UsersReservationsController {
 
 
   @Get('find-all-by-user')
+  @ApiOperation({ summary: 'Cerca tutte le prenotazioni associate ad un ID utente'})
+  @ApiResponse({ status: 200, description: 'Prenotazioni trovate con successo.', type: ResultUsersReservationDto })
   async findAllByUserId(@Req() req): Promise<ResultUsersReservationDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken, UserType.user);
@@ -51,6 +61,9 @@ export class UsersReservationsController {
   }
 
   @Get('find-all-by-reservation/:idReservation')
+  @ApiOperation({ summary: 'Cerca tutte le prenotazioni associate ad un ID prenotazione'})
+  @ApiResponse({ status: 200, description: 'Prenotazioni trovate con successo.', type: ResultUsersReservationDto })
+  @ApiParam({ name: 'idReservation', type: 'number', description: 'ID prenotazione' })
   async findAllByReservationId(@Param('idReservation') idReservation: string, @Req() req): Promise<ResultUsersReservationDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken);
@@ -59,6 +72,10 @@ export class UsersReservationsController {
   }
 
   @Get('find-one/:idUser/:idReservation')
+  @ApiOperation({ summary: 'Cerca una specifica prenotazione'})
+  @ApiResponse({ status: 200, description: 'Prenotazione trovata con successo.', type: ResultUsersReservationDto })
+  @ApiParam({ name: 'idUser', type: 'number', description: 'ID utente' })
+  @ApiParam({ name: 'idReservation', type: 'number', description: 'ID prenotazione' })
   async findOne(@Param('idUser') idUser: string, @Param('idReservation') idReservation: string, @Req() req): Promise<ResultUsersReservationDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken);
@@ -68,6 +85,10 @@ export class UsersReservationsController {
   }
 
   @Patch(':idReservation')
+  @ApiOperation({ summary: 'Modifica una specifica prenotazione basandosi sul suo ID'})
+  @ApiResponse({ status: 200, description: 'Prenotazione modificata con successo.', type: ResultUsersReservationDto })
+  @ApiParam({ name: 'idReservation', type: 'number', description: 'ID prenotazione' })
+  @ApiBody({ type: UpdateUsersReservationDto })
   async update(@Body() updateUsersReservationDto: UpdateUsersReservationDto, @Param('idReservation') idReservation: string, @Req() req): Promise<ResultUsersReservationDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken, UserType.user);
@@ -77,6 +98,9 @@ export class UsersReservationsController {
   }
 
   @Delete(':idReservation')
+  @ApiOperation({ summary: 'Rimuove una specifica prenotazione basandosi su ID prenotazione ed ID utente'})
+  @ApiResponse({ status: 200, description: 'Prenotazione rimossa con successo.', type: ResultUsersReservationDto })
+  @ApiParam({ name: 'idReservation', type: 'number', description: 'ID prenotazione' })
   async remove(@Param('idReservation') idReservation: string, @Req() req): Promise<ResultUsersReservationDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken, UserType.user);

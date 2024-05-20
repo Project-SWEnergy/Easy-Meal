@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { Bill } from "../entities/bill.entity";
 
 /**
@@ -6,7 +7,10 @@ import { Bill } from "../entities/bill.entity";
  * @param {ReturnBill} data ReturnBill[ ]: oggetti coinvolti nell'operazione.
  */
 export class ResultBillDto {
+    @ApiProperty()
     result: boolean;
+    @ApiProperty()
     message: string;
+    @ApiProperty()
     data: Bill[];
 }

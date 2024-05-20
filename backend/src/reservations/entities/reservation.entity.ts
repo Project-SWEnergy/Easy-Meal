@@ -1,3 +1,5 @@
+import { ApiProperty } from "@nestjs/swagger";
+
 export enum ReservationState{
     InAttesa = 'In attesa',
     Approvata = 'Approvata',
@@ -23,11 +25,18 @@ export enum BillSplittingMethod{
  * @param paidOrder number: numero di partecipanti che hanno pagato il conto
  */
 export class Reservation {
+    @ApiProperty()
     reservationId: number;
+    @ApiProperty()
     restaurantId: number;
+    @ApiProperty()
     date: Date;
+    @ApiProperty()
     partecipants: number;
+    @ApiProperty()
     reservationState: ReservationState;
+    @ApiProperty()
     billSplittingMethod: BillSplittingMethod;
+    @ApiProperty()
     paidOrder: number;
 }

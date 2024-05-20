@@ -1,8 +1,14 @@
+import { ApiProperty } from "@nestjs/swagger";
 export class TransactionLog {
+    @ApiProperty()
     id: number;
+    @ApiProperty()
     id_bill: number;
+    @ApiProperty()
     timestamp: Date;
+    @ApiProperty()
     transaction_state: string;
+    @ApiProperty()
     message: string;
 }
 

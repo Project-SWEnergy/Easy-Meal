@@ -8,6 +8,7 @@ import { UserType } from '../authentication/dto/user-data.dto';
 import { Express } from 'express'
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadFileService } from '../upload-file/upload-file.service';
+import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 
 
 
@@ -22,6 +23,9 @@ export class DishesController {
 
 
   @Post('create')
+  @ApiOperation({ summary: 'Crea un nuovo piatto' })
+  @ApiResponse({ status: 200, description: 'Piatto creato con successo.', type: ResultDishesDto })
+  @ApiBody({ type: CreateDishDto })
   @UseInterceptors(FileInterceptor('file'))
   async create(
     @Body() createDishDto: CreateDishDto,
@@ -38,6 +42,9 @@ export class DishesController {
 
 
   @Get('find-all/:id')
+  @ApiOperation({ summary: 'Cerca tutti i piatti associati ad un ID ristorante' })
+  @ApiResponse({ status: 200, description: 'Piatti trovati con successo.', type: ResultDishesDto })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID ristorante' })
   async findAllByRestaurantId(@Param('id') id: string): Promise<ResultDishesDto> {
     const idRestaurant = parseInt(id);
     return await this.dishesService.findAllByRestaurantId(idRestaurant);
@@ -45,6 +52,9 @@ export class DishesController {
 
 
   @Get('find-one/:id')
+  @ApiOperation({ summary: 'Cerca un piatto specifico basandosi sul suo ID' })
+  @ApiResponse({ status: 200, description: 'Piatto trovato con successo.', type: ResultDishesDto })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID piatto' })
   async findOne(@Param('id') id: string): Promise<ResultDishesDto> {
     const dishId = parseInt(id);
     return await this.dishesService.findOne(dishId);
@@ -52,6 +62,10 @@ export class DishesController {
 
 
   @Patch(':id')
+  @ApiOperation({ summary: 'Modifica un piatto specifico' })
+  @ApiResponse({ status: 200, description: 'Piatto modificato con successo.', type: ResultDishesDto })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID piatto' })
+  @ApiBody({ type: UpdateDishDto })
   @UseInterceptors(FileInterceptor('file'))
   async update(
     @Param('id') id: string,
@@ -74,6 +88,9 @@ export class DishesController {
 
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Rimuovi un piatto specifico' })
+  @ApiResponse({ status: 200, description: 'Piatto rimosso con successo.', type: ResultDishesDto })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID piatto' })
   async remove(@Param('id') id: string, @Req() req): Promise<ResultDishesDto> {
     const accessToken = req.cookies.accessToken;
     const auth = this.authorizationService.isAuthorized(accessToken, UserType.restaurant);
