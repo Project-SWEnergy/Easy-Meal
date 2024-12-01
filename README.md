@@ -17,9 +17,9 @@ To install Easy-Meal, you need to clone the repository. Additionally, make sure 
 
 With the Docker daemon running, execute the following commands to start the service for the first time:
 
-'''
+```
 docker-compose up -d
-'''
+```
 
 This command will create the 4 Docker images required for the application to function and will start the containers. After creating the images and starting the containers, you'll need to create the database tables by accessing the following link in your browser:
 
