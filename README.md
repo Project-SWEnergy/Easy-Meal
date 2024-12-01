@@ -47,7 +47,7 @@ You can now access the application through your browser at the link:
 
 [Web App](http://localhost:4200) or by entering the address `http://localhost:4200` in the address bar.
 
-## 🧰 Usage
+## 🧰 Docker's Usage
 
 Here are some useful commands for managing the software:
 
